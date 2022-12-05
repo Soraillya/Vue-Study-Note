@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>My Note</title>
+        <link rel="stylesheet" href="note.css" />
+    </head>
+    <body>
+        <ul id="note-ul">
+            <li class="li-none">
+                <div class="note">
+                    <div class="header">
+                        <h1>标题</h1>
+                    </div>
+                    <div class="content">
+                        <textarea name="文本域" value="编辑以更改笔记内容~"></textarea>
+                    </div>
+                    <div class="footer">
+                        <button onclick="saveNote(this);">保存</button>
+                        <button onclick="editNote(this);">编辑</button>
+                        <button onclick="removeNote(this);">删除</button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <button class="add-note">+</button>
+        <script src="note.js"></script>
+    </body>
+</html>

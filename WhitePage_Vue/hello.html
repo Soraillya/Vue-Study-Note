@@ -365,14 +365,28 @@
             <p>性别：{{pInfo.sex}}</p>
             <p>在学课程：{{pInfo.learning ? pInfo.learning : "未定义 learning"}}</p>
             <button @click="addLearning">点我添加在学课程</button>
-            <h2>2. 在data里的数组中添加元素：使用Vue.set / vm.$set (vm.data, "newKeyName", newValue)</h2>
+            <h2>2. 在data里的数组中操作元素：使用 vue 在数组内封装的 API</h2>
             <p>爱好：{{pInfo.hobby}}</p>
-            <input type="text" v-model="newHobby" /> <br />
+            <input type="text" v-model="newHobby" placeholder="请输入要添加的爱好" /> <br />
             <button @click="pushHobby">添加在尾部 push</button>
             <button @click="unshiftHobby">添加在首部 unshift</button> <br />
             <button @click="popHobby">删除尾部一个元素 pop</button>
             <button @click="shiftHobby">删除首部一个元素 shift</button><br />
             <button @click="spliceHobby">修改第一个元素 splice</button><br />
+
+            <p>Vue 收集表单数据</p>
+            <form action="#">
+                <label for="account">账号: </label><input type="text" id="account" /> <br />
+                <label for="password">密码: </label><input type="password" id="password" /> <br />
+                性别： <br />
+                男<input type="radio" name="sex" /> 女 <input type="radio" name="sex" /> <br />
+                爱好:
+                <template v-for=""> </template>
+                <input type="checkbox" name="hobby" /> <br />
+                打游戏<input type="checkbox" name="hobby" /> <br />
+                吃饭<input type="checkbox" name="hobby" />
+                所属区
+            </form>
         </div>
 
         <script>
@@ -575,6 +589,8 @@
                     },
                     spliceHobby() {
                         if (this.pInfo.hobby[0] === "coding") {
+                            // this.pInfo.hobby[0] = "uncoding";    无效，不能直接根据索引值获取的元素进行操作
+                            // 需要使用 vue 在数组内封装的 API
                             this.pInfo.hobby.splice(0, 1, "uncoding");
                         } else {
                             this.pInfo.hobby.splice(0, 1, "coding");

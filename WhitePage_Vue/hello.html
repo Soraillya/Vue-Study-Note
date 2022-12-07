@@ -344,11 +344,35 @@
                 <li v-for="(value,key) in 5">value: {{value}} ---- key: {{key}}</li>
             </ul>
 
-            <h1>Vue 列表过滤</h1>
+            <h1>Vue 列表过滤、排序</h1>
+            <p>📢 v-model绑定keyword、排序按钮设置0、1、2三个参数状态</p>
             <input type="text" placeholder="请输入关键字" v-model="inputKeyword" />
+            <button @click="sortType = 0">原顺序</button>
+            <button @click="sortType = 1">年龄升序</button>
+            <button @click="sortType = 2">年龄降序</button>
             <ul>
-                <li v-for="person in personSearchRes" :key="person.id">{{person.name}} -- {{person.age}}</li>
+                <li v-for="(person,index) in personSearchRes" :key="person.id">
+                    {{index+1}}. {{person.name}} -- {{person.age}}
+                </li>
             </ul>
+
+            <h1>Vue 添加响应式数据</h1>
+            <p>问题：如果在最初 vm 中缺少了某个变量，该如何添加？</p>
+            <h2>1. 在data里的对象中添加键值：使用Vue.set / vm.$set (vm.data, "newKeyName", newValue)</h2>
+            <h2>注：不能直接给 data 添加键值，且不推荐</h2>
+            <p>名字：{{pInfo.name}}</p>
+            <p>年龄：{{pInfo.age}}</p>
+            <p>性别：{{pInfo.sex}}</p>
+            <p>在学课程：{{pInfo.learning ? pInfo.learning : "未定义 learning"}}</p>
+            <button @click="addLearning">点我添加在学课程</button>
+            <h2>2. 在data里的数组中添加元素：使用Vue.set / vm.$set (vm.data, "newKeyName", newValue)</h2>
+            <p>爱好：{{pInfo.hobby}}</p>
+            <input type="text" v-model="newHobby" /> <br />
+            <button @click="pushHobby">添加在尾部 push</button>
+            <button @click="unshiftHobby">添加在首部 unshift</button> <br />
+            <button @click="popHobby">删除尾部一个元素 pop</button>
+            <button @click="shiftHobby">删除首部一个元素 shift</button><br />
+            <button @click="spliceHobby">修改第一个元素 splice</button><br />
         </div>
 
         <script>
@@ -417,6 +441,17 @@
 
                     // 列表过滤
                     inputKeyword: "",
+                    sortType: 0,
+
+                    // 添加响应式数据
+                    pInfo: {
+                        name: "Sora",
+                        age: 22,
+                        sex: "男",
+                        // Learning: "Vue",    使用 set 添加该数据
+                        hobby: ["coding", "game", "d", "o", "i"],
+                    },
+                    newHobby: "",
                 },
 
                 /*
@@ -519,6 +554,32 @@
 
                         this.persons.unshift(laoQi);
                     },
+
+                    // Vue 添加响应式数据
+                    addLearning() {
+                        console.log("hello");
+                        this.$set(this.pInfo, "learning", "Vue");
+                        console.log(this.pInfo);
+                    },
+                    pushHobby() {
+                        this.pInfo.hobby.push(this.newHobby);
+                    },
+                    unshiftHobby() {
+                        this.pInfo.hobby.unshift(this.newHobby);
+                    },
+                    popHobby() {
+                        this.pInfo.hobby.pop();
+                    },
+                    shiftHobby() {
+                        this.pInfo.hobby.shift();
+                    },
+                    spliceHobby() {
+                        if (this.pInfo.hobby[0] === "coding") {
+                            this.pInfo.hobby.splice(0, 1, "uncoding");
+                        } else {
+                            this.pInfo.hobby.splice(0, 1, "coding");
+                        }
+                    },
                 },
 
                 computed: {
@@ -546,9 +607,14 @@
                     },
 
                     personSearchRes() {
-                        return this.persons.filter((person) => {
+                        const arr = this.persons.filter((person) => {
                             return person.name.indexOf(this.inputKeyword) !== -1;
                         });
+                        if (this.sortType) {
+                            return arr.sort((p1, p2) => {
+                                return this.sortType === 1 ? p1.age - p2.age : p2.age - p1.age;
+                            });
+                        } else return arr;
                     },
                 },
 

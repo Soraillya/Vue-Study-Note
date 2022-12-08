@@ -392,7 +392,7 @@
             <button @click="shiftHobby">删除首部一个元素 shift</button><br />
             <button @click="spliceHobby">修改第一个元素 splice</button><br />
 
-            <p>Vue 收集表单数据</p>
+            <h1>Vue 收集表单数据</h1>
             <form action="#">
                 <label for="account">账号: </label><input type="text" id="account" /> <br />
                 <label for="password">密码: </label><input type="password" id="password" /> <br />
@@ -404,6 +404,20 @@
                 打游戏<input type="checkbox" name="hobby" /> <br />
                 吃饭<input type="checkbox" name="hobby" /> <br />
                 所属区：
+                <select>
+                    <option value="">请选择区</option>
+                    <option value="futian">福田区</option>
+                    <option value="nanshan">南山区</option>
+                    <option value="luohu">罗湖区</option>
+                    <option value="baoan">宝安区</option>
+                    <option value="longgang">龙岗区</option>
+                    <option value="longhua">龙华区</option>
+                    <option value="guangming">光明区</option>
+                    <option value="yantian">盐田区</option>
+                    <option value="pingshan">坪山区</option>
+                </select>
+                <p>其他信息：</p>
+                <textarea></textarea>
             </form>
         </div>
 

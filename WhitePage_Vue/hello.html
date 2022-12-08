@@ -8,6 +8,21 @@
         <script type="text/javascript" src="js/vue.js"></script>
 
         <style>
+            #klee-mouse-move {
+                width: 40px;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+            }
+
+            #klee-mouse-click {
+                width: 40px;
+                position: absolute;
+                display: none;
+                top: 0px;
+                left: 0px;
+            }
+
             .pop-1 {
                 width: 300px;
                 height: 300px;
@@ -185,6 +200,9 @@
         -->
 
         <div class="root">
+            <img id="klee-mouse-move" src="image/mouse/klee_go.gif" alt="klee not found~" />
+            <img id="klee-mouse-click" src="image/mouse/klee_dodoco.gif" alt="klee not found~" />
+
             <h1>模板语法</h1>
             <h2>插值语法，管理标签体内容，使用{{}}管理</h2>
             <p>Hello World ~ Today is {{(new Date()).toString().split(" ")[0] + "day"}} ~ 今天是{{day_of_week()}} ~</p>
@@ -384,8 +402,8 @@
                 <template v-for=""> </template>
                 <input type="checkbox" name="hobby" /> <br />
                 打游戏<input type="checkbox" name="hobby" /> <br />
-                吃饭<input type="checkbox" name="hobby" />
-                所属区
+                吃饭<input type="checkbox" name="hobby" /> <br />
+                所属区：
             </form>
         </div>
 
@@ -752,6 +770,24 @@
                     obj1.x = value;
                 },
             });
+
+            function kleeMouse(params) {
+                var kleeImg = document.querySelector("#klee-mouse-move");
+                var kleeImg_click = document.querySelector("#klee-mouse-click");
+                document.onmousemove = function (e) {
+                    kleeImg.style.top = e.pageY + 5 + "px";
+                    kleeImg.style.left = e.pageX + 5 + "px";
+                };
+                document.onmouseup = function (e) {
+                    kleeImg_click.style.display = "block";
+                    kleeImg_click.style.top = e.pageY - 40 + "px";
+                    kleeImg_click.style.left = e.pageX - 20 + "px";
+                    setTimeout(function (e) {
+                        kleeImg_click.style.display = "none";
+                    }, 500);
+                };
+            }
+            kleeMouse();
         </script>
     </body>
 </html>

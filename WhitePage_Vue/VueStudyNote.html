@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
+        <title>Vue Study Note</title>
         <script type="text/javascript" src="js/vue.js"></script>
 
         <style>
@@ -237,7 +237,9 @@
                 v-once:
                     1. v-once所在节点在初次动态渲染后，就视为静态内容了。
                     2. 以后教据的改变不会引起v-once所在结构的更新，可以用于优化性能。
-
+                v-pre:
+                    1. 跳过其所在节点的编译过程
+                    2. 可利用它跳过：没有使用指令语法、没有使用插值语法的节点，会加快编译
         -->
 
         <div class="root">
@@ -410,7 +412,9 @@
             <button @click="sortType = 1">年龄升序</button>
             <button @click="sortType = 2">年龄降序</button>
             <ul>
-                <li v-for="(person,index) in personSearchRes" :key="person.id">{{index+1}}. {{person.name}} -- {{person.age}}</li>
+                <li v-for="(person,index) in personSearchRes" :key="person.id">
+                    {{index+1}}. {{person.name}} -- {{person.age}}
+                </li>
             </ul>
 
             <h1>Vue 添加响应式数据</h1>
@@ -433,12 +437,17 @@
 
             <h1>Vue 收集表单数据</h1>
             <form action="#" @submit.prevent="submitfInfo">
-                <label for="account">账号: </label><input type="text" id="account" v-model.trim="fInfo.account" /> <br />
-                <label for="password">密码: </label><input type="password" id="password" v-model.trim="fInfo.password" /> <br />
+                <label for="account">账号: </label><input type="text" id="account" v-model.trim="fInfo.account" />
+                <br />
+                <label for="password">密码: </label
+                ><input type="password" id="password" v-model.trim="fInfo.password" /> <br />
                 <label for="age">年龄: </label><input type="number" v-model.number="fInfo.age" /> <br />
-                性别: <input type="radio" name="sex" v-model="fInfo.sex" value="male" /> 男 <input type="radio" name="sex" v-model="fInfo.sex" value="female" /> 女 <br />
-                爱好: <input type="checkbox" name="hobby" v-model="fInfo.hobby" value="game" /> 游戏 <input type="checkbox" name="hobby" v-model="fInfo.hobby" value="eat" /> 吃饭
-                <input type="checkbox" name="hobby" v-model="fInfo.hobby" value="sleep" /> 睡觉 <input type="checkbox" name="hobby" v-model="fInfo.hobby" value="sport" /> 运动
+                性别: <input type="radio" name="sex" v-model="fInfo.sex" value="male" /> 男
+                <input type="radio" name="sex" v-model="fInfo.sex" value="female" /> 女 <br />
+                爱好: <input type="checkbox" name="hobby" v-model="fInfo.hobby" value="game" /> 游戏
+                <input type="checkbox" name="hobby" v-model="fInfo.hobby" value="eat" /> 吃饭
+                <input type="checkbox" name="hobby" v-model="fInfo.hobby" value="sleep" /> 睡觉
+                <input type="checkbox" name="hobby" v-model="fInfo.hobby" value="sport" /> 运动
                 <br />
                 所属区：
                 <select v-model="fInfo.city">
@@ -454,25 +463,48 @@
                     <option value="pingshan">坪山区</option>
                 </select>
                 <p>其他信息：</p>
-                <!-- v-model.lazy 节流，失去焦点时获取信息 -->
+                <!-- v-model.lazy 为 textarea 节流，失去焦点时获取信息 -->
                 <textarea v-model.lazy="fInfo.other"></textarea> <br />
-                <input type="checkbox" v-model="fInfo.agree" /> 阅读并接受 <a href="https://www.baidu.com">《用户协议》</a> <br />
+                <input type="checkbox" v-model="fInfo.agree" /> 阅读并接受
+                <a href="https://www.baidu.com">《用户协议》</a> <br />
                 <button>提交</button>
             </form>
 
             <!-- Vue 过滤器,以时间戳转换为例(略) -->
             <!-- <p>时间:{{time | timeFormatter}}</p> -->
 
-            <!-- Vue 内置指令 -->
+            <h1>Vue 内置指令</h1>
             <!-- v-text 用{{}}法更灵活 -->
+            <h2>1. v-text</h2>
             <div>你好,{{vTextmessage}}</div>
             <!-- v-text插值语法会替换整个innerText -->
             <div v-text="vTextmessage"></div>
 
+            <h2>2. v-html</h2>
             <!-- v-html 用{{}}法更灵活 -->
             <div>你好,{{vTextmessage}}</div>
             <!-- v-text插值语法会替换整个innerText -->
             <div v-text="vTextmessage"></div>
+
+            <h2>3. v-once</h2>
+            <div v-once>n的初始值为 {{v_onceN}}</div>
+            <div>当前n的值为 {{v_onceN}}</div>
+            <div><button @click="v_onceN++">点我 n+1</button></div>
+
+            <h2>4. v-pre</h2>
+            <div>
+                <div v-pre>n的初始值为 1</div>
+                <!-- <div v-pre>n的初始值为 {{v_preN}}</div> 注意：不能加到有插值语法的标签上，所有的Vue会失效 -->
+                <div>当前n的值为 {{v_preN}}</div>
+                <div><button @click="v_preN++">点我 n+1</button></div>
+            </div>
+
+            <h2>5. 自定义指令</h2>
+            <h3>定义一个v-big指令，基于v-text的基础上，将文本大小放大2倍</h3>
+            <h4>① v-text="v_bigMessage"：</h4>
+            <p v-text="v_bigMessage" style="font-size: 16px"></p>
+            <h4>② v-big="v_bigMessage"：</h4>
+            <p v-big="v_bigMessage" style="font-size: 16px"></p>
         </div>
 
         <script>
@@ -568,6 +600,9 @@
                     // 内置指令
                     vTextmessage: "文本内容",
                     vHTML: "Html内容",
+                    v_onceN: 1,
+                    v_preN: 1,
+                    v_bigMessage: "v_bigMessage文本内容",
                 },
 
                 /*
@@ -806,6 +841,20 @@
                 filters: {
                     timeFormatter(value) {
                         return value;
+                    },
+                },
+
+                // 自定义Vue的v-指令 directives
+                // <p v-big="xxx"></p>
+                // element 指令所在的标签信息
+                // binding 与指令绑定的内容xxx
+                directives: {
+                    big(element, binding) {
+                        console.log("v-big='v_bigMessage'");
+                        console.log(element, binding);
+                        element.innerText = binding.value;
+                        let fontSize = element.style.fontSize.substring(0, element.style.fontSize.length - 2);
+                        element.style.fontSize = fontSize * 2 + "px";
                     },
                 },
             });

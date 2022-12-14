@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Vue Study Note</title>
+        <title>Vue Study Note 1</title>
         <script type="text/javascript" src="js/vue.js"></script>
 
         <style>
@@ -240,6 +240,55 @@
                 v-pre:
                     1. 跳过其所在节点的编译过程
                     2. 可利用它跳过：没有使用指令语法、没有使用插值语法的节点，会加快编译
+                    
+            Vue 自定义指令
+                1. 定义语法：
+                    (1) 局部指令
+                        new Vue({
+                            directives:{
+                                def1(){},
+                                def2:{
+                                    bind(element,binding){},        // 指令与元素成功绑定时
+                                    inserted(element,binding){},    // 指令所在元素被插入页面时
+                                    update(element,binding){},      // 指令所在的模板被重新解析时 
+                                } 
+                            }
+                        })
+                    (2) 全局指令
+                    Vue.directive("def3",{bind(){},inserted(){},update(){}})
+                2. 配置对象中常用的3个回调
+                3. 备注
+                    (1) 指令定义时不加 v-，但使用时要加 v-
+                    (2) 指令名如果是多个单词，要使用kebab-case命名方式，不要用camelCase命名
+
+            Vue 生命周期
+                1. beforeCreate: 初始化--生命周期、事件，但数据代理还未开始
+                    -- 此时 无法通过vm访问到data中的数据、methods中配置的方法
+
+                2. created: 初始化--数据监测、数据代理
+                    -- 此时 可以通过vm访问到data中的数据、methods中配置的方法
+
+                3. beforeMount: 此阶段Vue开始解析模板，生成虚拟DOM（内存中），页面还不能显示解析好的内容
+                    -- 此时 页面呈现的是未经Vue编译的DOM结构；所有对DOM的操作最终都不奏效
+
+                4. mounted: Vue完成模板的解析并把真实的DOM元素放入页面后
+                    -- 此时 页面中呈现的是经过Vue编译的DOM；对DOM的操作均有效（不推荐而且避免，会显得Vue很呆），至此初始化过程结束，
+                    一般在此进行：开启定时器、发送网络请求、订阅消息、绑定自定义时间 等等初始化操作
+
+                5. beforeUpdate: vm中的data、methods等更新后、渲染到页面之前
+                    -- 此时 数据是最新的，但页面是旧的；即：页面尚未和数据保持同步
+                
+                    5.5 从beforeUpdate -> updated：
+                        根据新数据，生成新的虚拟DOM，随后与旧的虚拟DOM进行比较，最终完成页面的更新；即：完成了Model -> View的更新
+
+                6. updated: vm中的data、methods等更新后、渲染到页面之后
+                    -- 此时 数据是最新的，页面也是最新的；即：页面和数据保持同步
+
+                7. beforeDestroy: 执行销毁vm动作之前
+                    -- 此时 vm中所有的：data、methods、指令等等，都处于可用状态，马上要执行销毁过程
+                    一般在此进行：关闭定时器、取消订阅消息、解绑自定义事件等收尾操作
+                
+                8. destroy: 销毁vm，清理它与其它实例的连接，解绑它的全部指令及事件监听器。但临死前的工作成果还在（真实DOM还在）
         -->
 
         <div class="root">
@@ -412,9 +461,7 @@
             <button @click="sortType = 1">年龄升序</button>
             <button @click="sortType = 2">年龄降序</button>
             <ul>
-                <li v-for="(person,index) in personSearchRes" :key="person.id">
-                    {{index+1}}. {{person.name}} -- {{person.age}}
-                </li>
+                <li v-for="(person,index) in personSearchRes" :key="person.id">{{index+1}}. {{person.name}} -- {{person.age}}</li>
             </ul>
 
             <h1>Vue 添加响应式数据</h1>
@@ -439,15 +486,11 @@
             <form action="#" @submit.prevent="submitfInfo">
                 <label for="account">账号: </label><input type="text" id="account" v-model.trim="fInfo.account" />
                 <br />
-                <label for="password">密码: </label
-                ><input type="password" id="password" v-model.trim="fInfo.password" /> <br />
+                <label for="password">密码: </label><input type="password" id="password" v-model.trim="fInfo.password" /> <br />
                 <label for="age">年龄: </label><input type="number" v-model.number="fInfo.age" /> <br />
-                性别: <input type="radio" name="sex" v-model="fInfo.sex" value="male" /> 男
-                <input type="radio" name="sex" v-model="fInfo.sex" value="female" /> 女 <br />
-                爱好: <input type="checkbox" name="hobby" v-model="fInfo.hobby" value="game" /> 游戏
-                <input type="checkbox" name="hobby" v-model="fInfo.hobby" value="eat" /> 吃饭
-                <input type="checkbox" name="hobby" v-model="fInfo.hobby" value="sleep" /> 睡觉
-                <input type="checkbox" name="hobby" v-model="fInfo.hobby" value="sport" /> 运动
+                性别: <input type="radio" name="sex" v-model="fInfo.sex" value="male" /> 男 <input type="radio" name="sex" v-model="fInfo.sex" value="female" /> 女 <br />
+                爱好: <input type="checkbox" name="hobby" v-model="fInfo.hobby" value="game" /> 游戏 <input type="checkbox" name="hobby" v-model="fInfo.hobby" value="eat" /> 吃饭
+                <input type="checkbox" name="hobby" v-model="fInfo.hobby" value="sleep" /> 睡觉 <input type="checkbox" name="hobby" v-model="fInfo.hobby" value="sport" /> 运动
                 <br />
                 所属区：
                 <select v-model="fInfo.city">
@@ -465,8 +508,7 @@
                 <p>其他信息：</p>
                 <!-- v-model.lazy 为 textarea 节流，失去焦点时获取信息 -->
                 <textarea v-model.lazy="fInfo.other"></textarea> <br />
-                <input type="checkbox" v-model="fInfo.agree" /> 阅读并接受
-                <a href="https://www.baidu.com">《用户协议》</a> <br />
+                <input type="checkbox" v-model="fInfo.agree" /> 阅读并接受 <a href="https://www.baidu.com">《用户协议》</a> <br />
                 <button>提交</button>
             </form>
 
@@ -499,16 +541,63 @@
                 <div><button @click="v_preN++">点我 n+1</button></div>
             </div>
 
-            <h2>5. 自定义指令</h2>
+            <h2>5.1 自定义指令 - 函数式</h2>
             <h3>定义一个v-big指令，基于v-text的基础上，将文本大小放大2倍</h3>
             <h4>① v-text="v_bigMessage"：</h4>
             <p v-text="v_bigMessage" style="font-size: 16px"></p>
             <h4>② v-big="v_bigMessage"：</h4>
             <p v-big="v_bigMessage" style="font-size: 16px"></p>
+
+            <h2>5.2 自定义指令 - 对象式</h2>
+            <h3>定义一个 v-focus 指令，加在Input标签上，在加载之后获取焦点</h3>
+            <h4>① v-focus="v_bigMessage"：</h4>
+            自动获取焦点→ <input v-focus="v_bigMessage" />
+
+            <!-- <h2>5.3 自定义指令注意事项</h2>
+            <p v-big-number>1. 带横杠的命名：用字符串表示 2. this的指向为window</p> -->
+
+            <h1>Vue 生命周期</h1>
+            <h2 :style="{opacity}">
+                1. beforeCreate: 初始化--生命周期、事件，但数据代理还未开始<br />
+                -- 此时 无法通过vm访问到data中的数据、methods中配置的方法<br /><br />
+                2. created: 初始化--数据监测、数据代理<br />
+                -- 此时 可以通过vm访问到data中的数据、methods中配置的方法<br /><br />
+                3. beforeMount: 此阶段Vue开始解析模板，生成虚拟DOM（内存中），页面还不能显示解析好的内容<br />
+                -- 此时 页面呈现的是未经Vue编译的DOM结构；所有对DOM的操作最终都不奏效<br /><br />
+                4. mounted: Vue完成模板的解析并把真实的DOM元素放入页面后<br />
+                -- 此时 页面中呈现的是经过Vue编译的DOM；对DOM的操作均有效（不推荐而且避免，会显得Vue很呆），至此初始化过程结束，<br />
+                一般在此进行：开启定时器、发送网络请求、订阅消息、绑定自定义时间 等等初始化操作<br /><br />
+                5. beforeUpdate: vm中的data、methods等更新后、渲染到页面之前<br />
+                -- 此时 数据是最新的，但页面是旧的；即：页面尚未和数据保持同步<br /><br />
+                5.5 从beforeUpdate -> updated：<br />
+                根据新数据，生成新的虚拟DOM，随后与旧的虚拟DOM进行比较，最终完成页面的更新；即：完成了Model -> View的更新<br /><br />
+                6. updated: vm中的data、methods等更新后、渲染到页面之后<br />
+                -- 此时 数据是最新的，页面也是最新的；即：页面和数据保持同步<br /><br />
+                7. beforeDestroy: 执行销毁vm动作之前<br />
+                -- 此时 vm中所有的：data、methods、指令等等，都处于可用状态，马上要执行销毁过程<br />
+                一般在此进行：关闭定时器、取消订阅消息、解绑自定义事件等收尾操作<br /><br />
+                8. destroy: 销毁vm，清理它与其它实例的连接，解绑它的全部指令及事件监听器。但临死前的工作成果还在（真实DOM还在）<br />
+            </h2>
         </div>
 
         <script>
             Vue.config.productionTip = false; //阻止 vue 在启动时生成生产提示
+
+            // 全局自定义指令 以v-def为例
+            Vue.directive("def", {
+                // 指令与元素成功绑定时
+                bind(element, binding) {
+                    element.value = binding.value;
+                },
+                // 指令所在元素被插入页面时
+                inserted(element, binding) {
+                    console.log("inserted");
+                },
+                // 指令所在的模板被重新解析时
+                update(element, binding) {
+                    element.value = binding.value;
+                },
+            });
 
             // 创建 Vue 实例，建立关系，一个容器对应一个实例，不能一对多或多对一，所以真实开发中只有一个Vue实例
             const vm = new Vue({
@@ -603,6 +692,9 @@
                     v_onceN: 1,
                     v_preN: 1,
                     v_bigMessage: "v_bigMessage文本内容",
+
+                    // Vue 生命周期
+                    opacity: 1,
                 },
 
                 /*
@@ -739,6 +831,14 @@
                         // console.log(JSON.stringify(this._data)); 不要直接访问_data
                         console.log(JSON.stringify(this.fInfo));
                     },
+
+                    // Vue 生命周期：mounted
+                    changeOpacity() {
+                        setInterval(() => {
+                            if (this.opacity <= 0) this.opacity = 1;
+                            this.opacity -= 0.01;
+                        }, 32);
+                    },
                 },
 
                 computed: {
@@ -850,12 +950,78 @@
                 // binding 与指令绑定的内容xxx
                 directives: {
                     big(element, binding) {
-                        console.log("v-big='v_bigMessage'");
-                        console.log(element, binding);
                         element.innerText = binding.value;
                         let fontSize = element.style.fontSize.substring(0, element.style.fontSize.length - 2);
-                        element.style.fontSize = fontSize * 2 + "px";
+                        if (fontSize <= 30) {
+                            console.log("v-big='v_bigMessage'");
+                            console.log(element, binding);
+                            element.style.fontSize = fontSize * 2 + "px";
+                        }
                     },
+                    focus: {
+                        // 指令与元素成功绑定时
+                        bind(element, binding) {
+                            console.log("focus bind");
+
+                            element.value = binding.value;
+                        },
+                        // 指令所在元素被插入页面时
+                        inserted(element, binding) {
+                            console.log("focus inserted");
+                            element.focus();
+                        },
+                        // 指令所在的模板被重新解析时
+                        update(element, binding) {
+                            // console.log("focus update");     此处会因为mounted()里的定时器设置了之后重复渲染页面而执行
+                            element.value = binding.value;
+                        },
+                    },
+                    // 注：1. 带横杠的命名：用字符串表示 2. this的指向为window
+                    // 如：v-big-number
+                    // "big-number"() {
+                    //     console.log("这是big-number指令");
+                    //     console.log("自定义指令中的this指向为window：", this);
+                    // },
+                    //
+                },
+
+                /*
+                    Vue 生命周期
+                */
+                beforeCreate() {
+                    console.log("beforeCreate");
+                },
+                created() {
+                    console.log("created");
+                },
+                beforeMount() {
+                    console.log("beforeMount");
+                },
+                // Vue完成模板的解析并把真实的DOM元素放入页面后（挂载完毕）调用mounted，
+                // 整个Vue的生命过程中指挂载一次
+                // 发送ajax请求、启动定时器、绑定自定义事件、订阅消息等【初始化操作】
+                // 重要
+                mounted() {
+                    console.log("mounted");
+                    // this.changeOpacity();   此处的定时器调用之后，beforeCreate 和 created 会因重新渲染页面而调用
+                },
+                beforeUpdate() {
+                    console.log("beforeUpdate");
+                },
+                updated() {
+                    console.log("updated");
+                },
+                // 重要
+                // 清楚定时器、解绑自定义事件、取消订阅消息等【收尾工作】
+                beforeDestroy() {
+                    console.log("beforeDestroy");
+                },
+                // 关于销毁Vue实例
+                // 1. 销毁后借助Vue开发者工具看不到任何消息
+                // 2. 销毁后自定义事件会失效，但原生DOM事件依然有效
+                // 3. 一般不会在beforeDestroy操作数据，因为即使操作数据，也不会触发更新流程了（beforeUpdate、updated）
+                destroy() {
+                    console.log("destroy");
                 },
             });
 

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vue Component</title>
+        <script type="text/javascript" src="../js/vue.js"></script>
+        <!-- 
+            Vue 组件化编程
+            一、模块与组件、模块化与组件化
+                1.非单文件组件：一个文件中包含有n个组件(不常用) a.html
+                    步骤：
+                        (1) 定义组件
+                        (2) 注册组件
+                        (3) 使用组件
+                1.单文件组件：一个文件中只包含有1个组件(大项目中常用) a.vue
+        -->
+    </head>
+    <body>
+        <div id="root">
+            <!-- 第三步 编写<组件标签> -->
+            <school></school>
+            <hr />
+            <student></student>
+            <hr />
+            <student></student>
+            <hr />
+            <hello></hello>
+            <hr />
+        </div>
+
+        <div id="root2">
+            <!-- 第三步 编写<组件标签> -->
+            <xuexiao></xuexiao>
+            <hr />
+            <xuesheng></xuesheng>
+            <hr />
+            <xuesheng></xuesheng>
+            <hr />
+            <hello></hello>
+        </div>
+    </body>
+    <script type="text/javascript">
+        Vue.config.productionTip = false; //阻止 vue 在启动时生成生产提示
+
+        // 演示非单文件组件
+        // 该VueComponent.html中，有多个组件
+
+        // 第一步 创建组件
+        // 创建 school 组件
+        const school = Vue.extend({
+            // el: "#root",     // 一定不能写el配置项，组件为别人服务
+            // data: {          // data不能写成对象，要写成method
+            //     schoolName: "SBXX",
+            //     schoolAddress: "XXAD",
+            // },
+            data() {
+                return {
+                    schoolName: "SBXX",
+                    schoolAddress: "XXAD",
+                };
+            },
+            template: ` 
+            <div>
+                <p>学校名称：{{schoolName}}</p>
+                <p>学校地址：{{schoolAddress}}</p>
+            </div>
+            `,
+        });
+
+        // 创建 student 组件
+        const student = Vue.extend({
+            data() {
+                return {
+                    studentName: "SBXS",
+                    studentAddress: "XSAD",
+                };
+            },
+            template: ` 
+            <div>
+                <p>学生名称：{{studentName}}</p>
+                <p>学生地址：{{studentAddress}}</p>
+            </div>
+            `,
+        });
+
+        // 创建 Vue 实例
+        const vm = new Vue({
+            el: "#root",
+            // data: {  //不再需要data配置项
+            // },
+
+            // 关键配置项 components
+            components: {
+                // 第二步 注册组件
+                // 组件标签: 组件名
+                // school: school
+                // student: student
+                school,
+                student,
+            },
+        });
+
+        // 创建 Vue 第二个实例
+        const vm2 = new Vue({
+            el: "#root2",
+            // 关键配置项 components
+            components: {
+                // 组件复用
+                xuexiao: school,
+                xuesheng: student,
+            },
+        });
+
+        // 创建 hello 组件
+        const hello = Vue.extend({
+            data() {
+                return {
+                    hello: "hello word",
+                };
+            },
+            template: `
+            <div>
+                <p>hello word：{{hello}}</p>
+            </div>
+            `,
+        });
+
+        // 配置全局组件
+        Vue.component("hello", hello);
+    </script>
+</html>

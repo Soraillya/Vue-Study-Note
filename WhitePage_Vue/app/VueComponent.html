@@ -9,37 +9,76 @@
         <!-- 
             Vue 组件化编程
             一、模块与组件、模块化与组件化
-                1.非单文件组件：一个文件中包含有n个组件(不常用) a.html
+                1. 非单文件组件：一个文件中包含有n个组件(不常用) a.html
                     步骤：
                         (1) 定义组件
                         (2) 注册组件
                         (3) 使用组件
-                1.单文件组件：一个文件中只包含有1个组件(大项目中常用) a.vue
+                2. 单文件组件：一个文件中只包含有1个组件(大项目中常用) a.vue
+
+            二、组件名
+                1. 一个单词组成：
+                    第一种（首字母小写）：school（建议）
+                    第二种（首字母大写）：School
+                2. 多个单词组成：
+                    第一种写法（kebab-case 命名）：class-chinese
+                    第二种写法（CamelCase 命名）：ClassChinese（需要脚手架支持）
+                备注：
+                    (1) 组件名尽可能回避HTML中已有的元素名称，如 h2, H2
+                    (2) 可以使用 name 配置项指定组件在开发者工具中呈现的名字（建议）
+
+            三、关于组件标签
+                第一种：<school></school>
+                第二种：<school />
+                备注：没有使用脚手架时，<school />会导致后续多个<school />不能渲染，只能渲染第一个<school />
+            
+            四、简写方式
+                const school = Vue.extend(options)
+                    简写为 const school = options（单组件中建议）
+                    备注：在vm导入组件school时，同样需要经过Vue中的Vue.extend()之后导入
+            
+            五、关于 VueComponent
+                1. 组件本质是一个名为 VueComponent 的构造函数，且不是程序员定义的，是Vue.extend生成的
+                2. 我们只需要写<xxx/> 或 <xxx></xxx>，Vue 解析时会帮我们创建 xxx 组件的实例对象
+                    即 Vue帮我们执行 new VueComponent(options)
+                3. 特别注意：每次调用Vue.extend，返回的都是一个全新的VueComponent！
+                4. 关于this指向：
+                    (1) 组件配置中：
+                        data 函数、methods中的函数、watch中的函数、computed中的函数，this的指向均是【VueComponent实例对象】
+                    (2) new Vue()中：
+                        data 函数、methods中的函数、watch中的函数、computed中的函数，this的指向均是【Vue实例对象】
+                5. VueComponent 的实例对象，以后简称 vc （组件实例对象）
+                    Vue 的实例对象，以后简称 vm（ MVVM 中的 View Model）
+
+            六、一个重要的内置关系
+                1. VueComponent.prototype.__proto__ === Vue.prototype
+                2. 为什么要有这个关系：让组件实例对象(vc)可以访问到Vue原型上的属性、方法
+                        // 定义一个构造函数
+                        function Demo(){this.a = 1; this.b = 2;}
+                        // 创建一个Demo的实例对象
+                        const d = new Demo()
+
+                        console.log(Demo.prototype) //显式原型属性\ 原型对象
+                        console.log(d.__proto__)    //隐式原型属性/ 原型对象
         -->
     </head>
     <body>
-        <div id="root">
-            <!-- 第三步 编写<组件标签> -->
+        <!-- <div id="root">
+            第四步 编写<组件标签>
             <school></school>
-            <hr />
             <student></student>
-            <hr />
-            <student></student>
-            <hr />
             <hello></hello>
-            <hr />
+            <class-chinese></class-chinese>
+            <classMath></classMath> 无脚手架，不能包含大写字母
         </div>
 
         <div id="root2">
-            <!-- 第三步 编写<组件标签> -->
+            第四步 编写<组件标签>
             <xuexiao></xuexiao>
-            <hr />
             <xuesheng></xuesheng>
-            <hr />
-            <xuesheng></xuesheng>
-            <hr />
             <hello></hello>
-        </div>
+        </div> -->
+        <div id="root3"></div>
     </body>
     <script type="text/javascript">
         Vue.config.productionTip = false; //阻止 vue 在启动时生成生产提示
@@ -61,14 +100,16 @@
                     schoolAddress: "XXAD",
                 };
             },
-            template: ` 
+            template: `
             <div>
+                <hr/>
+                <p>&ltschool组件&gt</p>
                 <p>学校名称：{{schoolName}}</p>
                 <p>学校地址：{{schoolAddress}}</p>
+                <hr/>
             </div>
             `,
         });
-
         // 创建 student 组件
         const student = Vue.extend({
             data() {
@@ -77,57 +118,156 @@
                     studentAddress: "XSAD",
                 };
             },
-            template: ` 
+            template: `
             <div>
+                <hr/>
+                <p>&ltstudent组件&gt</p>
                 <p>学生名称：{{studentName}}</p>
                 <p>学生地址：{{studentAddress}}</p>
+                <hr/>
             </div>
             `,
         });
-
-        // 创建 Vue 实例
-        const vm = new Vue({
-            el: "#root",
-            // data: {  //不再需要data配置项
-            // },
-
-            // 关键配置项 components
-            components: {
-                // 第二步 注册组件
-                // 组件标签: 组件名
-                // school: school
-                // student: student
-                school,
-                student,
-            },
-        });
-
-        // 创建 Vue 第二个实例
-        const vm2 = new Vue({
-            el: "#root2",
-            // 关键配置项 components
-            components: {
-                // 组件复用
-                xuexiao: school,
-                xuesheng: student,
-            },
-        });
-
-        // 创建 hello 组件
-        const hello = Vue.extend({
+        // 创建 class-Chinese 组件
+        const classChinese = Vue.extend({
+            template: `
+            <div>
+                <hr/>
+                <p>&ltclassChinese组件&gt</p>
+                <p>class-Chinese: {{course}}</p>
+                <hr/>
+            </div>
+            `,
             data() {
                 return {
-                    hello: "hello word",
+                    course: "Chinese",
+                };
+            },
+        });
+        // 创建 class-Math 组件
+        const classMath = Vue.extend({
+            template: `
+            <div>
+                <hr/>
+                <p>&ltclassMath组件&gt</p>
+                <p>classMath: {{course}}</p>
+                <hr/>
+            </div>
+            `,
+            data() {
+                return {
+                    course: "Math",
+                };
+            },
+        });
+        // 创建 hello 子组件（组件嵌套）
+        const helloSon = Vue.extend({
+            data() {
+                return {
+                    hello: "hello world, this is son. 嵌套在hello中的子组件",
                 };
             },
             template: `
             <div>
-                <p>hello word：{{hello}}</p>
+                <p>&lthelloSon组件&gt</p>
+                <p>hello world：{{hello}}</p>
             </div>
             `,
         });
+        // 创建 hello 组件（不常用全局注册组件）
+        const hello = Vue.extend({
+            data() {
+                return {
+                    hello: "hello world",
+                };
+            },
+            template: `
+            <div>
+                <hr/>
+                <p>&lthello组件&gt</p>
+                <p>hello world：{{hello}}</p>
+                <hello-son></hello-son>
+                <hr/>
+            </div>
+            `,
+            components: {
+                "hello-son": helloSon,
+            },
+        });
 
-        // 配置全局组件
+        // 定义 app 组件，该组件作为根组件，管理所有的组件。vm -> app <= 所有组件
+        const app = Vue.extend({
+            template: `
+                <div>
+                    <school></school>
+                    <student></student>
+                    <xuexiao></xuexiao>
+                    <xuesheng></xuesheng>
+                    <class-chinese></class-chinese>   
+                    <hello></hello> 
+                </div>
+            `,
+            components: {
+                school,
+                student,
+                xuexiao: school,
+                xuesheng: student,
+                "class-chinese": classChinese,
+            },
+        });
+
+        // 第一点五步，全局注册组件
         Vue.component("hello", hello);
+
+        // // 第三步，创建 Vue 实例
+        // const vm = new Vue({
+        //     el: "#root",
+        //     // data: {  //不再需要data配置项
+        //     // },
+        //     // 关键配置项 components
+        //     components: {
+        //         // 第二步 注册组件
+        //         // 组件标签: 组件名
+        //         // school: school
+        //         // student: student
+        //         school,
+        //         student,
+        //         // 官方推荐的两种写法
+        //         // kabab-case 写法
+        //         "class-chinese": classChinese,
+        //         // CamelCase 写法，此处无脚手架，不能包含大写字母
+        //         // ClassMath: classMath,
+        //     },
+        // });
+        // // 第三步，创建 Vue 第二个实例
+        // const vm2 = new Vue({
+        //     el: "#root2",
+        //     // 关键配置项 components
+        //     components: {
+        //         // 组件复用
+        //         xuexiao: school,
+        //         xuesheng: student,
+        //         // kabab-case 写法
+        //         "class-chinese": classChinese,
+        //         // CamelCase 写法，此处无脚手架，不能包含大写字母
+        //         // ClassMath: classMath,
+        //     },
+        // });
+
+        // 第三步，创建 Vue 第三个实例
+        const vm3 = new Vue({
+            template: `<app></app>`,
+            el: "#root3",
+            // 关键配置项 components
+            components: {
+                app,
+            },
+        });
+
+        console.log("hello.prototype.__proto__:", hello.prototype.__proto__); // vc的原型对象的原型对象是 Vue的原型对象
+        console.log("Vue.prototype:", Vue.prototype);
+        console.log("hello.prototype.__proto__ === Vue.prototype:", hello.prototype.__proto__ === Vue.prototype);
+        console.log("hello.prototype.__proto__ === vm3.__proto__:", hello.prototype.__proto__ === vm3.__proto__);
+        console.log("vm3.__proto__ === Vue.prototype:", vm3.__proto__ === Vue.prototype);
     </script>
 </html>

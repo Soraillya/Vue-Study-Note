@@ -1,0 +1,151 @@
+* {
+    /* 网站清除默认样式 */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 1920px; /* pc端设计稿宽度 */
+    background-color: rgb(225, 233, 246); /* 底色 */
+}
+
+/* 顶部导航栏 */
+.nav {
+    width: 100%;
+    height: 80px;
+    margin-bottom: 1px;
+    background-color: rgb(193, 207, 233); /* 主题色 */
+    display: flex; /* 布局 */
+    box-shadow: 1px 4px 16px #777; /* 底部阴影 */
+}
+
+.nav div {
+    height: 100%;
+    width: 80px;
+    margin-left: 30px;
+    text-align: center;
+    line-height: 80px;
+}
+
+/* 顶部导航栏 头像 */
+.nav .my-head {
+    height: 56px;
+    width: 56px;
+    margin: auto 30px;
+    background-image: url(images/head.png);
+    background-repeat: no-repeat; /* 背景图不重复 */
+    background-size: 100% 100%; /* 背景图尺寸宽高 */
+    border-radius: 56px 56px; /* 背景图为圆形，与宽高一致 */
+}
+
+/* 顶部导航栏 链接 */
+.nav a {
+    text-decoration: none;
+}
+
+.nav a:link {
+    color: black;
+}
+.nav a:visited {
+    color: purple;
+}
+.nav a:hover {
+    color: rgb(100, 142, 224);
+    font-weight: bolder; /* 加粗 */
+    font-size: larger; /* 加大 */
+}
+.nav a:active {
+    color: skyblue;
+}
+
+/* 首页图 */
+.bgImage {
+    height: 1200px;
+    background-image: url(images/首页大图.png);
+    background-repeat: no-repeat; /* 设置首页背景图不重复 */
+    background-size: 100% 100%; /* 设置首页背景图尺寸宽高 */
+    text-align: center;
+    line-height: 1200px;
+    font-size: 120px;
+    color: rgb(100, 142, 224);
+    user-select: none;
+    -webkit-user-seletct: none;
+    -moz-user-seletct: none;
+}
+
+/* 文章 */
+.introduction {
+    width: 100%;
+    margin: 0 auto;
+    padding: 40px 20%;
+    background-color: rgb(193, 207, 233);
+}
+.introduction h1 {
+    text-align: center;
+}
+.introduction h2 {
+    margin: 16px;
+}
+
+.introduction h3 {
+    margin: 16px;
+}
+
+.introduction p {
+    font-size: 20px;
+    line-height: 32px;
+    text-indent: 40px;
+}
+
+/* 文章插图 */
+.illustration {
+    width: 100%;
+    margin: 32px auto;
+    text-align: center;
+}
+.illustration img {
+    width: 600px;
+    margin: 0 auto;
+}
+/*  文章插图底部文字 */
+.illustration p {
+    font-size: 16px;
+    color: #777;
+    text-indent: 0; /* 清除文字缩进 */
+}
+
+.my-info {
+    width: 60%;
+    margin: 4px auto;
+    padding: 40px 80px;
+    background-color: rgb(193, 207, 233);
+    box-shadow: 1px 4px 16px #777;
+}
+.info-head {
+    height: 360px;
+    width: 360px;
+    margin: 0 auto;
+    background-image: url(images/站长图片.jpg);
+    background-repeat: no-repeat; /* 设置头像背景图不重复 */
+    background-size: 100% 100%; /* 设置头像背景图尺寸宽高 */
+}
+.info-list {
+    font-size: larger;
+}
+
+.info-list ul {
+    list-style: none;
+}
+.info-list ul li {
+    margin-top: 32px;
+}
+/* 网页尾部 */
+.footer {
+    height: 100px;
+    box-shadow: 1px 4px 4px #777;
+    background-color: #282828;
+    color: #777;
+    padding-left: 30%;
+    padding-top: 8px;
+}

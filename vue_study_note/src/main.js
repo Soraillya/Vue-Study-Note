@@ -24,3 +24,6 @@ new Vue({
     //     return createElement("h1", "Hello World!!!");
     // },
 }).$mount("#app"); // el:"#app"
+
+// 运行Vue
+// sudo rm -rf node_modules package-lock.json && npm install

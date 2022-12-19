@@ -66,7 +66,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
         若业务需求确实需要修改，name请复制props的内容到data中一份，然后去修改data中的数据
         props: {name: String, },    data() { return { myName: this.name,} };
 
-## 二、vm 配置项 mixin（混入）
+## 三、vm 配置项 mixin（混入）
 
     1. 功能：可以把多个组件共用的配置提取成一个混入对象
     2. 使用方式：
@@ -87,3 +87,23 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     3. 混合与原组件中配置冲突
         (1) data、methods 等命名冲突：混合不会破坏原组件的配置
         (2) mounted 等生命周期钩子：会先执行混合中的生命周期钩子，再执行原组件中的
+
+## 四、插件 Vue.use(Plugins)
+
+    1. 功能：导入外部插件，用于增强Vue
+    2. 本质：包含 install 方法的一个对象，install 的第一个参数是Vue，第二个以后的参数是插件使用者传递的数据。
+    3. 定义插件：
+        对象.install = function (Vue, options) {
+            // 1. 添加全局过滤器
+            Vue.filter(...);
+            // 2. 添加全局自定义指令
+            Vue.directive(...);
+            // 3. 添加全局混入
+            Vue.mixin(...);
+            // 4. 添加实例方法
+            Vue.prototype.$myMethod = function (){...};
+            Vue.prototype.$myProperty = xxx;
+        }
+    4. 使用插件:
+        import Plugins from "./Plugins.js"
+        Vue.use(Plugins,1,2,3,...)

@@ -2,7 +2,6 @@
   该文件是整个项目的入口文件
 */
 
-// 引入Vue
 /*
     关于不同版本的Vue：
       1. vue.js 与 vue.runtime.xxx.js 的区别：
@@ -11,11 +10,16 @@
       2. 因为vue.runtime.xxx.js没有模板解析器，所以不能使用template配置项，
         需要使用render函数接收到的createElement函数去指定具体内容。
 */
-import Vue from "vue";
-// 引入App组件，它是所有组件的父组件
-import App from "./App.vue";
+import Vue from "vue"; // 引入Vue
+import App from "./App.vue"; // 引入App组件，它是所有组件的父组件
+import Plugins from "./common/js/plugins.js"; //引入插件
+
 // 关闭Vue的生产提示
 Vue.config.productionTip = false;
+
+// 使用插件
+Vue.use(Plugins, 1, 2, 3);
+
 // 创建Vue实例对象
 new Vue({
     // 将App组件放入容器中

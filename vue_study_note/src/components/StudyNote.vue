@@ -24,7 +24,14 @@
         <h2>功能：可以把多个组件共用的配置提取成一个混入对象</h2>
         <p v-text="'nowTime from common.js: ' + nowTime"></p>
         <hr />
-        <h1>四、配置项 mixin 混入</h1>
+        <h1>四、插件</h1>
+        <h2>导入外部插件，用于增强Vue</h2>
+        <h3>1. 使用了通过插件添加的过滤器 mySlice</h3>
+        <p>{{ "这个字符串原本是很长的" | mySlice }}</p>
+        <h3>2. 使用了通过插件添加的自定义指令 v-def</h3>
+        <input v-def="myName" />
+        <h3>3. 使用了通过插件添加的方法 hello</h3>
+        <button @click="hello">Click me to say hello world!!!</button>
     </div>
 </template>
 
@@ -33,7 +40,7 @@ import StudyNoteSonFirst from "./StudyNoteSonFirst.vue";
 import StudyNoteSonSecond from "./StudyNoteSonSecond.vue";
 import StudyNoteSonThird from "./StudyNoteSonThird.vue";
 
-import { date } from "./common/js/common.js";
+import { date } from "../common/js/common.js";
 export default {
     name: "StudyNote",
     components: {

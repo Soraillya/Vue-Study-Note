@@ -4,13 +4,14 @@
         <h2>1. 为标签添加ref属性，可轻松获得指定标签的DOM，方便操作</h2>
         <button ref="refButton" @click="getDOMByRef('refTitle')">点我获取标题DOM</button>
         <h2>2. 为组件标签添加ref属性，可获得指定组件实例对象vc，方便操作</h2>
-        <StudyNoteSonFirst ref="SNSF_1" />
-        <StudyNoteSonSecond ref="SNSF_2" />
-        <StudyNoteSonThird ref="SNSF_3" />
+        <StudyNoteSonFirst msg="Hello StudyNoteSonFirst" :isRef="true" ref="SNSF_1" />
+        <StudyNoteSonSecond msg="Hello StudyNoteSonSecond" :isRef="true" ref="SNSF_2" />
+        <StudyNoteSonThird msg="Hello StudyNoteSonThird" :isRef="true" ref="SNSF_3" />
         <button @click="getDOMByRef('SNSF_1')">获取子组件1的vc</button>
         <button @click="getDOMByRef('SNSF_2')">获取子组件2的vc</button>
         <button @click="getDOMByRef('SNSF_3')">获取子组件3的vc</button>
         <hr />
+
         <h1>二、配置项 props</h1>
         <h2>1. 控制是否运行从外部传入值，需要控制类型</h2>
         <p>姓名：{{ myName }}</p>
@@ -20,11 +21,13 @@
         <h2>3. 尽量避免data与props变量名冲突，此处props中的变量优先级更高</h2>
         <p>推荐的解决方法：props:['age']; data:{myAge : this.age}</p>
         <hr />
-        <h1>三、配置项 mixin 混入</h1>
+
+        <h1>三、配置项 mixins 混入</h1>
         <h2>功能：可以把多个组件共用的配置提取成一个混入对象</h2>
         <p v-text="'nowTime from common.js: ' + nowTime"></p>
         <hr />
-        <h1>四、插件</h1>
+
+        <h1>四、插件 Vue.use(Plugins)</h1>
         <h2>导入外部插件，用于增强Vue</h2>
         <h3>1. 使用了通过插件添加的过滤器 mySlice</h3>
         <p>{{ "这个字符串原本是很长的" | mySlice }}</p>
@@ -32,6 +35,25 @@
         <input v-def="myName" />
         <h3>3. 使用了通过插件添加的方法 hello</h3>
         <button @click="hello">Click me to say hello world!!!</button>
+        <hr />
+
+        <h1>五、scoped 样式</h1>
+        <h2>1. 问题：多个组件中的CSS有相同的class时会发生冲突！</h2>
+        <h2>2. 解决：在组件中的style标签添加scoped： &lt;style scoped&gt;</h2>
+        <StudyNoteSonFirst msg="1st: hot pink，无scoped，因组件导入顺序而被3rd覆盖" :isScoped="true" ref="SNSF_1" />
+        <StudyNoteSonSecond msg="2nd: pink，有scoped，不被覆盖" :isScoped="true" ref="SNSF_2" />
+        <StudyNoteSonThird msg="3rd: litte pink，无scoped" :isScoped="true" ref="SNSF_3" />
+        <hr />
+
+        <h1>六、 TodoList 案例</h1>
+        <h2>组件化编码流程：</h2>
+        <h3>1. 实现静态组件： 抽取组件，使用组件实现静态页面的效果</h3>
+        <h3>2. 展示动态数据</h3>
+        <h4>2.1 数据的类型、名称</h4>
+        <h4>2.2 数据保存在哪个组件</h4>
+        <h3>3. 交互——从绑定事件监听开始</h3>
+        <h3></h3>
+        <h1></h1>
     </div>
 </template>
 

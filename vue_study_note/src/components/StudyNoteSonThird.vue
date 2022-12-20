@@ -1,19 +1,30 @@
 <template>
     <div>
-        <h1>Hello StudyNoteSonThird</h1>
+        <h1 v-if="isRef">{{ message }}</h1>
+        <h1 v-if="isScoped" class="message">{{ message }}</h1>
     </div>
 </template>
 
 <script>
 export default {
     name: "StudyNoteSonThird",
+    props: {
+        msg: String,
+        isRef: Boolean,
+        isScoped: Boolean,
+    },
+
     data() {
         return {
-            msg: "ref属性",
+            message: this.msg,
         };
     },
     methods: {},
 };
 </script>
 
-<style></style>
+<style lang="css">
+.message {
+    color: pink;
+}
+</style>

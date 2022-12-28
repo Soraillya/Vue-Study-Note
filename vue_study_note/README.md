@@ -46,14 +46,14 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     3. 接收数据写法：
         ① 简单接收：
             props:['name','sex','age']
-
+    
         ② 只限制类型：
             props:{
                 name:String,
                 sex:String,
                 age:Number,
             }
-
+    
         ③ 限制类型、限制必要性、设置默认值：
             props:{
                 name:{

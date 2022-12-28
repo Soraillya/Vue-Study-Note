@@ -2,6 +2,9 @@
     <div>
         <h1 v-if="isRef">{{ message }}</h1>
         <h1 v-if="isScoped" class="message">{{ message }}</h1>
+        <button v-if="isEmit" @click="emitDefVOnEvent">点我触发</button>
+        <button v-if="isOff" @click="emitDefVOnEvent">点我触发</button>
+        <button v-if="isOff" @click="unbindDefVOnEvent">点我解绑</button>
     </div>
 </template>
 
@@ -12,6 +15,8 @@ export default {
         msg: String,
         isRef: Boolean,
         isScoped: Boolean,
+        isEmit: Boolean,
+        isOff: Boolean,
     },
     data() {
         return {
@@ -21,6 +26,17 @@ export default {
     methods: {
         getDOMByRef() {
             console.log(this.$refs.refTitle);
+        },
+        emitDefVOnEvent() {
+            // emit 触发事件defVOnEvent，传入参数message给defVOnEvent中绑定的方法
+            let message = "这是StudyNoteSonFirst的数据";
+            this.$emit("defVOnEvent", message);
+        },
+        unbindDefVOnEvent() {
+            this.$off("defVOnEvent"); //解绑单个
+            // this.$off(["defVOnEvent","defVOnEvent2","defVOnEven3"]);    //解绑多个
+            // this.$off();    //解绑所有
+            alert("已解绑defVOnEvent事件");
         },
     },
 };

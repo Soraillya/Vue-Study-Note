@@ -17,6 +17,7 @@
         <p>姓名：{{ myName }}</p>
         <p>性别：{{ mySex }}</p>
         <p>年龄：{{ myAge }}</p>
+        <p>ID：{{ myNanoid }}</p>
         <h2>2. 因为props为外部传入，所以尽量避免修改props，而是修改data</h2>
         <h2>3. 尽量避免data与props变量名冲突，此处props中的变量优先级更高</h2>
         <p>推荐的解决方法：props:['age']; data:{myAge : this.age}</p>
@@ -53,7 +54,27 @@
         <h4>2.2 数据保存在哪个组件</h4>
         <h3>3. 交互——从绑定事件监听开始</h3>
         <h3></h3>
-        <h1></h1>
+
+        <h1>七、本地存储与会话存储 localStorage & sessionStorage</h1>
+        <h2>1. 本地存储 localStorage：会一直存储在磁盘里的键值对</h2>
+        key: <input type="text" v-model="localStorageKey" /> value: <input type="text" v-model="localStorageValue" />
+        <button @click="saveLocalStorage">保存本地存储</button>
+        <button @click="removeLocalStorage">删除本地存储</button>
+        <button @click="clearLocalStorage">清除本地存储</button>
+        <h2>2. 会话存储 sessionStorage： 浏览器关闭后（关闭会话）后就会清除的键值对</h2>
+        key: <input type="text" v-model="sessionStorageKey" /> value: <input type="text" v-model="sessionStorageValue" />
+        <button @click="saveSessionStorage">保存会话存储</button>
+        <button @click="removeSessionStorage">删除会话存储</button>
+        <button @click="clearSessionStorage">清除会话存储</button>
+        <h2>3. 查看数据：F12 -&gt; application -&gt; localStorage/sessionStorage</h2>
+        <h2>4. key: String; value: String</h2>
+        <hr />
+
+        <h1>八、组件自定义事件 vm.$emit & vm.$off</h1>
+        <h2>1. 绑定 vm.$emit：通过父组件给子组件绑定一个自定义事件实现：数据由子传父。使用v-on或@</h2>
+        <StudyNoteSonFirst v-on:defVOnEvent="sayHello" :isEmit="true" />
+        <h2>2. 解绑 vm.$off：vm.$off('defVOnEvent')</h2>
+        <StudyNoteSonFirst v-on:defVOnEvent="sayHello" :isOff="true" />
     </div>
 </template>
 
@@ -63,6 +84,7 @@ import StudyNoteSonSecond from "./StudyNoteSonSecond.vue";
 import StudyNoteSonThird from "./StudyNoteSonThird.vue";
 
 import { date } from "../common/js/common.js";
+import { nanoid } from "nanoid";
 export default {
     name: "StudyNote",
     components: {
@@ -89,12 +111,38 @@ export default {
             myName: this.name,
             mySex: this.sex,
             myAge: this.age,
+            myNanoid: nanoid(),
+            localStorageKey: "",
+            localStorageValue: "",
+            sessionStorageKey: "",
+            sessionStorageValue: "",
         };
     },
     methods: {
         getDOMByRef(ref) {
             console.log("this.$refs:", this.$refs);
             console.log("this.$refs['" + ref + "']:", this.$refs[ref]);
+        },
+        saveLocalStorage() {
+            window.localStorage.setItem(this.localStorageKey, this.localStorageValue);
+        },
+        removeLocalStorage() {
+            window.localStorage.removeItem(this.localStorageKey);
+        },
+        clearLocalStorage() {
+            window.localStorage.clear();
+        },
+        saveSessionStorage() {
+            window.sessionStorage.setItem(this.sessionStorageKey, this.sessionStorageValue);
+        },
+        removeSessionStorage() {
+            window.sessionStorage.removeItem(this.sessionStorageKey);
+        },
+        clearSessionStorage() {
+            window.sessionStorage.clear();
+        },
+        sayHello(message, ...params) {
+            alert("组件事件defVOnEvent被触发! 接收到信息：" + message);
         },
     },
     mixins: [date],

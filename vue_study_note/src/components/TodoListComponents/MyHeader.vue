@@ -1,12 +1,26 @@
 <template>
     <div class="my-header">
-        <input type="text" placeholder="请输入待做事项，按 Enter 键添加" @keyup.enter="a" />
+        <input type="text" placeholder="请输入待做事项，按 Enter 键添加" @keyup.enter="addTodoItem(newTodoItemName)" v-model="newTodoItemName" />
     </div>
 </template>
 
 <script>
 export default {
     name: "MyHeader",
+    data() {
+        return {
+            newTodoItemName: "",
+        };
+    },
+    methods: {
+        addTodoItem(newTodoItemName) {
+            newTodoItemName = newTodoItemName.trim();
+            if (newTodoItemName) {
+                console.log(newTodoItemName);
+                this.$emit("addNewItem", newTodoItemName);
+            }
+        },
+    },
 };
 </script>
 

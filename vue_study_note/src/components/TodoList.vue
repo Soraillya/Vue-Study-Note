@@ -1,6 +1,6 @@
 <template>
     <div class="todo-list-container">
-        <MyHeader />
+        <MyHeader @addNewItem="addNewItem" />
         <MyList />
         <MyFooter />
     </div>
@@ -10,6 +10,7 @@
 import MyHeader from "./TodoListComponents/MyHeader";
 import MyList from "./TodoListComponents/MyList";
 import MyFooter from "./TodoListComponents/MyFooter";
+import { nanoid } from "nanoid";
 export default {
     name: "TodoList",
     components: {
@@ -21,6 +22,17 @@ export default {
         return {
             todos: JSON.parse(window.localStorage.getItem("todos")) || [],
         };
+    },
+    methods: {
+        addNewItem(newTodoItemName) {
+            let newTodoItem = {
+                id: nanoid(),
+                name: newTodoItemName,
+                done: false,
+            };
+            this.todos.unshift(newTodoItem);
+            console.log(this.todos);
+        },
     },
 };
 </script>

@@ -47,6 +47,7 @@
         <hr />
 
         <h1>六、 TodoList 案例</h1>
+        <TodoList />
         <h2>组件化编码流程：</h2>
         <h3>1. 实现静态组件： 抽取组件，使用组件实现静态页面的效果</h3>
         <h3>2. 展示动态数据</h3>
@@ -54,6 +55,7 @@
         <h4>2.2 数据保存在哪个组件</h4>
         <h3>3. 交互——从绑定事件监听开始</h3>
         <h3></h3>
+        <hr />
 
         <h1>七、本地存储与会话存储 localStorage & sessionStorage</h1>
         <h2>1. 本地存储 localStorage：会一直存储在磁盘里的键值对</h2>
@@ -75,6 +77,8 @@
         <StudyNoteSonFirst v-on:defVOnEvent="sayHello" :isEmit="true" />
         <h2>2. 解绑 vm.$off：vm.$off('defVOnEvent')</h2>
         <StudyNoteSonFirst v-on:defVOnEvent="sayHello" :isOff="true" />
+        <h2>3. 组件上使用原生DOM事件 @click.native</h2>
+        <StudyNoteSonFirst @click.native="sayHello('@click.native')" :isNative="true" />
     </div>
 </template>
 
@@ -82,6 +86,7 @@
 import StudyNoteSonFirst from "./StudyNoteSonFirst.vue";
 import StudyNoteSonSecond from "./StudyNoteSonSecond.vue";
 import StudyNoteSonThird from "./StudyNoteSonThird.vue";
+import TodoList from "./TodoList.vue";
 
 import { date } from "../common/js/common.js";
 import { nanoid } from "nanoid";
@@ -91,6 +96,7 @@ export default {
         StudyNoteSonFirst,
         StudyNoteSonSecond,
         StudyNoteSonThird,
+        TodoList,
     },
     // props: [name, sex, age], 简单声明接收，但仍要注意一下传入值的类型
     props: {

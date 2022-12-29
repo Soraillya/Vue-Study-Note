@@ -5,6 +5,7 @@
         <button v-if="isEmit" @click="emitDefVOnEvent">点我触发</button>
         <button v-if="isOff" @click="emitDefVOnEvent">点我触发</button>
         <button v-if="isOff" @click="unbindDefVOnEvent">点我解绑</button>
+        <div class="native" v-if="isNative">点我触发组件上的原生click事件</div>
     </div>
 </template>
 
@@ -17,6 +18,7 @@ export default {
         isScoped: Boolean,
         isEmit: Boolean,
         isOff: Boolean,
+        isNative: Boolean,
     },
     data() {
         return {
@@ -44,5 +46,13 @@ export default {
 <style lang="css">
 .message {
     color: hotpink;
+}
+.native {
+    width: 200px;
+    height: 200px;
+    background-color: pink;
+    margin: 0 auto;
+    display: grid;
+    place-items: center;
 }
 </style>

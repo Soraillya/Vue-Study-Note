@@ -46,14 +46,14 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     3. 接收数据写法：
         ① 简单接收：
             props:['name','sex','age']
-    
+
         ② 只限制类型：
             props:{
                 name:String,
                 sex:String,
                 age:Number,
             }
-    
+
         ③ 限制类型、限制必要性、设置默认值：
             props:{
                 name:{
@@ -107,3 +107,21 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     4. 使用插件:
         import Plugins from "./Plugins.js"
         Vue.use(Plugins,1,2,3,...)
+
+## 八、组件的自定义事件
+
+    1. 一种组件间通信的方式，适用于：子组件 ===> 父组件
+    2. 使用场景：A是父组件，B是子组件。B想给A传数据，name就要在A中给B绑定自定义事件（事件的回调在A事件中）
+    3. 绑定自定义事件：
+        (1) 第一种方式：在父组件中：<DemoVC @defEvent="method" /> 或 <DemoVC v-on:defEvent="method" />
+
+        (2) 第二种方式：在父组件中：
+            <DemoVC ref="DemoVCId" />
+            mounted(){
+                this.$refs.DemoVCId.$on("defEvent", this.method);
+            }
+        (3) 若想让自定义事件只能触发一次，可以使用once修饰符，或者$once方法
+    4. 在子组件中触发自定义事件：this.$emit("defEvent", param1, param2, ...)
+    5. 在子组件中解绑自定义事件：this.$off("defEvent")
+    6. 组件上也可以绑定原生DOM事件，但是需要使用native修饰符，如<DemoVC @click.native="method" />
+    7. 注意：通过this.$refs.DemoVCId.$on("defEvent",回调函数)绑定自定义事件时，回调要么配置在methods中，要么使用箭头函数，否则this指向会出问题！

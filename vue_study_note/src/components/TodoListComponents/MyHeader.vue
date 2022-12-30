@@ -18,6 +18,7 @@ export default {
             if (newTodoItemName) {
                 console.log(newTodoItemName);
                 this.$emit("addNewItem", newTodoItemName);
+                this.newTodoItemName = "";
             }
         },
     },
@@ -27,10 +28,17 @@ export default {
 <style scoped>
 .my-header {
     width: 100%;
+    background-color: pink;
 }
 .my-header input {
-    width: 96%;
+    width: 100%;
+    direction: none;
     line-height: 24px;
     font-size: 16px;
+}
+.my-header input:focus {
+    outline: 0;
+    border: 2px solid pink;
+    border-radius: 4px 4px;
 }
 </style>

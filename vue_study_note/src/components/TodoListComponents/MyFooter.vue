@@ -61,7 +61,7 @@ export default {
     justify-content: space-between;
 }
 .remove-dones {
-    padding: 0px 8px;
+    padding: 4px 8px;
     align-items: flex-end;
     background-color: pink;
     color: #fff;

@@ -16,7 +16,6 @@ export default {
         addTodoItem(newTodoItemName) {
             newTodoItemName = newTodoItemName.trim();
             if (newTodoItemName) {
-                console.log(newTodoItemName);
                 this.$emit("addNewItem", newTodoItemName);
                 this.newTodoItemName = "";
             }
@@ -32,6 +31,8 @@ export default {
 }
 .my-header input {
     width: 100%;
+    border: 2px solid pink;
+    border-radius: 2px 2px;
     direction: none;
     line-height: 24px;
     font-size: 16px;
@@ -39,6 +40,5 @@ export default {
 .my-header input:focus {
     outline: 0;
     border: 2px solid pink;
-    border-radius: 4px 4px;
 }
 </style>

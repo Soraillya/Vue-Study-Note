@@ -31,13 +31,11 @@ export default {
                 done: false,
             };
             this.todos.unshift(newTodoItem);
-            console.log(this.todos);
         },
         selectAll(selectAll) {
             this.todos.forEach((todo) => (todo.done = selectAll));
         },
         removeTodoItem(id) {
-            console.log(id);
             if (confirm("确认移除吗？")) {
                 this.todos = this.todos.filter((todo) => todo.id !== id);
             }
@@ -52,7 +50,7 @@ export default {
         todos: {
             deep: true,
             handler: function (val, oldVal) {
-                window.localStorage.setItem("todos", JSON.stringify(this.todos));
+                window.localStorage.setItem("todos", JSON.stringify(val));
             },
         },
     },

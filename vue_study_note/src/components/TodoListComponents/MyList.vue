@@ -2,8 +2,8 @@
     <div class="my-list">
         <ul>
             <li v-for="todo in todos" :key="todo.id">
-                <div><input type="checkbox" name="" id="" /> {{ todo.name }}</div>
-                <button>移除</button>
+                <div><input type="checkbox" v-model="todo.done" /> {{ todo.name }}</div>
+                <button @click="removeTodoItem(todo.id)">移除</button>
             </li>
         </ul>
     </div>
@@ -11,9 +11,14 @@
 
 <script>
 export default {
-    name: "MyFooter",
+    name: "MyList",
     props: {
         todos: Array,
+    },
+    methods: {
+        removeTodoItem(id) {
+            this.$emit("removeTodoItem", id);
+        },
     },
 };
 </script>
@@ -31,7 +36,7 @@ export default {
     border: 1px solid pink;
     border-radius: 4px 4px;
     margin-top: 2px;
-    padding: 4px 0px;
+    padding: 4px 4px;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
@@ -39,7 +44,7 @@ export default {
 .my-list button {
     border: none;
     padding: 0px 4px;
-    border-radius: 4px 4px;
+    border-radius: 2px 2px;
     color: #fff;
     background-color: pink;
     display: none;

@@ -1,7 +1,7 @@
 <template>
     <div class="todo-list-container">
         <MyHeader @addNewItem="addNewItem" />
-        <MyList :todos="todos" />
+        <MyList @removeTodoItem="removeTodoItem" :todos="todos" />
         <MyFooter @selectAll="selectAll" @removeDones="removeDones" :todos="todos" />
     </div>
 </template>
@@ -31,17 +31,29 @@ export default {
                 done: false,
             };
             this.todos.unshift(newTodoItem);
-            window.localStorage.setItem("todos", JSON.stringify(this.todos));
             console.log(this.todos);
         },
         selectAll(selectAll) {
             this.todos.forEach((todo) => (todo.done = selectAll));
         },
+        removeTodoItem(id) {
+            console.log(id);
+            if (confirm("确认移除吗？")) {
+                this.todos = this.todos.filter((todo) => todo.id !== id);
+            }
+        },
         removeDones() {
             if (confirm("确认清除吗？")) {
                 this.todos = this.todos.filter((todo) => !todo.done);
             }
-            // console.log(this.todos);
+        },
+    },
+    watch: {
+        todos: {
+            deep: true,
+            handler: function (val, oldVal) {
+                window.localStorage.setItem("todos", JSON.stringify(this.todos));
+            },
         },
     },
 };

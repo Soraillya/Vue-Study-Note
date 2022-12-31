@@ -31,6 +31,7 @@ export default {
 }
 .my-header input {
     width: 100%;
+    padding: 0 4px;
     border: 2px solid pink;
     border-radius: 2px 2px;
     direction: none;

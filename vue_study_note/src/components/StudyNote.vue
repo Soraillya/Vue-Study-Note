@@ -158,4 +158,14 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+button {
+    margin-left: 4px;
+    padding: 4px 8px;
+    color: #fff;
+    background-color: pink;
+    border: none;
+    border-radius: 4px 4px;
+    cursor: pointer;
+}
+</style>

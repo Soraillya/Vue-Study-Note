@@ -36,7 +36,7 @@ export default {
     border: 1px solid pink;
     border-radius: 4px 4px;
     margin-top: 4px;
-    padding: 4px 4px;
+    padding: 8px 4px;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;

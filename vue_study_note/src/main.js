@@ -27,6 +27,12 @@ new Vue({
     // render(createElement) {
     //     return createElement("h1", "Hello World!!!");
     // },
+    beforeCreate() {
+        // 安装全局事件总线
+        console.log("Vue.prototype === this.__proto__", Vue.prototype === this.__proto__);
+        Vue.prototype.$bus = this;
+        // this.__proto__.$bus = this;
+    },
 }).$mount("#app"); // el:"#app"
 
 // 运行Vue

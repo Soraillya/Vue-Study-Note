@@ -6,10 +6,13 @@
         <button v-if="isOff" @click="emitDefVOnEvent">点我触发</button>
         <button v-if="isOff" @click="unbindDefVOnEvent">点我解绑</button>
         <div class="native" v-if="isNative">点我触发组件上的原生click事件</div>
+        <button v-if="isBus" @click="clickMeToSayNanoid">Get a new nanoid</button>
     </div>
 </template>
 
 <script>
+import { nanoid } from "nanoid";
+
 export default {
     name: "StudyNoteSonFirst",
     props: {
@@ -19,6 +22,7 @@ export default {
         isEmit: Boolean,
         isOff: Boolean,
         isNative: Boolean,
+        isBus: Boolean,
     },
     data() {
         return {
@@ -39,6 +43,10 @@ export default {
             // this.$off(["defVOnEvent","defVOnEvent2","defVOnEven3"]);    //解绑多个
             // this.$off();    //解绑所有
             alert("已解绑defVOnEvent事件");
+        },
+        clickMeToSayNanoid() {
+            // 触发全局事件总线上的clickMeToSayNanoid，并传入参数
+            this.$bus.$emit("clickMeToSayNanoid", nanoid(), "hello");
         },
     },
 };

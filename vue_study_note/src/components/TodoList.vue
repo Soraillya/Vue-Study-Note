@@ -60,7 +60,7 @@ export default {
 <style>
 .todo-list-container {
     width: 500px;
-    padding: 8px 8px;
+    padding: 16px 8px;
     border: 1px solid pink;
     border-radius: 4px 4px;
     box-shadow: 1px 1px 4px pink;

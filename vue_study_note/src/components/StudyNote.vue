@@ -73,12 +73,21 @@
         <hr />
 
         <h1>八、组件自定义事件 vm.$emit & vm.$off</h1>
-        <h2>1. 绑定 vm.$emit：通过父组件给子组件绑定一个自定义事件实现：数据由子传父。使用v-on或@</h2>
+        <h2>1.1 绑定 vm.$emit：通过父组件给子组件绑定一个自定义事件实现：数据由子传父。使用v-on或@</h2>
         <StudyNoteSonFirst v-on:defVOnEvent="sayHello" :isEmit="true" />
+        <h2>1.1 绑定 this.refs.xxx.$on：通过父组件给子组件绑定一个自定义事件实现：数据由子传父。使用$on</h2>
         <h2>2. 解绑 vm.$off：vm.$off('defVOnEvent')</h2>
         <StudyNoteSonFirst v-on:defVOnEvent="sayHello" :isOff="true" />
         <h2>3. 组件上使用原生DOM事件 @click.native</h2>
         <StudyNoteSonFirst @click.native="sayHello('@click.native')" :isNative="true" />
+
+        <h1>九、事件总线 Vue.prototype.$bus = this</h1>
+        <h2>1. 安装事件总线：创建Vue实例对象中，将Vue.prototype.$bus = this添加到beforeCreate钩子中</h2>
+        <h2>2. 绑定事件，在父组件中，将this.$bus.$on("defEvent",回调函数) 添加到mounted钩子中</h2>
+        <h2>3. 销毁事件，在父组件中，将this.$bus.$off("defEvent") 添加到beforeDestroy钩子中</h2>
+        <h2>4. 触发事件，在子组件中，将this.$bus.$emit("defEvent",参数) 添加到事件(如按钮)中</h2>
+        <StudyNoteSonFirst :isBus="true" />
+        <hr />
     </div>
 </template>
 
@@ -153,7 +162,14 @@ export default {
     },
     mixins: [date],
     mounted() {
-        console.log(" Hello Vue ");
+        //绑定clickMeToSayNanoid到全局事件总线上
+        this.$bus.$on("clickMeToSayNanoid", (nanoid, msg) => {
+            alert(`StudyNoteSonFirst, nanoid: ${nanoid}, msg: ${msg}`);
+        });
+    },
+    beforeDestroy() {
+        //解绑全局事件总线上的clickMeToSayNanoid
+        this.$bus.$off("clickMeToSayNanoid");
     },
 };
 </script>

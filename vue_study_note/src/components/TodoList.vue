@@ -30,7 +30,7 @@ export default {
                 name: newTodoItemName,
                 done: false,
             };
-            this.todos.unshift(newTodoItem);
+            this.todos.push(newTodoItem);
         },
         selectAll(selectAll) {
             this.todos.forEach((todo) => (todo.done = selectAll));

@@ -87,7 +87,29 @@
         <h2>3. 销毁事件，在父组件中，将this.$bus.$off("defEvent") 添加到beforeDestroy钩子中</h2>
         <h2>4. 触发事件，在子组件中，将this.$bus.$emit("defEvent",参数) 添加到事件(如按钮)中</h2>
         <StudyNoteSonFirst :isBus="true" />
+        <h2>5. 使用第三方js库也可以实现的组件间通信的方式：消息订阅与发布 pubsub-js（react中使用，vue则不需要）</h2>
+        <h3>5.1 安装 npm i pubsub-js, 引入 import pubsub from "pubsub-js"</h3>
+        <h3>5.2 订阅消息，mounted()中：this.pubId = pubsub.subscribe("hello", (订阅名msg, 发布消息的形参params) =&gt; {})</h3>
+        <h3>5.3 发布消息，methods()中：pubsub.publish("hello", params)</h3>
+        <h3>5.4 取消订阅消息(要通过id取消)，beforeDestroy()中, pubsub.unsubscribe(this.pubId)</h3>
         <hr />
+
+        <h1>十、this.$nextTick(function())</h1>
+        <h2>1. 作用：在下一轮DOM渲染更新结束后执行其回调（常用）</h2>
+        <h2>2. 什么时候用：当改变数据后，要基于更新后的新DOM进行某些操作时，要在nextTick所指定的回调函数中执行</h2>
+        <h2>3. 演示：点击按钮显示输入框，并自动获取其焦点</h2>
+        <div>
+            <button @click="showInputByNextTick">this.$nextTick</button>
+            <input ref="inputByNextTick" type="text" v-show="isShowInputByNextTick" placeholder="isShowInputByNextTick" />
+        </div>
+        <div>
+            <button @click="showInputBySetTimeout">setTimeout</button>
+            <input ref="inputBySetTimeout" type="text" v-show="isShowInputBySetTimeout" placeholder="isShowInputBySetTimeout" />
+        </div>
+        <div>
+            <button @click="showInputByNone">不使用nextTick或setTimeout</button>
+            <input ref="inputByNone" type="text" v-show="isShowInputByNone" placeholder="isShowInputByNone" />
+        </div>
     </div>
 </template>
 
@@ -131,6 +153,9 @@ export default {
             localStorageValue: "",
             sessionStorageKey: "",
             sessionStorageValue: "",
+            isShowInputByNextTick: false,
+            isShowInputBySetTimeout: false,
+            isShowInputByNone: false,
         };
     },
     methods: {
@@ -159,6 +184,22 @@ export default {
         sayHello(message, ...params) {
             alert("组件事件defVOnEvent被触发! 接收到信息：" + message);
         },
+        showInputByNextTick(e) {
+            this.isShowInputByNextTick = !this.isShowInputByNextTick;
+            this.$nextTick(() => {
+                this.$refs.inputByNextTick.focus();
+            });
+        },
+        showInputBySetTimeout() {
+            this.isShowInputBySetTimeout = !this.isShowInputBySetTimeout;
+            setTimeout(() => {
+                this.$refs.inputBySetTimeout.focus();
+            }, 0);
+        },
+        showInputByNone() {
+            this.isShowInputByNone = !this.isShowInputByNone;
+            this.$refs.inputByNone.focus();
+        },
     },
     mixins: [date],
     mounted() {
@@ -176,7 +217,7 @@ export default {
 
 <style>
 button {
-    margin-left: 4px;
+    margin: 4px 4px;
     padding: 4px 8px;
     color: #fff;
     background-color: pink;

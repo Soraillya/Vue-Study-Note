@@ -1,6 +1,6 @@
 <template>
     <div class="my-footer" v-if="todosLength">
-        <div><input type="checkbox" v-model="selectAll" @click="selectAllDones" /> 已完成 {{ donesLength }} / 全部 {{ todosLength }}</div>
+        <div><input type="checkbox" v-model="selectAll" /> 已完成 {{ donesLength }} / 全部 {{ todosLength }}</div>
         <button class="remove-dones" @click="removeDones">清除已完成事项</button>
     </div>
 </template>
@@ -12,39 +12,30 @@ export default {
         todos: Array,
     },
     data() {
-        return {
-            selectAll:
-                (this.todos.reduce((pre, todo) => {
-                    return todo.done ? pre + 1 : pre;
-                }, 0) ===
-                    this.todos.length) &
-                (this.todos.length > 0)
-                    ? true
-                    : false,
-        };
-    },
-    watch: {
-        todosLength() {
-            this.selectAll = (this.donesLength === this.todosLength) & (this.todosLength > 0) ? true : false;
-        },
-        donesLength() {
-            this.selectAll = (this.donesLength === this.todosLength) & (this.todosLength > 0) ? true : false;
-        },
+        return {};
     },
     computed: {
+        // todolist 事项总数
         todosLength() {
             return this.todos.length;
         },
+        // todolist 已完成的事项总数
         donesLength() {
             return this.todos.reduce((pre, todo) => {
                 return todo.done ? pre + 1 : pre;
             }, 0);
         },
+        selectAll: {
+            get() {
+                return (this.donesLength === this.todosLength) & (this.todosLength > 0) ? true : false;
+            },
+            set(val) {
+                this.$emit("selectAll", val);
+            },
+        },
     },
     methods: {
-        selectAllDones(e) {
-            this.$emit("selectAll", e.target.checked);
-        },
+        // 清除已完成事项
         removeDones() {
             this.$emit("removeDones");
         },
@@ -68,5 +59,8 @@ export default {
     border: none;
     border-radius: 4px 4px;
     cursor: pointer;
+}
+.remove-dones:hover {
+    background-color: rgb(255, 130, 193);
 }
 </style>

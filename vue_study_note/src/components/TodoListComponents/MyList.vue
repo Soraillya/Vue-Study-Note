@@ -41,9 +41,14 @@ export default {
     flex-flow: row nowrap;
     justify-content: space-between;
 }
+
+.my-list li:hover {
+    background-color: rgb(253, 223, 228);
+}
+
 .my-list button {
     border: none;
-    padding: 0px 4px;
+    padding: 0px 8px;
     border-radius: 2px 2px;
     color: #fff;
     background-color: pink;
@@ -52,5 +57,8 @@ export default {
 }
 .my-list li:hover button {
     display: block;
+}
+.my-list li button:hover {
+    background-color: rgb(255, 130, 193);
 }
 </style>

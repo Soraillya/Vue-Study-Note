@@ -20,7 +20,7 @@
         <p>ID：{{ myNanoid }}</p>
         <h2>2. 因为props为外部传入，所以尽量避免修改props，而是修改data</h2>
         <h2>3. 尽量避免data与props变量名冲突，此处props中的变量优先级更高</h2>
-        <p>推荐的解决方法：props:['age']; data:{myAge : this.age}</p>
+        <b>推荐的解决方法：props:['age']; data:{myAge : this.age}</b>
         <hr />
 
         <h1>三、配置项 mixins 混入</h1>
@@ -110,6 +110,52 @@
             <button @click="showInputByNone">不使用nextTick或setTimeout</button>
             <input ref="inputByNone" type="text" v-show="isShowInputByNone" placeholder="isShowInputByNone" />
         </div>
+        <hr />
+
+        <h1>十一、过渡与动画标签 transition / transition-group</h1>
+        <h2>1. 作用：在插入、更新或移除DOM元素时，在核实的时候给元素添加样式类名</h2>
+        <h2>2. vue 会自动给目标元素添加/移除特定的class</h2>
+        <h2>3. 过渡的相关css样式类名：</h2>
+        <h3>3.1 元素进入的样式</h3>
+        <h4>3.1.1 v-enter: 进入的起点 (过渡)</h4>
+        <h4>3.1.2 v-enter-active: 进入过程中 (动画)</h4>
+        <h4>3.1.3 v-enter-to: 进入的终点 (过渡)</h4>
+        <h3>3.2 元素离开的样式</h3>
+        <h4>3.2.1 v-leave: 离开的起点 (过渡)</h4>
+        <h4>3.2.2 v-leave-active: 离开过程中 (动画)</h4>
+        <h4>3.2.3 v-leave-to: 离开的终点 (过渡)</h4>
+        <h2>4. transition 动画实例</h2>
+        <button @click="spliceBoolean(0)">显示/隐藏 0</button>
+        <transition name="say-hello" appear>
+            <div v-show="isAnime[0]" class="say-hello"><span>say-hello~你好~你好~你好~你好~你好~你好~你好~你好~</span></div>
+        </transition>
+        <h2>5. transition 过渡实例</h2>
+        <button @click="spliceBoolean(1)">显示/隐藏 1</button>
+        <transition name="say-hello2" appear>
+            <div v-show="isAnime[1]" class="say-hello"><span>say-hello2~你好~你好~你好~你好~你好~你好~你好~你好~</span></div>
+        </transition>
+        <h2>6. transition-group 多个元素的动画与过渡</h2>
+        <button @click="spliceBoolean(2)">显示/隐藏 2</button>
+        <button @click="spliceBoolean(3)">显示/隐藏 3</button>
+        <transition-group name="say-hello2" appear>
+            <div v-show="isAnime[2]" class="say-hello" key="1"><span>say-hello~你好~你好~你好~你好~你好~你好~你好~你好~</span></div>
+            <div v-show="isAnime[3]" class="say-hello" key="2"><span>say-hello2~你好~你好~你好~你好~你好~你好~你好~你好~</span></div>
+        </transition-group>
+        <h2>7. 集成第三方动画库，npm中的animate库</h2>
+        <h3>7.1 网站：<a href="https://animate.style/">https://animate.style/</a></h3>
+        <h3>7.2 安装：install npm animate.css, 引入：import "animate.css"</h3>
+        <h3>7.3 在标签中配置固定class/transition标签中的name属性："animate__animated animate__bounce"</h3>
+        <h3>7.4 在transition标签中配置属性enter-active-class和leave-active-class</h3>
+        <button @click="spliceBoolean(4)">显示/隐藏 4</button>
+        <button @click="spliceBoolean(5)">显示/隐藏 5</button>
+        <transition-group appear name="animate__animated animate__bounce" enter-active-class="animate__fadeInDown" leave-active-class="animate__fadeOutDown">
+            <div v-show="isAnime[4]" class="say-hello" key="1"><span>say-hello~你好~你好~你好~你好~你好~你好~你好~你好~</span></div>
+            <div v-show="isAnime[5]" class="say-hello" key="2"><span>say-hello2~你好~你好~你好~你好~你好~你好~你好~你好~</span></div>
+        </transition-group>
+        <hr />
+
+        <h1>十二、数据交互 配置代理 axios 阿克塞哦嘶</h1>
+        <h2>1. 安装：npm i axios</h2>
     </div>
 </template>
 
@@ -121,6 +167,8 @@ import TodoList from "./TodoList.vue";
 
 import { date } from "../common/js/common.js";
 import { nanoid } from "nanoid";
+import "animate.css";
+
 export default {
     name: "StudyNote",
     components: {
@@ -156,6 +204,7 @@ export default {
             isShowInputByNextTick: false,
             isShowInputBySetTimeout: false,
             isShowInputByNone: false,
+            isAnime: [false, false, false, false, false, false],
         };
     },
     methods: {
@@ -200,6 +249,10 @@ export default {
             this.isShowInputByNone = !this.isShowInputByNone;
             this.$refs.inputByNone.focus();
         },
+        spliceBoolean(index) {
+            // 修改数组内的数据，需要使用数组本身的方法！
+            this.isAnime.splice(index, 1, !this.isAnime[index]);
+        },
     },
     mixins: [date],
     mounted() {
@@ -225,4 +278,67 @@ button {
     border-radius: 4px 4px;
     cursor: pointer;
 }
+
+/* 动画与过渡 */
+.say-hello,
+.say-hello2 {
+    width: 100%;
+    height: 50px;
+    margin: 0 auto;
+    background-color: pink;
+    display: grid;
+    place-items: center;
+}
+/* 1. 动画 */
+/* 默认name => .v-enter-active { */
+.say-hello-enter-active {
+    animation: anime 2s linear;
+}
+/* 默认name => .v-leave-active { */
+.say-hello-leave-active {
+    animation: anime 2s linear reverse;
+}
+
+@keyframes anime {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0px);
+    }
+}
+
+/* 2. 过渡 */
+
+/* .say-hello2 {
+    transition: 0.5s linear;
+} */
+/* 为了不破坏原div，可在以下两个class添加过渡效果 */
+.say-hello2-enter-active,
+.say-hello2-leave-active {
+    transition: 0.5s linear;
+}
+
+/* 进入时的起点 */
+/* 默认name: v-enter */
+.say-hello2-enter,
+.say-hello2-leave-to {
+    transform: translateX(-100%);
+}
+/* 进入后的终点 */
+/* 默认name: v-enter-to */
+.say-hello2-enter-to,
+.say-hello2-leave {
+    transform: translateX(0);
+}
+/* 离开时的起点 */
+/* 默认name: v-leave */
+/* .say-hello2-leave {
+    transform: translateX(0);
+} */
+/* 离开后的终点 */
+/* 默认name: v-leave-to */
+/* .say-hello2-leave-to {
+    transform: translateX(100%);
+} */
 </style>

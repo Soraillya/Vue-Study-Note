@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h1 v-if="isRef">{{ message }}</h1>
-        <h1 v-if="isScoped" class="message">{{ message }}</h1>
+        <b v-if="isRef">{{ message }}</b>
+        <b v-if="isScoped" class="message">{{ message }}</b>
     </div>
 </template>
 

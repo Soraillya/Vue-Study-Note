@@ -46,7 +46,7 @@ export default {
 <style>
 .my-footer {
     width: 100%;
-    padding: 8px 4px;
+    padding: 8px 8px;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
@@ -61,6 +61,6 @@ export default {
     cursor: pointer;
 }
 .remove-dones:hover {
-    background-color: rgb(255, 130, 193);
+    background-color: rgb(255, 176, 189);
 }
 </style>

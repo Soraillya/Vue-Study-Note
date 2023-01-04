@@ -26,9 +26,18 @@ h1,
 h2,
 h3,
 h4,
-p,
 hr {
     margin: 16px auto;
+    text-align: left;
+}
+h2 {
+    margin-left: 4%;
+}
+h3 {
+    margin-left: 8%;
+}
+h4 {
+    margin-left: 12%;
 }
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;

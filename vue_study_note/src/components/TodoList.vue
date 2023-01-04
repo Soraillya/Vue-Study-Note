@@ -1,7 +1,7 @@
 <template>
     <div class="todo-list-container">
         <MyHeader @addNewItem="addNewItem" />
-        <MyList @removeTodoItem="removeTodoItem" :todos="todos" />
+        <MyList @removeTodoItem="removeTodoItem" @editTodoItem="editTodoItem" @saveTodoItem="saveTodoItem" :todos="todos" />
         <MyFooter @selectAll="selectAll" @removeDones="removeDones" :todos="todos" />
     </div>
 </template>
@@ -45,6 +45,26 @@ export default {
                 this.todos = this.todos.filter((todo) => !todo.done);
             }
         },
+        editTodoItem(id) {
+            this.todos.forEach((todo) => {
+                if (todo.id === id) {
+                    if (todo.isEdit === undefined) {
+                        // 为todo添加isEdit属性
+                        this.$set(todo, "isEdit", true);
+                    } else {
+                        todo.isEdit = true;
+                    }
+                }
+            });
+        },
+        saveTodoItem(id, newName) {
+            this.todos.forEach((todo) => {
+                if (todo.id === id) {
+                    todo.name = newName;
+                    todo.isEdit = false;
+                }
+            });
+        },
     },
     watch: {
         todos: {
@@ -53,6 +73,16 @@ export default {
                 window.localStorage.setItem("todos", JSON.stringify(val));
             },
         },
+    },
+    beforeCreate() {
+        // 清除isEdit状态
+        let localTodos = JSON.parse(window.localStorage.getItem("todos")) || [];
+        localTodos.forEach((todo) => {
+            if (todo.isEdit) {
+                todo.isEdit = false;
+            }
+        });
+        window.localStorage.setItem("todos", JSON.stringify(localTodos));
     },
 };
 </script>

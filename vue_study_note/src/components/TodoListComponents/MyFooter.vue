@@ -1,6 +1,9 @@
 <template>
     <div class="my-footer" v-if="todosLength">
-        <div><input type="checkbox" v-model="selectAll" /> 已完成 {{ donesLength }} / 全部 {{ todosLength }}</div>
+        <div>
+            <input type="checkbox" v-model="selectAll" />
+            <span> 已完成 {{ donesLength }} / 全部 {{ todosLength }} </span>
+        </div>
         <button class="remove-dones" @click="removeDones">清除已完成事项</button>
     </div>
 </template>
@@ -48,8 +51,9 @@ export default {
     width: 100%;
     padding: 8px 8px;
     display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
+    flex-flow: row nowrap; /* 水平 不换行 */
+    justify-content: space-between; /* 左右均匀分布 */
+    align-items: center; /* 垂直居中 */
 }
 .remove-dones {
     padding: 4px 8px;

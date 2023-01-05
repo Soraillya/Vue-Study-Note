@@ -143,7 +143,7 @@
         </transition-group>
         <h2>7. 集成第三方动画库，npm中的animate库</h2>
         <h3>7.1 网站：<a href="https://animate.style/">https://animate.style/</a></h3>
-        <h3>7.2 安装：install npm animate.css, 引入：import "animate.css"</h3>
+        <h3>7.2 安装：npm install animate.css, 引入：import "animate.css"</h3>
         <h3>7.3 在标签中配置固定class/transition标签中的name属性："animate__animated animate__bounce"</h3>
         <h3>7.4 在transition标签中配置属性enter-active-class和leave-active-class</h3>
         <button @click="spliceBoolean(4)">显示/隐藏 4</button>

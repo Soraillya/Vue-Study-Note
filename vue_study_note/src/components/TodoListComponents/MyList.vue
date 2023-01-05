@@ -1,22 +1,24 @@
 <template>
-    <div class="my-list">
-        <ul>
-            <transition-group appear name="animate__animated animate__bounce" enter-active-class="animate__flipInX" leave-active-class="animate__flipOutX">
-                <li v-for="todo in todos" :key="todo.id">
-                    <div class="item">
-                        <input type="checkbox" v-model="todo.done" />
-                        <span v-show="!todo.isEdit"> {{ todo.name }}</span>
-                        <input v-show="todo.isEdit" type="text" placeholder="输入新的事项名字" :ref="todo.id" @blur="saveTodoItem(todo)" />
-                    </div>
-                    <div class="btns">
-                        <button v-show="!todo.isEdit" @click="editTodoItem(todo)">编辑</button>
-                        <button v-show="todo.isEdit" @click="saveTodoItem(todo)">保存</button>
-                        <button @click="removeTodoItem(todo.id)">移除</button>
-                    </div>
-                </li>
-            </transition-group>
-        </ul>
-    </div>
+    <transition name="" appear="" >
+        <div class="my-list">
+            <ul>
+                <transition-group appear name="animate__animated animate__bounce" enter-active-class="animate__flipInX" leave-active-class="animate__flipOutX">
+                    <li v-for="todo in todos" :key="todo.id">
+                        <div class="item">
+                            <input type="checkbox" v-model="todo.done" />
+                            <span v-show="!todo.isEdit"> {{ todo.name }}</span>
+                            <input class="new-name" v-show="todo.isEdit" type="text" placeholder="输入新的事项名字" :ref="todo.id" @blur="saveTodoItem(todo)" />
+                        </div>
+                        <div class="btns">
+                            <button v-show="!todo.isEdit" @click="editTodoItem(todo)">编辑</button>
+                            <button v-show="todo.isEdit" @click="saveTodoItem(todo)">保存</button>
+                            <button @click="removeTodoItem(todo.id)">移除</button>
+                        </div>
+                    </li>
+                </transition-group>
+            </ul>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -68,10 +70,14 @@ export default {
 .item * {
     margin-left: 4px;
 }
-.item input {
+.new-name {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     font-size: 16px;
     line-height: 20px;
+    border: 2px solid pink;
+    border-radius: 2px 2px;
+    direction: none;
+    outline: 0;
 }
 
 .my-list li {

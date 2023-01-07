@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import StudyNote from "./components/StudyNote.vue";
+import StudyNote from "./components/StudyNote";
 
 export default {
     name: "App",

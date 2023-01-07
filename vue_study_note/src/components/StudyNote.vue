@@ -156,6 +156,16 @@
 
         <h1>十二、数据交互 配置代理 axios 阿克塞哦嘶</h1>
         <h2>1. 安装：npm i axios</h2>
+        <h2>2. 发出 axios 请求: <a href="http://localhost:5050/todoList_1">http://localhost:5050/todoList_1</a></h2>
+        <button @click="getTodoListFromServer(1)">获取todoList_1</button>
+        <h2>3. 跨域问题</h2>
+        <img src="../assets/跨域请求失败.png" alt="找不到图片！" />
+        <h2>4. 解决跨域问题 vue-cli 中配置代理</h2>
+        <h3>4.1 在 vue.config.js 中配置sevServer，开启代理服务器</h3>
+        <p>devServer: { proxy: "http://localhost:5050", },</p>
+        <h3>4.2 发出 axios 请求: <a href="http://localhost:5050/todoList_2">http://localhost:8080/getTodo/todoList_2</a></h3>
+        <button @click="getTodoListFromServer(2)">获取todoList_2</button>
+        <p>{{ TodoListFromServer }}</p>
     </div>
 </template>
 
@@ -167,6 +177,7 @@ import TodoList from "./TodoList.vue";
 
 import { date } from "../common/js/common.js";
 import { nanoid } from "nanoid";
+import axios from "axios";
 import "animate.css";
 
 export default {
@@ -205,6 +216,7 @@ export default {
             isShowInputBySetTimeout: false,
             isShowInputByNone: false,
             isAnime: [false, false, false, false, false, false],
+            TodoListFromServer: "",
         };
     },
     methods: {
@@ -252,6 +264,27 @@ export default {
         spliceBoolean(index) {
             // 修改数组内的数据，需要使用数组本身的方法！
             this.isAnime.splice(index, 1, !this.isAnime[index]);
+        },
+        getTodoListFromServer(server) {
+            let url = "";
+            if (server === 1) {
+                // 出现跨域问题
+                url = "http://localhost:5050/todoList_1";
+            } else if (server === 2) {
+                // 使用代理服务器解决跨域问题，请求的url端口与当前域一致，需要添加代理服务器端口5050
+                // url = "http://localhost:8080/todoList_2"; 方式一
+                // 方式二
+                url = "http://localhost:8080/getTodo/todoList_2";
+            }
+            axios.get(url).then(
+                (response) => {
+                    console.log(url + "请求成功了！", response.data);
+                    this.TodoListFromServer = response.data;
+                },
+                (error) => {
+                    console.log(url + "请求失败了！", error.message);
+                }
+            );
         },
     },
     mixins: [date],

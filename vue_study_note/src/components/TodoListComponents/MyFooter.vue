@@ -49,7 +49,7 @@ export default {
 <style>
 .my-footer {
     width: 100%;
-    padding: 8px 8px;
+    padding: 8px 8px 0px 8px;
     display: flex;
     flex-flow: row nowrap; /* 水平 不换行 */
     justify-content: space-between; /* 左右均匀分布 */

@@ -166,6 +166,11 @@
         <h3>4.2 发出 axios 请求: <a href="http://localhost:5050/todoList_2">http://localhost:8080/getTodo/todoList_2</a></h3>
         <button @click="getTodoListFromServer(2)">获取todoList_2</button>
         <p>{{ TodoListFromServer }}</p>
+
+        <h1>十三、搜索获取GitHub用户案例</h1>
+        <GetGitHubUserList />
+        <hr />
+        <input ref="bottom" type="text" />
     </div>
 </template>
 
@@ -174,6 +179,7 @@ import StudyNoteSonFirst from "./StudyNoteSonFirst.vue";
 import StudyNoteSonSecond from "./StudyNoteSonSecond.vue";
 import StudyNoteSonThird from "./StudyNoteSonThird.vue";
 import TodoList from "./TodoList.vue";
+import GetGitHubUserList from "./GetGitHubUserList.vue";
 
 import { date } from "../common/js/common.js";
 import { nanoid } from "nanoid";
@@ -187,6 +193,7 @@ export default {
         StudyNoteSonSecond,
         StudyNoteSonThird,
         TodoList,
+        GetGitHubUserList,
     },
     // props: [name, sex, age], 简单声明接收，但仍要注意一下传入值的类型
     props: {
@@ -293,6 +300,8 @@ export default {
         this.$bus.$on("clickMeToSayNanoid", (nanoid, msg) => {
             alert(`StudyNoteSonFirst, nanoid: ${nanoid}, msg: ${msg}`);
         });
+        // 聚焦到页尾
+        this.$refs.bottom.focus();
     },
     beforeDestroy() {
         //解绑全局事件总线上的clickMeToSayNanoid

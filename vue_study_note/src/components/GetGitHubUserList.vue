@@ -1,30 +1,35 @@
 <template>
     <div class="root">
-        <div class="title">
-            <span>Search GitHub Users</span>
-        </div>
+        <h2 class="title">Search GitHub Users</h2>
         <div class="search">
             <div class="search-input">
-                <input type="text" v-model="keyword" placeholder="Enter the keyword of name you want to search" @keyup.enter="search(keyword)" />
+                <input type="text" v-model="keyword" placeholder="Enter the keyword of name you want to search" @keyup.enter="search()" />
             </div>
             <div class="search-button">
-                <button @click="search(keyword)">Search</button>
+                <button @click="search()">Search</button>
             </div>
         </div>
-        <div v-show="users.length === 0" class="welcome">Hello World!!!</div>
+        <div class="message" v-show="isFirst">Hello World !!!</div>
+        <div class="message" v-show="isLoading">Loading ...</div>
+        <div class="message" v-show="errMsg">{{ errMsg }}</div>
+        <div class="message" v-show="!isFirst & !isLoading & !errMsg & (users.length === 0)">No result ~ ~ ~</div>
         <ul class="users">
             <li class="user" v-for="user in users" :key="user.id">
-                <!-- <a :href="user.html_url" target="blank"> -->
                 <div class="name">
-                    <span>{{ user.login }}</span>
+                    <p>{{ user.login }}</p>
                 </div>
-                <div class="avtar">
-                    <div class="avtar-image">
-                        <img :src="user.avatar_url" alt="not found!" />
-                    </div>
-                </div>
-                <!-- </a> -->
+                <a class="avtar" :href="user.html_url" target="_blank">
+                    <div class="avtar-image"><img :src="user.avatar_url" alt="Avtar not found!" /></div>
+                </a>
             </li>
+            <!-- <li class="user">
+                <div class="name">
+                    <p>hello</p>
+                </div>
+                <a class="avtar" href="https://www.baidu.com" target="_blank">
+                    <div class="avtar-image"><img src="https://avatars.githubusercontent.com/u/75765684?v=4" alt="not found!" /></div>
+                </a>
+            </li> -->
         </ul>
     </div>
 </template>
@@ -36,25 +41,40 @@ export default {
     name: "GetGitHubUserList",
     data() {
         return {
+            isFirst: true,
+            isLoading: false,
+            errMsg: "",
             keyword: "", // 输入的关键词
             users: [], // 通过api获取的用户列表
         };
     },
     methods: {
-        search(keyword) {
-            if (keyword.trim() === "") {
+        search() {
+            if (this.keyword.trim() === "") {
                 return alert("输入不能为空");
             }
-            console.log(keyword);
+            if (this.isFirst) {
+                this.isFirst = false;
+            }
+            this.isLoading = true; // 开始显示加载中
+            this.users = [];
             // https://api.github.com/search/users?q=xxxx 后端已通过cors解决跨域问题
-            axios.get(`https://api.github.com/search/users?q=${keyword}`).then(
+            // 此处可替换为 使用 vue-resource 插件中的 this.$http.get 发出请求，但维护更新不频繁，而axios更加优秀
+            // this.$http.get(`https://api.github.com/search/users?q=${this.keyword}`).then(
+            axios.get(`https://api.github.com/search/users?q=${this.keyword}`).then(
                 (response) => {
                     console.log("请求成功了!", response.data);
+                    if (this.errMsg !== "") {
+                        this.errMsg = "";
+                    }
                     this.users = response.data.items;
+                    this.isLoading = false;
                     console.log(this.users);
                 },
                 (error) => {
                     console.log(error.message);
+                    this.isLoading = false;
+                    this.errMsg = error.message;
                 }
             );
         },
@@ -82,11 +102,9 @@ export default {
     height: 60px;
     display: flex;
     align-items: center;
-}
-.title span {
     color: #fff;
     font-size: 32px;
-    margin-left: 20px;
+    padding-left: 20px;
 }
 .search {
     height: 40px;
@@ -121,13 +139,15 @@ export default {
     font-size: 1em;
     background-color: #95a5a6;
 }
-.welcome {
+.message {
     width: 100%;
     height: 140px;
     color: #fff;
     border-top: 1px solid #7f8c8d;
     font-size: 32px;
-    line-height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .users {
     width: 100%;
@@ -157,9 +177,20 @@ export default {
     justify-content: center;
     align-content: center;
 }
-.name span {
+.name > p {
+    width: 100%;
     color: #fff;
-    font-size: 1.2em;
+    font-size: 1em;
+    /* padding: 0 16px; */
+    margin: 0 auto;
+    /* 以下为昵称过长的解决方案，超出两行时剩余字符串显示省略号 */
+    line-height: 2;
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box; /*重点，不能用block等其他*/
+    -webkit-line-clamp: 2; /*重点IE和火狐不支持*/
+    -webkit-box-orient: vertical; /*重点*/
 }
 .avtar {
     order: 1;
@@ -175,7 +206,7 @@ export default {
     max-width: 100px;
     /* height: 80px; */
 }
-.avtar-image img {
+.avtar-image > img {
     width: 100%;
     border-radius: 50% 50%;
 }

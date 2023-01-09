@@ -1,7 +1,7 @@
 const { defineConfig } = require("@vue/cli-service");
 module.exports = defineConfig({
     transpileDependencies: true,
-    lintOnSave: false, // 关闭语法检查
+    lintOnSave: false, // 关闭语法检查，该项检查占用的时间较长
 
     //开启代理服务器
     // 方式一

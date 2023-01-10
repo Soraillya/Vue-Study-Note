@@ -159,7 +159,7 @@
         <h2>2. 发出 axios 请求: <a href="http://localhost:5050/todoList_1">http://localhost:5050/todoList_1</a></h2>
         <button @click="getTodoListFromServer(1)">获取todoList_1</button>
         <h2>3. 跨域问题</h2>
-        <img src="../assets/跨域请求失败.png" alt="找不到图片！" />
+        <img src="../assets/image/跨域请求失败.png" alt="找不到图片！" />
         <h2>4. 解决跨域问题 vue-cli 中配置代理</h2>
         <h3>4.1 在 vue.config.js 中配置sevServer，开启代理服务器</h3>
         <p>devServer: { proxy: "http://localhost:5050", },</p>
@@ -170,6 +170,83 @@
         <h1>十三、搜索获取GitHub用户案例</h1>
         <GetGitHubUserList />
         <hr />
+
+        <h1>十四、闭包</h1>
+        <button @click="closure">closure</button>
+        <hr />
+
+        <h1>十五、插槽标签 &lt;slot&gt;&lt;/slot&gt;</h1>
+        <h2>1. 默认插槽 插入到单个插槽中</h2>
+        <div class="container">
+            <StudyNoteSonFirst :isSlot="true">
+                <img src="../assets/image/你喵.png" alt="你喵来不了咯！" style="width: 100%" />
+                <p>你喵来啰</p>
+            </StudyNoteSonFirst>
+            <StudyNoteSonFirst :isSlot="true">
+                <img src="../assets/image/弹开.gif" alt="弹不开了咯！" style="width: 100%" />
+                <p>弹开</p>
+            </StudyNoteSonFirst>
+            <StudyNoteSonFirst :isSlot="true">
+                <video controls src="../assets/video/猫猫汉堡.mp4" style="width: 100%"></video>
+                <p>呜呜喵喵</p>
+            </StudyNoteSonFirst>
+        </div>
+        <h2>2. 具名插槽 插入到多个插槽中，添加对应的插槽slot以及对应的命名name。</h2>
+        <div class="container">
+            <StudyNoteSonSecond :isSlot="true">
+                <img slot="source" src="../assets/image/你喵.png" alt="你喵来不了咯！" style="width: 100%" />
+                <p slot="title">你喵来啰</p>
+            </StudyNoteSonSecond>
+            <StudyNoteSonSecond :isSlot="true">
+                <img slot="source" src="../assets/image/弹开.gif" alt="弹不开了咯！" style="width: 100%" />
+                <p>此处镶嵌在具名插槽中，但被塞到了多余的插槽部分</p>
+                <p slot="title">弹开</p>
+                <p>此处填充多余的插槽~~~~~</p>
+            </StudyNoteSonSecond>
+            <StudyNoteSonSecond :isSlot="true">
+                <video slot="source" controls src="../assets/video/猫猫汉堡.mp4" style="width: 100%"></video>
+                <template v-slot:title>
+                    <p>呜呜喵喵</p>
+                    <p>v-slot:name 只能写在template结构的写法，用于包裹多层结构</p>
+                </template>
+            </StudyNoteSonSecond>
+        </div>
+        <h2>3. 作用域插槽</h2>
+        <h3>3.1 数据在包含插槽的组件中，在slot添加数据，供插槽的使用者使用</h3>
+        <h3>3.2 使用者必须用template包裹并添加slot-scope属性用于接收插槽传递过来的所有数据</h3>
+        <div class="container">
+            <StudyNoteSonThird :isSlot="true">
+                <template slot-scope="assets">
+                    <img v-show="assets.source[0]" src="../assets/image/你喵.png" alt="你喵来不了咯！" style="width: 100%" />
+                    <p>assets.source[0]: {{ assets.source[0] }}</p>
+                    <p>assets.title[0]: {{ assets.title[0] }}</p>
+                </template>
+            </StudyNoteSonThird>
+            <StudyNoteSonThird :isSlot="true">
+                <!-- 使用解构赋值 -->
+                <template slot-scope="{ source, title }">
+                    <img v-show="source[1]" src="../assets/image/弹开.gif" alt="弹不开了咯！" style="width: 100%" />
+                    <p>title[1]: {{ title[1] }}</p>
+                    <p>source[1]: {{ source[1] }}</p>
+                </template>
+            </StudyNoteSonThird>
+            <StudyNoteSonThird :isSlot="true">
+                <template slot-scope="{ source, title }">
+                    <video v-show="source[2]" controls src="../assets/video/猫猫汉堡.mp4" style="width: 100%"></video>
+                    <p>title[2]: {{ title[2] }}</p>
+                    <p>source[2]: {{ source[2] }}</p>
+                </template>
+            </StudyNoteSonThird>
+        </div>
+        <hr />
+        <h1>十六、vuex 插件</h1>
+        <h2>1. 概念：专门在Vue中实现集中式状态（数据）管理的一个Vue插件，对vue应用中多个组件的共享状态进行集中式管理（读/写），也是一种组件间通信的方式，且适用于任意组件间通信。</h2>
+        <h2>2. 什么时候用？</h2>
+        <h3>2.1 多个组件依赖于同一个状态</h3>
+        <h3>2.2 来自不同组件的行为需要变更同一状态</h3>
+        <hr />
+        <hr />
+
         <input ref="bottom" type="text" />
     </div>
 </template>
@@ -224,6 +301,7 @@ export default {
             isShowInputByNone: false,
             isAnime: [false, false, false, false, false, false],
             TodoListFromServer: "",
+            x: this.hello(0),
         };
     },
     methods: {
@@ -292,6 +370,37 @@ export default {
                     console.log(url + "请求失败了！", error.message);
                 }
             );
+        },
+
+        hello(sum) {
+            let count = sum;
+            return {
+                plusOne() {
+                    ++count;
+                    // return ++count;
+                },
+                plusTwo() {
+                    return count + 2;
+                },
+                printCount() {
+                    console.log(`sum: ${sum}, count: ${count}`);
+                },
+            };
+        },
+        closure() {
+            console.log(this.x);
+            this.x.plusOne();
+            console.log(this.x.plusTwo());
+            this.x.printCount();
+            this.x.plusOne();
+            console.log(this.x.plusTwo());
+            this.x.printCount();
+            this.x.plusOne();
+            console.log(this.x.plusTwo());
+            this.x.printCount();
+            this.x.plusOne();
+            console.log(this.x.plusTwo());
+            this.x.printCount();
         },
     },
     mixins: [date],
@@ -383,4 +492,10 @@ button {
 /* .say-hello2-leave-to {
     transform: translateX(100%);
 } */
+
+.container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+}
 </style>

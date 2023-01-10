@@ -50,23 +50,26 @@ export default {
     },
     methods: {
         search() {
+            // 控制输入
             if (this.keyword.trim() === "") {
                 return alert("输入不能为空");
             }
+            // 初始化
             if (this.isFirst) {
                 this.isFirst = false;
             }
+            if (this.errMsg !== "") {
+                this.errMsg = "";
+            }
             this.isLoading = true; // 开始显示加载中
             this.users = [];
+            
             // https://api.github.com/search/users?q=xxxx 后端已通过cors解决跨域问题
             // 此处可替换为 使用 vue-resource 插件中的 this.$http.get 发出请求，但维护更新不频繁，而axios更加优秀
             // this.$http.get(`https://api.github.com/search/users?q=${this.keyword}`).then(
             axios.get(`https://api.github.com/search/users?q=${this.keyword}`).then(
                 (response) => {
                     console.log("请求成功了!", response.data);
-                    if (this.errMsg !== "") {
-                        this.errMsg = "";
-                    }
                     this.users = response.data.items;
                     this.isLoading = false;
                     console.log(this.users);

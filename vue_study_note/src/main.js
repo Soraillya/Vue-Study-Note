@@ -11,7 +11,7 @@
         需要使用render函数接收到的createElement函数去指定具体内容。
 */
 import Vue from "vue"; // 引入Vue
-import vueResource from "vue-resource"; // 安装vue-resource插件，替代axios
+// import vueResource from "vue-resource"; // 安装vue-resource插件，替代axios
 import App from "./App.vue"; // 引入App组件，它是所有组件的父组件
 import Plugins from "./common/js/plugins.js"; //引入插件
 
@@ -20,7 +20,7 @@ Vue.config.productionTip = false;
 
 // 使用插件
 Vue.use(Plugins, 1, 2, 3);
-Vue.use(vueResource);
+// Vue.use(vueResource);
 
 // 创建Vue实例对象
 new Vue({

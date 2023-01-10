@@ -1,12 +1,16 @@
 <template>
     <div>
-        <b v-if="isRef">{{ message }}</b>
-        <b v-if="isScoped" class="message">{{ message }}</b>
-        <button v-if="isEmit" @click="emitDefVOnEvent">点我触发</button>
-        <button v-if="isOff" @click="emitDefVOnEvent">点我触发</button>
-        <button v-if="isOff" @click="unbindDefVOnEvent">点我解绑</button>
-        <div class="native" v-if="isNative">点我触发组件上的原生click事件</div>
-        <button v-if="isBus" @click="clickMeToSayNanoid">Get a new nanoid</button>
+        <b v-show="isRef">{{ message }}</b>
+        <b v-show="isScoped" class="message">{{ message }}</b>
+        <button v-show="isEmit" @click="emitDefVOnEvent">点我触发</button>
+        <button v-show="isOff" @click="emitDefVOnEvent">点我触发</button>
+        <button v-show="isOff" @click="unbindDefVOnEvent">点我解绑</button>
+        <div class="native" v-show="isNative">点我触发组件上的原生click事件</div>
+        <button v-show="isBus" @click="clickMeToSayNanoid">Get a new nanoid</button>
+        <div class="slot" v-show="isSlot">
+            <slot> 这里是插槽！如果使用者没有传入具体结构，则会显示这条信息！</slot>
+            <p>插槽一</p>
+        </div>
     </div>
 </template>
 
@@ -23,6 +27,7 @@ export default {
         isOff: Boolean,
         isNative: Boolean,
         isBus: Boolean,
+        isSlot: Boolean,
     },
     data() {
         return {
@@ -62,5 +67,10 @@ export default {
     margin: 0 auto;
     display: grid;
     place-items: center;
+}
+.slot {
+    width: 300px;
+    height: 400px;
+    margin: 0 auto;
 }
 </style>

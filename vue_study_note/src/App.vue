@@ -31,13 +31,17 @@ hr {
     text-align: left;
 }
 h2 {
-    margin-left: 4%;
+    padding-left: 2em;
 }
 h3 {
-    margin-left: 8%;
+    padding-left: 4em;
 }
 h4 {
-    margin-left: 12%;
+    padding-left: 6em;
+}
+a:visited {
+    color: pink;
+    text-decoration: none;
 }
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;

@@ -11,6 +11,17 @@
             <slot> 这里是插槽！如果使用者没有传入具体结构，则会显示这条信息！</slot>
             <p>插槽一</p>
         </div>
+        <div v-show="isVuex">
+            <h1>[组件一: 延时加法]</h1>
+            <select v-model.number="n" style="width: 80px; font-size: larger">
+                <option :value="1">1</option>
+                <option :value="2">2</option>
+                <option :value="3">3</option>
+                <option :value="4">4</option>
+                <option :value="5">5</option>
+            </select>
+            <button @click="vuexPlus" style="font-size: large">&nbsp;&nbsp;+&nbsp;&nbsp;</button>
+        </div>
     </div>
 </template>
 
@@ -28,10 +39,12 @@ export default {
         isNative: Boolean,
         isBus: Boolean,
         isSlot: Boolean,
+        isVuex: Boolean,
     },
     data() {
         return {
             message: this.msg,
+            n: 1,
         };
     },
     methods: {
@@ -52,6 +65,12 @@ export default {
         clickMeToSayNanoid() {
             // 触发全局事件总线上的clickMeToSayNanoid，并传入参数
             this.$bus.$emit("clickMeToSayNanoid", nanoid(), "hello");
+        },
+        vuexPlus() {
+            // 此处为完整流程 ① Dispatch --> Actions
+            console.log("① Dispatch 按钮的点击事件触发了 $store.dispatch('plus', this.n) ！");
+            this.$store.dispatch("plus", this.n);
+            console.log("① Dispatch End！");
         },
     },
 };

@@ -6,6 +6,11 @@
             <slot :source="source" :title="title"> 这里是插槽！如果使用者没有传入具体结构，则会显示这条信息！</slot>
             <p>插槽三</p>
         </div>
+        <div v-show="isVuex">
+            <h1>[组件三]: 判断奇数/偶数</h1>
+            <button @click="oddPlusOne">数字为奇数时 + 1</button>
+            <button @click="oddMinusOne">数字为偶数时 - 1</button>
+        </div>
     </div>
 </template>
 
@@ -17,6 +22,7 @@ export default {
         isRef: Boolean,
         isScoped: Boolean,
         isSlot: Boolean,
+        isVuex: Boolean,
     },
 
     data() {
@@ -30,6 +36,16 @@ export default {
         changeSource(index) {
             console.log(this.source[index]);
             this.source[index] = !this.source[index];
+        },
+        oddPlusOne() {
+            console.log("① Dispatch 按钮的点击事件触发了 $store.dispatch('oddPlusOne') ！");
+            this.$store.dispatch("oddPlusOne");
+            console.log("① Dispatch End！");
+        },
+        oddMinusOne() {
+            console.log("① Dispatch 按钮的点击事件触发了 $store.dispatch('oddMinusOne') ！");
+            this.$store.dispatch("oddMinusOne");
+            console.log("① Dispatch End！");
         },
     },
 };

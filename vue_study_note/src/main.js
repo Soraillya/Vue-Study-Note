@@ -11,16 +11,19 @@
         需要使用render函数接收到的createElement函数去指定具体内容。
 */
 import Vue from "vue"; // 引入Vue
-// import vueResource from "vue-resource"; // 安装vue-resource插件，替代axios
+// import VueResource from "vue-resource"; // 安装vue-resource插件，替代axios
+// import Vuex from "vuex"; // 安装vuex插件！插件的引入不在此处，直接上升到store配置中
 import App from "./App.vue"; // 引入App组件，它是所有组件的父组件
 import Plugins from "./common/js/plugins.js"; //引入插件
+import store from "./store"; // 引入Vuex的store配置，此处引入顺序必须在Vue.use(Vuex)之后，而import语句会在顺序上提升
 
 // 关闭Vue的生产提示
 Vue.config.productionTip = false;
 
 // 使用插件
 Vue.use(Plugins, 1, 2, 3);
-// Vue.use(vueResource);
+// Vue.use(VueResource);
+// Vue.use(Vuex); // 插件的使用不在此处，直接上升到store配置中
 
 // 创建Vue实例对象
 new Vue({
@@ -29,6 +32,13 @@ new Vue({
     // render(createElement) {
     //     return createElement("h1", "Hello World!!!");
     // },
+
+    // 使用了Vuex插件，所有的vm和vc都可以添加store配置项
+    // store: {
+    //     vuexMsg: "Hello world! --From store of Vuex",
+    // },
+    store,
+
     beforeCreate() {
         // 安装全局事件总线
         console.log("Vue.prototype === this.__proto__", Vue.prototype === this.__proto__);

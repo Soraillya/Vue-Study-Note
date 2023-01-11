@@ -240,13 +240,25 @@
         </div>
         <hr />
         <h1>十六、vuex 插件</h1>
-        <h2>1. 概念：专门在Vue中实现集中式状态（数据）管理的一个Vue插件，对vue应用中多个组件的共享状态进行集中式管理（读/写），也是一种组件间通信的方式，且适用于任意组件间通信。</h2>
+        <h2>
+            1. 概念：专门在Vue中实现集中式状态（数据）管理的一个Vue插件，对vue应用中多个组件的共享状态进行集中式管理（读/写），也是一种组件间通信的方式，且适用于任意组件间通信。
+        </h2>
         <h2>2. 什么时候用？</h2>
         <h3>2.1 多个组件依赖于同一个状态</h3>
         <h3>2.2 来自不同组件的行为需要变更同一状态</h3>
+        <h2>3. 工作原理图</h2>
+        <img src="../assets/image/vuex.png" alt="vuex工作原理" />
+        <h2>4. 数字控制器案例，拆分到多个组件中</h2>
+        <p style="text-align: center; font-size: 40px; font-weight: 3000">当前数字: {{ $store.state.sum }}</p>
+        <p style="text-align: center; font-size: 40px; font-weight: 3000">当前数字放大十倍: {{ $store.getters.bigSum }}</p>
+        <div class="container">
+            <StudyNoteSonFirst :isVuex="true" />
+            <StudyNoteSonSecond :isVuex="true" />
+            <StudyNoteSonThird :isVuex="true" />
+        </div>
         <hr />
         <hr />
-
+        <!-- <div class="show-messge" v-show="$store.state.isPopup">{{ $store.state.popupMsg }}</div> -->
         <input ref="bottom" type="text" />
     </div>
 </template>
@@ -494,8 +506,14 @@ button {
 } */
 
 .container {
+    width: 100%;
+    min-width: 900px;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-around;
+    border: 1px solid pink;
+}
+.container > div {
+    box-shadow: 1px 1px 8px pink;
 }
 </style>

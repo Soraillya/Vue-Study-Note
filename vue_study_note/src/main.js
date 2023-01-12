@@ -43,7 +43,7 @@ new Vue({
         // 安装全局事件总线
         console.log("Vue.prototype === this.__proto__", Vue.prototype === this.__proto__);
         Vue.prototype.$bus = this;
-        // this.__proto__.$bus = this;
+        // this.__proto__.$bus = this; // 不推荐操作__proto__，这只是用于查找原型的指针
     },
 }).$mount("#app"); // el:"#app"
 

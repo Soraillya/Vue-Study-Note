@@ -12,7 +12,7 @@
             <p>插槽一</p>
         </div>
         <div v-show="isVuex">
-            <h1>[组件一: 延时加法]</h1>
+            <h1>{{ vc1 }}</h1>
             <select v-model.number="n" style="width: 80px; font-size: larger">
                 <option :value="1">1</option>
                 <option :value="2">2</option>
@@ -27,6 +27,7 @@
 
 <script>
 import { nanoid } from "nanoid";
+import { mapState } from "vuex";
 
 export default {
     name: "StudyNoteSonFirst",
@@ -46,6 +47,10 @@ export default {
             message: this.msg,
             n: 1,
         };
+    },
+    computed: {
+        ...mapState({ vc1: "vc1" }),
+        //不能简写为 ...mapState({ vc1 }), 这代表着...mapState({ vc1:vc1 })，而赋值需要一个字符串而不是一个未定义的变量名！
     },
     methods: {
         getDOMByRef() {

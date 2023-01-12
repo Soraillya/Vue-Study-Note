@@ -7,7 +7,7 @@
             <p>插槽三</p>
         </div>
         <div v-show="isVuex">
-            <h1>[组件三]: 判断奇数/偶数</h1>
+            <h1>{{ vc3 }}</h1>
             <button @click="oddPlusOne">数字为奇数时 + 1</button>
             <button @click="oddMinusOne">数字为偶数时 - 1</button>
         </div>
@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
     name: "StudyNoteSonThird",
     props: {
@@ -31,6 +33,9 @@ export default {
             source: [true, true, false], //这里因为传输文件路径，渲染不生效，故不适用= =
             title: ["你喵", "弹开", "猫猫汉堡"],
         };
+    },
+    computed: {
+        ...mapState(["vc3"]),
     },
     methods: {
         changeSource(index) {

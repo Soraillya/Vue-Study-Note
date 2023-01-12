@@ -8,13 +8,13 @@
             <slot>这里是多余的插槽！</slot>
         </div>
         <div v-show="isVuex">
-            <h1>[组件二: 减法]</h1>
+            <h1>{{ vc2 }}</h1>
             <select v-model.number="n" style="width: 80px; font-size: larger">
-                <option :value="1">1</option>
-                <option :value="2">2</option>
+                <option v-for="i in 10" :value="i" :key="i">{{ i }}</option>
+                <!-- <option :value="2">2</option>
                 <option :value="3">3</option>
                 <option :value="4">4</option>
-                <option :value="5">5</option>
+                <option :value="5">5</option> -->
             </select>
             <button @click="vuexMinus" style="font-size: large">&nbsp;&nbsp;-&nbsp;&nbsp;</button>
         </div>
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
     name: "StudyNoteSonSecond",
     props: {
@@ -36,6 +37,9 @@ export default {
             message: this.msg,
             n: 1,
         };
+    },
+    computed: {
+        ...mapState(["vc2"]),
     },
     methods: {
         vuexMinus() {

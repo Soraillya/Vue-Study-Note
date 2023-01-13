@@ -6,7 +6,7 @@
                 <input type="text" v-model="keyword" placeholder="Enter the keyword of name you want to search" @keyup.enter="search()" />
             </div>
             <div class="search-button">
-                <button @click="search()">Search</button>
+                <button @click="search">Search</button>
             </div>
         </div>
         <div class="message" v-show="isFirst">Hello World !!!</div>
@@ -36,6 +36,7 @@
 
 <script>
 import axios from "axios";
+import "animate.css";
 
 export default {
     name: "GetGitHubUserList",
@@ -63,7 +64,7 @@ export default {
             }
             this.isLoading = true; // 开始显示加载中
             this.users = [];
-            
+
             // https://api.github.com/search/users?q=xxxx 后端已通过cors解决跨域问题
             // 此处可替换为 使用 vue-resource 插件中的 this.$http.get 发出请求，但维护更新不频繁，而axios更加优秀
             // this.$http.get(`https://api.github.com/search/users?q=${this.keyword}`).then(

@@ -22,22 +22,39 @@ export default {
     padding: 0;
     box-sizing: border-box;
 }
+html {
+    font-size: 62.5%;
+}
 h1,
 h2,
 h3,
 h4,
+p,
 hr {
     margin: 16px auto;
     text-align: left;
 }
+h1 {
+    font-size: 3.2rem;
+}
 h2 {
+    font-size: 2.4rem;
     padding-left: 2em;
 }
 h3 {
+    font-size: 2rem;
     padding-left: 4em;
 }
-h4 {
+h4,
+p {
+    font-size: 1.6rem;
     padding-left: 6em;
+}
+b,
+strong,
+div,
+span {
+    font-size: 1.6rem;
 }
 a:visited {
     color: pink;

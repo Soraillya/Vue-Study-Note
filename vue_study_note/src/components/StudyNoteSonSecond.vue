@@ -39,14 +39,16 @@ export default {
         };
     },
     computed: {
-        ...mapState(["vc2"]),
+        // ...mapState(["vc2"]),
+        ...mapState("counter", ["vc2"]),
     },
     methods: {
         vuexMinus() {
             console.log("② Commit 按钮的点击事件触发了 $store.commit('minus', this.n) ！跳过了Dispatch操作！");
             // this.$store.dispatch("minus", this.n);
             // 因为不用对数据进行额外操作，可以跳过Dispatch，直接commit
-            this.$store.commit("MINUS", this.n);
+            // this.$store.commit("MINUS", this.n);
+            this.$store.commit("counter/MINUS", this.n);
             console.log("② Commit End！");
         },
     },

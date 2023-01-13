@@ -6,8 +6,48 @@
  */
 import Vue from "vue"; // 引入Vue, 以在导入store之前使用Vuex插件
 import Vuex from "vuex"; // 引用Vuex
+import axios from "axios"; // 发出网络请求
+import content from "./content";
 
 Vue.use(Vuex);
+
+/**
+ * 模块化开发，配置写到同级目录下，classOneOptions.js，classTwoOptions.js
+ */
+const classOneOptions = {
+    namespaced: true, // 定义命名空间，在使用 map 取出数据与方法时需要
+    actions: {},
+    mutations: {},
+    state: {},
+    getters: {},
+};
+
+const classTwoOptions = {
+    actions: {},
+    mutations: {},
+    state: {},
+    getters: {},
+};
+
+/**
+export default new Vuex.Store({
+    modules:{
+        classOneOptions,
+        classTwoOptions,
+    }
+});
+vc 取出 store 配置
+一、从 $store 对象中找
+    ① this.$store.state.classOneOptions.xxx
+    ② this.$store.commit("classOneOptions/MUTATION_NAME", params)
+    ③ 特殊情况 getters: this.$store.getters["classOneOptions/getterName"]
+二、使用 map
+    ① ...mapState(['classOneOptions', 'classTwoOptions'])
+    ② ...mapState({ classOneOptions : 'classOneOptions', classTwoOptions : 'classTwoOptions' })
+三、使用 map ，并通过 namespace 取出 (未定义namespace无法使用此方法！)
+    ...mapState('namespace',['state1', 'state2', 'state3', ...])
+    ...mapState('classOneOptions',['state1', 'state2', 'state3', ...])
+*/
 
 // 1. actions -- 用于响应组件中的动作 (业务逻辑层)
 const actions = {
@@ -116,4 +156,18 @@ const getters = {
 // 默认导出 store 配置
 // export default store;
 
-export default new Vuex.Store({ actions, mutations, state, getters });
+const counter = {
+    namespaced: true,
+    actions,
+    mutations,
+    state,
+    getters,
+};
+
+// export default new Vuex.Store({ actions, mutations, state, getters });
+export default new Vuex.Store({
+    modules: {
+        counter,
+        content,
+    },
+});

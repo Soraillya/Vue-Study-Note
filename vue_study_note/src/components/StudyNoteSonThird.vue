@@ -35,7 +35,8 @@ export default {
         };
     },
     computed: {
-        ...mapState(["vc3"]),
+        // ...mapState(["vc3"]),
+        ...mapState("counter", ["vc3"]),
     },
     methods: {
         changeSource(index) {
@@ -44,12 +45,14 @@ export default {
         },
         oddPlusOne() {
             console.log("① Dispatch 按钮的点击事件触发了 $store.dispatch('oddPlusOne') ！");
-            this.$store.dispatch("oddPlusOne");
+            // this.$store.dispatch("oddPlusOne");
+            this.$store.dispatch("counter/oddPlusOne");
             console.log("① Dispatch End！");
         },
         oddMinusOne() {
             console.log("① Dispatch 按钮的点击事件触发了 $store.dispatch('oddMinusOne') ！");
-            this.$store.dispatch("oddMinusOne");
+            // this.$store.dispatch("oddMinusOne");
+            this.$store.dispatch("counter/oddMinusOne");
             console.log("① Dispatch End！");
         },
     },

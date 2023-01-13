@@ -240,40 +240,45 @@
         </div>
         <hr />
         <h1>十六、vuex 插件</h1>
-        <h2>
-            1. 概念：专门在Vue中实现集中式状态（数据）管理的一个Vue插件，对vue应用中多个组件的共享状态进行集中式管理（读/写），也是一种组件间通信的方式，且适用于任意组件间通信。
-        </h2>
+        <h2>1. 概念</h2>
+        <p>专门在Vue中实现集中式状态（数据）管理的一个Vue插件，对vue应用中多个组件的共享状态进行集中式管理（读/写），也是一种组件间通信的方式，且适用于任意组件间通信。</p>
         <h2>2. 什么时候用？</h2>
-        <h3>2.1 多个组件依赖于同一个状态</h3>
-        <h3>2.2 来自不同组件的行为需要变更同一状态</h3>
+        <p>① 多个组件依赖于同一个状态</p>
+        <p>② 来自不同组件的行为需要变更同一状态</p>
         <h2>3. 工作原理图</h2>
         <img src="../assets/image/vuex.png" alt="vuex工作原理" />
         <h3>3.1 工作流程</h3>
-        <h4>① VC-->Actions: vc 触发事件后调用 this.$store.dispatch("actionName", ...params) 进入 Actions</h4>
-        <h4>② Actions-->Mutations: actionName(context, ...params) 中完成了复杂业务逻辑操作(如发出网络请求)后，再调用context.commit("mutationName", ...params) 进入 Mutations</h4>
-        <h4>③ Mutations-->State: mutationName(state, ...params) 中完成了对数据最后的赋值处理，即修改了state(状态)</h4>
-        <h4>④ State-->VC: 最终store中的state响应到VC上，this.$store.state 进行页面渲染</h4>
+        <p>① VC-->Actions: vc 触发事件后调用 this.$store.dispatch("actionName", ...params) 进入 Actions</p>
+        <p>② Actions-->Mutations: actionName(context, ...params) 中完成了复杂业务逻辑操作(如发出网络请求)后，再调用context.commit("mutationName", ...params) 进入 Mutations</p>
+        <p>③ Mutations-->State: mutationName(state, ...params) 中完成了对数据最后的赋值处理，即修改了state(状态)</p>
+        <p>④ State-->VC: 最终store中的state响应到VC上，this.$store.state 进行页面渲染</p>
         <h3>3.2 配置</h3>
-        <h4>① 创建 src/store/index.js ，存储Vue配置项store</h4>
-        <h4>② 配置文件store(index.js)中，导入包 Vue 和 Vuex</h4>
-        <h4>③ store 使用插件 Vue.use(Vuex), 此步骤需在将store配置项被导入并添加到Vue实例之前完成，因此只能在store中完成</h4>
-        <h4>④ store 添加配置项 actions(业务逻辑), mutations(状态/数据处理), state(状态/数据), getters(进一步加工state, 相当于computed)</h4>
-        <h4>⑤ 导出store实例对象，export default new Vuex.Store({ actions, mutations, state, getters, ...})</h4>
-        <h4>⑥ vm 导入配置文件，在 Vue 实例中添加 store 配置项</h4>
+        <p>① 创建 src/store/index.js ，存储Vue配置项store</p>
+        <p>② 配置文件store(index.js)中，导入包 Vue 和 Vuex</p>
+        <p>③ store 使用插件 Vue.use(Vuex), 此步骤需在将store配置项被导入并添加到Vue实例之前完成，因此只能在store中完成</p>
+        <p>④ store 添加配置项 actions(业务逻辑), mutations(状态/数据处理), state(状态/数据), getters(进一步加工state, 相当于computed)</p>
+        <p>⑤ 导出store实例对象，export default new Vuex.Store({ actions, mutations, state, getters, ...})</p>
+        <p>⑥ vm 导入配置文件，在 Vue 实例中添加 store 配置项</p>
         <h3>3.3 vc中的代码优化: import {mapXXXX} from "vuex", 借助 map 生成 store 中的数据与方法</h3>
         <h4>3.3.1 写法：...mapXXX({ xxx1 : "xxx1", xxx2 : "xxx2" }) 或 ...mapXXX([ "xxx1", "xxx2" ])</h4>
         <h4>3.3.2 mapState / mapGetters: 适合在 vc 的 computed 中 添加</h4>
         <h4>3.3.3 mapActions / mapMutations: 适合在 vc 的 methods 中 添加 ，需要注意默认传参为触发onClick调用函数时的传参</h4>
         <h4>3.3.4 注意：使用对象写法，不能简写为 ...mapXXX({ xxx }), 此写法等同 ...mapXXX({ xxx : xxx }), 而 xxx 通常是一个未定义的变量而不是字符串！</h4>
         <h2>4. 数字控制器案例，拆分到多个组件中</h2>
-        <p style="text-align: center; font-size: 40px; font-weight: 5000">当前数字: {{ sum }}</p>
-        <p style="text-align: center; font-size: 40px; font-weight: 5000">当前数字放大十倍: {{ bigSum }}</p>
+        <p class="counter-header">当前数字: {{ sum }}</p>
+        <p class="counter-header">当前数字放大十倍: {{ bigSum }}</p>
+        <p class="counter-header">{{ content }}</p>
+        <button @click="getContent">来点儿</button>
         <div class="container">
             <StudyNoteSonFirst :isVuex="true" />
             <StudyNoteSonSecond :isVuex="true" />
             <StudyNoteSonThird :isVuex="true" />
         </div>
         <hr />
+
+        <div class="faker">
+            <div class="fake"></div>
+        </div>
         <hr />
         <!-- <div class="show-messge" v-show="$store.state.isPopup">{{ $store.state.popupMsg }}</div> -->
         <input ref="bottom" type="text" />
@@ -291,7 +296,7 @@ import { date } from "../common/js/common.js";
 import { nanoid } from "nanoid";
 import axios from "axios";
 import "animate.css";
-import { mapGetters, mapState } from "vuex";
+import { mapGetters, mapState, mapActions, mapMutations } from "vuex";
 
 export default {
     name: "StudyNote",
@@ -337,13 +342,50 @@ export default {
     computed: {
         // 优化代码，不使用 this.$store.state 以及 this.$store.getters 这种麻烦的方法获取
         // mapState 与 mapGetters 取出 store 中的 state 与 getters
-        ...mapState({ sum: "sum" }), // 写法一，对象
-        ...mapGetters(["bigSum"]), // 写法二，数组
+        // ...mapState({ sum: "sum" }), // 写法一，对象
+        // ...mapGetters( ["bigSum"]), // 写法二，数组
+        ...mapState("counter", { sum: "sum" }), // 写法一，对象
+        ...mapGetters("counter", ["bigSum"]), // 写法二，数组
+
+        // 来点语句
+        ...mapGetters("content", { content: "welcomeAndContent" }),
     },
     methods: {
         getDOMByRef(ref) {
             console.log("this.$refs:", this.$refs);
             console.log("this.$refs['" + ref + "']:", this.$refs[ref]);
+        },
+
+        // debounce 防抖，连续触发，但最后一次触发后一定时间内不再触发时，执行
+        debounce(fn, timeout) {
+            var timer;
+            return function () {
+                if (timer) {
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(() => {
+                    console.log("执行");
+                    fn();
+                }, timeout);
+            };
+        },
+
+        // throtting 节流，多次点击，但一定时间内只能执行一次搜索操作
+        throtting(fn, timeout) {
+            var valid = true;
+            console.log("hello");
+            return function () {
+                if (!valid) {
+                    console.log("节流！！");
+                    return false;
+                }
+                valid = false;
+                console.log("执行！");
+                fn();
+                setTimeout(function () {
+                    valid = true;
+                }, timeout);
+            };
         },
         saveLocalStorage() {
             window.localStorage.setItem(this.localStorageKey, this.localStorageValue);
@@ -438,6 +480,7 @@ export default {
             console.log(this.x.plusTwo());
             this.x.printCount();
         },
+        ...mapActions("content", ["getContent"]),
     },
     mixins: [date],
     mounted() {
@@ -539,5 +582,51 @@ button {
 }
 .container > div {
     box-shadow: 1px 1px 8px pink;
+}
+
+.counter-header {
+    padding: 0;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 5000;
+}
+
+.faker {
+    /* margin: 0;
+    padding: 0; */
+    width: 500px;
+    height: 500px;
+    background-color: aquamarine;
+}
+
+.fake {
+    width: 300px;
+    height: 300px;
+    background-color: pink;
+    position: relative;
+}
+
+.fake::before {
+    content: "";
+    width: 150px;
+    height: 50px;
+    background-color: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.fake::after {
+    content: "";
+    width: 100px;
+    height: 100px;
+    background-color: blue;
+    position: absolute;
+    /* 水平垂直居中：长宽未知 */
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    /* 水平垂直居中：长宽已知 */
+    /* top: calc(50% - 50px); */
+    /* left: calc(50% - 50px); */
 }
 </style>

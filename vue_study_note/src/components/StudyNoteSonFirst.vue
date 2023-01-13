@@ -49,7 +49,8 @@ export default {
         };
     },
     computed: {
-        ...mapState({ vc1: "vc1" }),
+        ...mapState("counter", { vc1: "vc1" }),
+        // ...mapState({ vc1: "vc1" }),
         //不能简写为 ...mapState({ vc1 }), 这代表着...mapState({ vc1:vc1 })，而赋值需要一个字符串而不是一个未定义的变量名！
     },
     methods: {
@@ -74,7 +75,8 @@ export default {
         vuexPlus() {
             // 此处为完整流程 ① Dispatch --> Actions
             console.log("① Dispatch 按钮的点击事件触发了 $store.dispatch('plus', this.n) ！");
-            this.$store.dispatch("plus", this.n);
+            // this.$store.dispatch("plus", this.n);
+            this.$store.dispatch("counter/plus", this.n);
             console.log("① Dispatch End！");
         },
     },

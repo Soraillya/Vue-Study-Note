@@ -29,6 +29,7 @@ h1,
 h2,
 h3,
 h4,
+h5,
 p,
 hr {
     margin: 16px auto;
@@ -39,16 +40,23 @@ h1 {
 }
 h2 {
     font-size: 2.4rem;
-    padding-left: 2em;
+    padding-left: 2rem;
 }
 h3 {
     font-size: 2rem;
-    padding-left: 4em;
+    padding-left: 4rem;
 }
-h4,
+h4 {
+    font-size: 1.6rem;
+    padding-left: 6rem;
+}
+h5 {
+    font-size: 1.6rem;
+    padding-left: 7rem;
+}
 p {
     font-size: 1.6rem;
-    padding-left: 6em;
+    padding-left: 8rem;
 }
 b,
 strong,

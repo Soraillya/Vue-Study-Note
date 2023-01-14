@@ -11,6 +11,7 @@
             <button @click="oddPlusOne">数字为奇数时 + 1</button>
             <button @click="oddMinusOne">数字为偶数时 - 1</button>
         </div>
+        <h1 v-show="isRouter">我是组件三</h1>
     </div>
 </template>
 
@@ -25,6 +26,7 @@ export default {
         isScoped: Boolean,
         isSlot: Boolean,
         isVuex: Boolean,
+        isRouter: Boolean,
     },
 
     data() {

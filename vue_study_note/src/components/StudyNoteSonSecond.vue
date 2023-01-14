@@ -18,6 +18,7 @@
             </select>
             <button @click="vuexMinus" style="font-size: large">&nbsp;&nbsp;-&nbsp;&nbsp;</button>
         </div>
+        <h1 v-show="isRouter">我是组件二</h1>
     </div>
 </template>
 
@@ -31,6 +32,7 @@ export default {
         isScoped: Boolean,
         isSlot: Boolean,
         isVuex: Boolean,
+        isRouter: Boolean,
     },
     data() {
         return {

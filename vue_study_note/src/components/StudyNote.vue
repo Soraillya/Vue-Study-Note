@@ -239,9 +239,11 @@
             </StudyNoteSonThird>
         </div>
         <hr />
-        <h1>十六、vuex 插件</h1>
+
+        <h1>十六、共享状态管理模式 Vuex 插件</h1>
         <h2>1. 概念</h2>
-        <p>专门在Vue中实现集中式状态（数据）管理的一个Vue插件，对vue应用中多个组件的共享状态进行集中式管理（读/写），也是一种组件间通信的方式，且适用于任意组件间通信。</p>
+        <p>① 专门在Vue中实现集中式状态（数据）管理的一个Vue插件，对vue应用中多个组件的共享状态进行集中式管理（读/写），也是一种组件间通信的方式，且适用于任意组件间通信。</p>
+        <p>② 安装：vue2 安装 npm i vue@3; vue3 安装 npm i vuex@4 (默认版本)</p>
         <h2>2. 什么时候用？</h2>
         <p>① 多个组件依赖于同一个状态</p>
         <p>② 来自不同组件的行为需要变更同一状态</p>
@@ -276,9 +278,57 @@
         </div>
         <hr />
 
-        <div class="faker">
-            <div class="fake"></div>
+        <h1>十七、路由 Vue-router 插件</h1>
+        <h2>1. 概念</h2>
+        <h3>1.1 vue-router 的理解</h3>
+        <p>① vue 的一个插件库，专门用来实现 SPA 应用</p>
+        <p>② 安装：vue2 安装 npm i vue-router@3; vue3 安装 npm i vue-router@4 (默认版本)</p>
+        <h3>1.2 对 SPA 应用的理解</h3>
+        <p>① SPA: Single Page web Application 单页面应用</p>
+        <p>② 整个应用只有一个完整得页面</p>
+        <p>③ 点击页面中的导航链接不会刷新页面，只会做页面的局部更新。</p>
+        <p>④ 数据需要通过 ajax 请求获取</p>
+        <h3>1.3 对路由的理解</h3>
+        <h4>1.3.1 路由</h4>
+        <p>① 路由就是：一组 key--value 的对应关系</p>
+        <p>② key 为路径，value 可能是 function 或 VueComponent</p>
+        <p>③ 多个路由，需要经过路由器的管理，实现SPA</p>
+        <h4>1.3.2 路由的分类</h4>
+        <h5>1.3.2.1 后端路由</h5>
+        <p>① 理解：value 是 function，用于处理客户端提交的请求。</p>
+        <p>② 工作过程：服务器接收到一个请求时，根据请求路径找到匹配的函数来处理请求，返回响应数据。</p>
+        <h5>1.3.2.2 前端路由</h5>
+        <p>① 理解：value 是 VueComponent，用于展示页面内容。</p>
+        <p>② 工作过程：当浏览器的路径改变时，对应的组件就会显示。</p>
+
+        <h2>案例</h2>
+        <div class="iphone-app">
+            <ul class="iphone-app-nav">
+                <li>
+                    <router-link active-class="active" to="/StudyNoteSonFirst">
+                        <div>组件一</div>
+                    </router-link>
+                </li>
+                <li>
+                    <router-link active-class="active" to="/StudyNoteSonSecond">
+                        <div>组件二</div>
+                    </router-link>
+                </li>
+                <li>
+                    <router-link active-class="active" to="/StudyNoteSonThird">
+                        <div>组件三</div>
+                    </router-link>
+                </li>
+            </ul>
+            <div class="iphone-app-section">
+                <router-view :isRouter="true"></router-view>
+            </div>
         </div>
+        <hr />
+
+        <!-- <div class="faker">
+            <div class="fake"></div>
+        </div> -->
         <hr />
         <!-- <div class="show-messge" v-show="$store.state.isPopup">{{ $store.state.popupMsg }}</div> -->
         <input ref="bottom" type="text" />
@@ -604,6 +654,7 @@ button {
     height: 300px;
     background-color: pink;
     position: relative;
+    opacity: 0.2;
 }
 
 .fake::before {
@@ -612,21 +663,70 @@ button {
     height: 50px;
     background-color: black;
     position: absolute;
-    top: 0;
-    left: 0;
+    /* top: 0; */
+    /* left: 0; */
+    opacity: 1;
 }
 .fake::after {
     content: "";
-    width: 100px;
+    width: 50px;
     height: 100px;
     background-color: blue;
     position: absolute;
     /* 水平垂直居中：长宽未知 */
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
+    /* transform: translate(-50%, -50%); */
+    /* top: 50%; */
+    /* left: 50%; */
     /* 水平垂直居中：长宽已知 */
     /* top: calc(50% - 50px); */
     /* left: calc(50% - 50px); */
+}
+
+/* vue-router 案例 */
+.iphone-app {
+    width: 40rem;
+    height: 24rem;
+    margin: 0 auto;
+    box-shadow: 1px 1px 4px #2c3e50;
+    display: flex;
+    flex-flow: column nowrap;
+}
+.iphone-app-nav {
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+    position: relative;
+}
+
+.iphone-app-nav > li {
+    align-items: center;
+    flex: 1;
+    border-bottom: 1px solid #95a5a6;
+}
+.iphone-app-nav > li > a {
+    text-decoration: none;
+}
+.iphone-app-nav > li > a:visited {
+    color: #2c3e50;
+}
+
+.iphone-app-nav > li > a > div {
+    font-size: 2.4rem;
+    height: 6.4rem;
+    line-height: 6.4rem;
+    cursor: pointer;
+}
+
+.iphone-app-nav > li > a > div:hover {
+    border-bottom: 2px solid #62bdfa;
+    color: #62bdfa;
+}
+.active > div {
+    border-bottom: 2px solid #62bdfa;
+    color: #62bdfa;
+}
+
+.iphone-app-section {
+    flex: 1;
 }
 </style>

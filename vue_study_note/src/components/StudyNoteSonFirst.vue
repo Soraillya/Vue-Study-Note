@@ -22,6 +22,7 @@
             </select>
             <button @click="vuexPlus" style="font-size: large">&nbsp;&nbsp;+&nbsp;&nbsp;</button>
         </div>
+        <h1 v-show="isRouter">我是组件一</h1>
     </div>
 </template>
 
@@ -41,6 +42,7 @@ export default {
         isBus: Boolean,
         isSlot: Boolean,
         isVuex: Boolean,
+        isRouter: Boolean,
     },
     data() {
         return {
@@ -79,6 +81,12 @@ export default {
             this.$store.dispatch("counter/plus", this.n);
             console.log("① Dispatch End！");
         },
+    },
+    mounted() {
+        console.log("组件一StudyNoteSonFirst挂载完毕！");
+    },
+    beforeDestroy() {
+        console.log("组件一StudyNoteSonFirst即将被销毁！");
     },
 };
 </script>

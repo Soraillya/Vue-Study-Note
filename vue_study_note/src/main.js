@@ -15,13 +15,16 @@ import Vue from "vue"; // 引入Vue
 // import Vuex from "vuex"; // 安装vuex插件！插件的引入不在此处，直接上升到store配置中
 import App from "./App.vue"; // 引入App组件，它是所有组件的父组件
 import Plugins from "./common/js/plugins.js"; //引入插件
-import store from "./store"; // 引入Vuex的store配置，此处引入顺序必须在Vue.use(Vuex)之后，而import语句会在顺序上提升
+import store from "./store"; // 引入 Vuex的store 配置，此处引入顺序必须在 Vue.use(Vuex) 之后，而import语句会在顺序上提升
+import VueRouter from "vue-router"; // 安装 vue-router 插件！
+import router from "./router"; // 引入 VueRouter 的 router 配置
 
 // 关闭Vue的生产提示
 Vue.config.productionTip = false;
 
 // 使用插件
 Vue.use(Plugins, 1, 2, 3);
+Vue.use(VueRouter);
 // Vue.use(VueResource);
 // Vue.use(Vuex); // 插件的使用不在此处，直接上升到store配置中
 
@@ -35,9 +38,15 @@ new Vue({
 
     // 使用了Vuex插件，所有的vm和vc都可以添加store配置项
     // store: {
-    //     vuexMsg: "Hello world! --From store of Vuex",
+    //     actions, mutations, state, getters
     // },
     store,
+
+    // 使用了VueRouter插件，所有的vm和vc都可以添加router配置项
+    // router: {
+    //     actions, mutations, state, getters
+    // },
+    router,
 
     beforeCreate() {
         // 安装全局事件总线

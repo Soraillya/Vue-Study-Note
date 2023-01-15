@@ -18,7 +18,7 @@
             </select>
             <button @click="vuexMinus" style="font-size: large">&nbsp;&nbsp;-&nbsp;&nbsp;</button>
         </div>
-        <h1 v-show="isRouter">我是组件二</h1>
+        <h1 v-show="isRouter" style="text-align: center">我是组件二</h1>
     </div>
 </template>
 
@@ -65,5 +65,10 @@ export default {
     width: 300px;
     height: 400px;
     margin: 0 auto;
+}
+p {
+    padding: 0;
+    margin: 0 auto;
+    text-align: center;
 }
 </style>

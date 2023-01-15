@@ -11,7 +11,7 @@
             <button @click="oddPlusOne">数字为奇数时 + 1</button>
             <button @click="oddMinusOne">数字为偶数时 - 1</button>
         </div>
-        <h1 v-show="isRouter">我是组件三</h1>
+        <h1 v-show="isRouter" style="text-align: center">我是组件三</h1>
     </div>
 </template>
 
@@ -69,5 +69,10 @@ export default {
     width: 300px;
     height: 400px;
     margin: 0 auto;
+}
+p {
+    padding: 0;
+    margin: 0 auto;
+    text-align: center;
 }
 </style>

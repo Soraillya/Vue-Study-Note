@@ -304,20 +304,9 @@
         <h2>案例</h2>
         <div class="iphone-app">
             <ul class="iphone-app-nav">
-                <li>
-                    <router-link active-class="active" to="/StudyNoteSonFirst">
-                        <div>组件一</div>
-                    </router-link>
-                </li>
-                <li>
-                    <router-link active-class="active" to="/StudyNoteSonSecond">
-                        <div>组件二</div>
-                    </router-link>
-                </li>
-                <li>
-                    <router-link active-class="active" to="/StudyNoteSonThird">
-                        <div>组件三</div>
-                    </router-link>
+                <li v-for="component in components" :key="component.name">
+                    <!-- <router-link class="iphone-app-link" active-class="active" to="/StudyNoteSonFirst">组件一</router-link> -->
+                    <router-link class="iphone-app-link" active-class="active" :to="'/' + component.name"> {{ component.content }} </router-link>
                 </li>
             </ul>
             <div class="iphone-app-section">
@@ -336,11 +325,11 @@
 </template>
 
 <script>
-import StudyNoteSonFirst from "./StudyNoteSonFirst.vue";
-import StudyNoteSonSecond from "./StudyNoteSonSecond.vue";
-import StudyNoteSonThird from "./StudyNoteSonThird.vue";
-import TodoList from "./TodoList.vue";
-import GetGitHubUserList from "./GetGitHubUserList.vue";
+import StudyNoteSonFirst from "./StudyNoteComponents/StudyNoteSonFirst.vue";
+import StudyNoteSonSecond from "./StudyNoteComponents/StudyNoteSonSecond.vue";
+import StudyNoteSonThird from "./StudyNoteComponents/StudyNoteSonThird.vue";
+import TodoList from "./StudyNoteComponents/TodoList.vue";
+import GetGitHubUserList from "./StudyNoteComponents/GetGitHubUserList.vue";
 
 import { date } from "../common/js/common.js";
 import { nanoid } from "nanoid";
@@ -373,6 +362,11 @@ export default {
     data() {
         return {
             msg: "Hello StudyNote",
+            components: [
+                { name: "StudyNoteSonFirst", content: "组件一" },
+                { name: "StudyNoteSonSecond", content: "组件二" },
+                { name: "StudyNoteSonThird", content: "组件三" },
+            ],
             myName: this.name,
             mySex: this.sex,
             myAge: this.age,
@@ -685,7 +679,7 @@ button {
 /* vue-router 案例 */
 .iphone-app {
     width: 40rem;
-    height: 24rem;
+    /* height: 24rem; */
     margin: 0 auto;
     box-shadow: 1px 1px 4px #2c3e50;
     display: flex;
@@ -701,32 +695,32 @@ button {
 .iphone-app-nav > li {
     align-items: center;
     flex: 1;
-    border-bottom: 1px solid #95a5a6;
-}
-.iphone-app-nav > li > a {
-    text-decoration: none;
-}
-.iphone-app-nav > li > a:visited {
-    color: #2c3e50;
 }
 
-.iphone-app-nav > li > a > div {
+.iphone-app-link {
+    display: block;
+    text-decoration: none;
     font-size: 2.4rem;
     height: 6.4rem;
     line-height: 6.4rem;
+    border-bottom: 2px solid #95a5a6;
     cursor: pointer;
 }
+.iphone-app-link:visited {
+    text-decoration: none;
+    color: #2c3e50;
+}
 
-.iphone-app-nav > li > a > div:hover {
+.iphone-app-link:hover {
     border-bottom: 2px solid #62bdfa;
     color: #62bdfa;
 }
-.active > div {
+.active,
+.active:visited {
     border-bottom: 2px solid #62bdfa;
     color: #62bdfa;
 }
-
-.iphone-app-section {
-    flex: 1;
-}
+/* .active:visited {
+    color: #62bdfa;
+} */
 </style>

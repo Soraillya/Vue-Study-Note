@@ -64,9 +64,15 @@ div,
 span {
     font-size: 1.6rem;
 }
+a:link,
+a:hover,
+a:active,
 a:visited {
-    color: pink;
     text-decoration: none;
+    color: #2c3e50;
+}
+a:hover {
+    cursor: pointer;
 }
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;

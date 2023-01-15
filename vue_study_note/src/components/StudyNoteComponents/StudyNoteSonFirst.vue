@@ -22,11 +22,39 @@
             </select>
             <button @click="vuexPlus" style="font-size: large">&nbsp;&nbsp;+&nbsp;&nbsp;</button>
         </div>
-        <h1 v-show="isRouter">我是组件一</h1>
+        <div v-show="isRouter">
+            <h1 style="text-align: center">我是组件一</h1>
+            <hr style="margin: 0" />
+            <div class="router-container">
+                <ul class="router-nav">
+                    <li v-for="tab in tabs" :key="tab.name">
+                        <!-- <router-link class="router-tab" to="/StudyNoteSonFirst/FirstChild?id=666&name=Sb" active-class="router-nav-active"> -->
+                        <!-- <router-link class="router-tab" :to="`/StudyNoteSonFirst/${tab.componentName}?msg=${tab.msg}`" active-class="router-nav-active"> -->
+                        <router-link
+                            class="router-tab"
+                            :to="{
+                                path: '/StudyNoteSonFirst/' + tab.componentName,
+                                query: {
+                                    msg: tab.msg,
+                                    hello: 'Hello World',
+                                },
+                            }"
+                            active-class="router-nav-active"
+                        >
+                            {{ tab.name }}
+                        </router-link>
+                    </li>
+                </ul>
+                <div class="router-section">
+                    <router-view></router-view>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+import VueRouter from "vue-router";
 import { nanoid } from "nanoid";
 import { mapState } from "vuex";
 
@@ -48,6 +76,11 @@ export default {
         return {
             message: this.msg,
             n: 1,
+            tabs: [
+                { name: "First", componentName: "FirstChild", msg: "组件一信息" },
+                { name: "Second", componentName: "SecondChild", msg: "组件二信息" },
+                { name: "Third", componentName: "ThirdChild", msg: "组件三信息" },
+            ],
         };
     },
     computed: {
@@ -106,5 +139,61 @@ export default {
     width: 300px;
     height: 400px;
     margin: 0 auto;
+}
+
+p {
+    padding: 0;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.router-container {
+    width: 100%;
+    padding: 8px 0;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+.router-nav {
+    padding: 0 8px;
+    display: flex;
+    flex-flow: column nowrap;
+    list-style: none;
+}
+.router-tab {
+    width: 10rem;
+    height: 3.6rem;
+    font-weight: lighter;
+    line-height: 3.6rem;
+    border: 1px solid rgb(212, 212, 212);
+    border-bottom: none;
+    display: block;
+    text-decoration: none;
+}
+
+.router-tab:hover {
+    cursor: pointer;
+    color: #ffffff;
+    background-color: rgb(82, 136, 187);
+}
+.router-nav > li:first-child > .router-tab {
+    border-radius: 6px 6px 0px 0px;
+}
+
+.router-nav > li:last-child > .router-tab {
+    border-radius: 0px 0px 6px 6px;
+    border-bottom: 1px solid rgb(212, 212, 212);
+}
+
+.router-nav-active,
+.router-nav-active:visited {
+    color: #ffffff;
+    background-color: rgb(82, 136, 187);
+}
+
+.router-section {
+    padding: 0 8px;
+    display: flex;
+    flex: 1;
 }
 </style>

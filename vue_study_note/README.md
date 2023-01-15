@@ -1,5 +1,24 @@
 # vue_study_note
 
+## Get Config
+
+```
+npm config get registry
+
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+
+npm ---- https://registry.npmjs.org/
+cnpm --- http://r.cnpmjs.org/
+taobao - https://registry.npmmirror.com
+edunpm - http://registry.enpmjs.org/
+eu ----- http://registry.npmjs.eu/
+au ----- http://registry.npmjs.org.au/
+sl ----- http://npm.strongloop.com/
+nj ----- https://registry.nodejitsu.com/
+pt ----- http://registry.npmjs.pt/
+
+```
+
 ## Project setup
 
 ```

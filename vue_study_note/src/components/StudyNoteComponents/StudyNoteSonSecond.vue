@@ -1,13 +1,13 @@
 <template>
     <div>
-        <b v-show="isRef">{{ message }}</b>
-        <b v-show="isScoped" class="message">{{ message }}</b>
-        <div class="slot" v-show="isSlot">
+        <b v-if="isRef">{{ message }}</b>
+        <b v-if="isScoped" class="message">{{ message }}</b>
+        <div class="slot" v-if="isSlot">
             <slot name="source"> 这里是插槽source！如果使用者没有传入具体结构，则会显示这条信息！</slot>
             <slot name="title"> 这里是插槽title！如果使用者没有传入具体结构，则会显示这条信息！</slot>
             <slot>这里是多余的插槽！</slot>
         </div>
-        <div v-show="isVuex">
+        <div v-if="isVuex">
             <h1>{{ vc2 }}</h1>
             <select v-model.number="n" style="width: 80px; font-size: larger">
                 <option v-for="i in 10" :value="i" :key="i">{{ i }}</option>
@@ -18,7 +18,12 @@
             </select>
             <button @click="vuexMinus" style="font-size: large">&nbsp;&nbsp;-&nbsp;&nbsp;</button>
         </div>
-        <h1 v-show="isRouter" style="text-align: center">我是组件二</h1>
+        <div v-if="isRouter">
+            <h1 style="text-align: center">我是组件二</h1>
+            <hr />
+            <h2>{{ routeHelloTwo }}</h2>
+            <h2>{{ routeMsgTwo }}</h2>
+        </div>
     </div>
 </template>
 
@@ -33,6 +38,8 @@ export default {
         isSlot: Boolean,
         isVuex: Boolean,
         isRouter: Boolean,
+        routeHelloTwo: String,
+        routeMsgTwo: String,
     },
     data() {
         return {

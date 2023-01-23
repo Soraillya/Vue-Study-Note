@@ -287,6 +287,7 @@
         <p>① SPA: Single Page web Application 单页面应用</p>
         <p>② 整个应用只有一个完整得页面</p>
         <p>③ 点击页面中的导航链接不会刷新页面，只会做页面的局部更新。</p>
+        \
         <p>④ 数据需要通过 ajax 请求获取</p>
         <h3>1.3 对路由的理解</h3>
         <h4>1.3.1 路由</h4>
@@ -304,9 +305,26 @@
         <h2>案例</h2>
         <div class="iphone-app">
             <ul class="iphone-app-nav">
-                <li v-for="component in components" :key="component.name">
-                    <!-- <router-link class="iphone-app-link" active-class="active" to="/StudyNoteSonFirst">组件一</router-link> -->
-                    <router-link class="iphone-app-link" active-class="active" :to="'/' + component.name"> {{ component.content }} </router-link>
+                <li>
+                    <router-link class="iphone-app-link" active-class="active" to="/StudyNoteSonFirst"> 组件一 </router-link>
+                </li>
+                <li>
+                    <router-link
+                        class="iphone-app-link"
+                        active-class="active"
+                        :to="{
+                            path: '/StudyNoteSonSecond',
+                            query: {
+                                routeHelloTwo: 'routeHelloTwo Hello World From Query!',
+                                routeMsgTwo: 'routeMsgTwo From Query!',
+                            },
+                        }"
+                    >
+                        组件二
+                    </router-link>
+                </li>
+                <li>
+                    <router-link class="iphone-app-link" active-class="active" to="/StudyNoteSonThird"> 组件三 </router-link>
                 </li>
             </ul>
             <div class="iphone-app-section">

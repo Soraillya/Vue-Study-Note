@@ -1,17 +1,17 @@
 <template>
     <div>
-        <b v-show="isRef">{{ message }}</b>
-        <b v-show="isScoped" class="message">{{ message }}</b>
-        <div class="slot" v-show="isSlot">
+        <b v-if="isRef">{{ message }}</b>
+        <b v-if="isScoped" class="message">{{ message }}</b>
+        <div class="slot" v-if="isSlot">
             <slot :source="source" :title="title"> 这里是插槽！如果使用者没有传入具体结构，则会显示这条信息！</slot>
             <p>插槽三</p>
         </div>
-        <div v-show="isVuex">
+        <div v-if="isVuex">
             <h1>{{ vc3 }}</h1>
             <button @click="oddPlusOne">数字为奇数时 + 1</button>
             <button @click="oddMinusOne">数字为偶数时 - 1</button>
         </div>
-        <h1 v-show="isRouter" style="text-align: center">我是组件三</h1>
+        <h1 v-if="isRouter" style="text-align: center">我是组件三</h1>
     </div>
 </template>
 

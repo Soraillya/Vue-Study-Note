@@ -1,18 +1,21 @@
 <template>
     <div class="root">
-        <p>{{ msg }}</p>
+        <p>{{ titleMsg }}</p>
         <p>嵌套路由展示三</p>
-        <p>$route.query.msg: {{ $route.query.msg }}</p>
-        <p>$route.query.hello: {{ $route.query.hello }}</p>
+        <!-- <p>$route.query.msg: {{ $route.query.msg }}</p> -->
+        <!-- <p>$route.query.hello: {{ $route.query.hello }}</p> -->
+        <p>$route.query.msg: {{ msg }}</p>
+        <p>$route.query.hello: {{ hello }}</p>
     </div>
 </template>
 
 <script>
 export default {
     name: "ThirdChild",
+    props: ["msg", "hello"], // 此处通过route中的props配置项获取
     data() {
         return {
-            msg: "StudyNoteSonFirst - Third Child",
+            titleMsg: "StudyNoteSonFirst - Third Child",
         };
     },
 };

@@ -19,6 +19,18 @@ export default new VueRouter({
     routes: [
         {
             // http://localhost:8080/#/StudyNoteSonFirst
+
+            // 命名路由，在跳转链接使用的时候不需要填写完整路由，直接写name，不可且不推荐重复
+            // 但是需要给to配置完整对象形式：
+            // to = "{
+            //  name: "StudyNoteSonFirst",
+            //  query: {
+            //    query1 : "q1",
+            //    query2 : "q2"
+            //  }
+            // }"
+            name: "StudyNoteSonFirst",
+
             path: "/StudyNoteSonFirst",
             component: StudyNoteSonFirst,
 
@@ -34,14 +46,42 @@ export default new VueRouter({
                     component: SecondChild,
                 },
                 {
+                    // 路由的params参数 ==> "localhost:8080/StudyNoteSonFirst/ThirdChild/组件三信息/Hello World!"
+                    // path: "ThirdChild/:msg/:hello",
                     path: "ThirdChild",
                     component: ThirdChild,
+
+                    // props: 接收多个key:value, 该对象中的所有kv都会以props的形式传给组件
+                    // props:{a:'a',b:'b',c:'c'} // 写法一，用的很少，因为键值写死
+                    // 第二写法，值为布尔值，若为true，就会把该路由组件收到的所有 params 参数以 props 形式传给组件
+                    // props: true,
+
+                    //第三写法，值为回调函数，固定传参为 $route
+                    // props($route){
+                    //     return {
+                    //         msg: $route.query.msg,
+                    //         hello: $route.query.hello,
+                    //     }
+                    // }
+                    // 连续解构赋值，但代码可阅读性较差
+                    props({ query: { msg, hello } }) {
+                        return {
+                            msg,
+                            hello,
+                        };
+                    },
                 },
             ],
         },
         {
             path: "/StudyNoteSonSecond",
             component: StudyNoteSonSecond,
+            props({ query: { routeHelloTwo, routeMsgTwo } }) {
+                return {
+                    routeHelloTwo,
+                    routeMsgTwo,
+                };
+            },
         },
         {
             path: "/StudyNoteSonThird",

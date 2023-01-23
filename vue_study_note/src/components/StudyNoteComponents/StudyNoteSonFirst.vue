@@ -1,17 +1,17 @@
 <template>
     <div>
-        <b v-show="isRef">{{ message }}</b>
-        <b v-show="isScoped" class="message">{{ message }}</b>
-        <button v-show="isEmit" @click="emitDefVOnEvent">点我触发</button>
-        <button v-show="isOff" @click="emitDefVOnEvent">点我触发</button>
-        <button v-show="isOff" @click="unbindDefVOnEvent">点我解绑</button>
-        <div class="native" v-show="isNative">点我触发组件上的原生click事件</div>
-        <button v-show="isBus" @click="clickMeToSayNanoid">Get a new nanoid</button>
-        <div class="slot" v-show="isSlot">
+        <b v-if="isRef">{{ message }}</b>
+        <b v-if="isScoped" class="message">{{ message }}</b>
+        <button v-if="isEmit" @click="emitDefVOnEvent">点我触发</button>
+        <button v-if="isOff" @click="emitDefVOnEvent">点我触发</button>
+        <button v-if="isOff" @click="unbindDefVOnEvent">点我解绑</button>
+        <div class="native" v-if="isNative">点我触发组件上的原生click事件</div>
+        <button v-if="isBus" @click="clickMeToSayNanoid">Get a new nanoid</button>
+        <div class="slot" v-if="isSlot">
             <slot> 这里是插槽！如果使用者没有传入具体结构，则会显示这条信息！</slot>
             <p>插槽一</p>
         </div>
-        <div v-show="isVuex">
+        <div v-if="isVuex">
             <h1>{{ vc1 }}</h1>
             <select v-model.number="n" style="width: 80px; font-size: larger">
                 <option :value="1">1</option>
@@ -22,13 +22,16 @@
             </select>
             <button @click="vuexPlus" style="font-size: large">&nbsp;&nbsp;+&nbsp;&nbsp;</button>
         </div>
-        <div v-show="isRouter">
+        <div v-if="isRouter">
             <h1 style="text-align: center">我是组件一</h1>
             <hr style="margin: 0" />
             <div class="router-container">
                 <ul class="router-nav">
                     <li v-for="tab in tabs" :key="tab.name">
-                        <!-- <router-link class="router-tab" to="/StudyNoteSonFirst/FirstChild?id=666&name=Sb" active-class="router-nav-active"> -->
+                        <!-- 添加了replace属性，无痕浏览。push模式下浏览器的历史纪录压栈，而replace模式下浏览，则是替换上一个记录 -->
+                        <!-- 例如浏览顺序：组件一 => 组件二 => 组件一 => First => Second => Third, 点后退则回到组件二而不是Second -->
+                        <!-- <router-link replace class="router-tab" to="/StudyNoteSonFirst/FirstChild?id=666&name=Sb" active-class="router-nav-active"> -->
+                        <!-- <router-link class="router-tab" to="/StudyNoteSonFirst/ThirdChild/666/Sb" active-class="router-nav-active"> -->
                         <!-- <router-link class="router-tab" :to="`/StudyNoteSonFirst/${tab.componentName}?msg=${tab.msg}`" active-class="router-nav-active"> -->
                         <router-link
                             class="router-tab"
@@ -39,6 +42,7 @@
                                     hello: 'Hello World',
                                 },
                             }"
+                            replace
                             active-class="router-nav-active"
                         >
                             {{ tab.name }}
@@ -54,7 +58,6 @@
 </template>
 
 <script>
-import VueRouter from "vue-router";
 import { nanoid } from "nanoid";
 import { mapState } from "vuex";
 
@@ -154,12 +157,14 @@ p {
     flex-flow: row nowrap;
     justify-content: space-between;
 }
+
 .router-nav {
     padding: 0 8px;
     display: flex;
     flex-flow: column nowrap;
     list-style: none;
 }
+
 .router-tab {
     width: 10rem;
     height: 3.6rem;

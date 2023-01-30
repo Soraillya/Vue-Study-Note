@@ -70,6 +70,7 @@ export default {
         todos: {
             deep: true,
             handler: function (val, oldVal) {
+                console.log(`val: ${val}, oldVal: ${oldVal}`);
                 window.localStorage.setItem("todos", JSON.stringify(val));
             },
         },

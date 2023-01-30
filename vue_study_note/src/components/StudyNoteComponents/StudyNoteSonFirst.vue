@@ -50,7 +50,9 @@
                     </li>
                 </ul>
                 <div class="router-section">
-                    <router-view></router-view>
+                    <keep-alive include="FirstChild">
+                        <router-view></router-view>
+                    </keep-alive>
                 </div>
             </div>
         </div>

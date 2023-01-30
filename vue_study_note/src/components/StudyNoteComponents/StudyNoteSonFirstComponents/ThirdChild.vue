@@ -6,6 +6,8 @@
         <!-- <p>$route.query.hello: {{ $route.query.hello }}</p> -->
         <p>$route.query.msg: {{ msg }}</p>
         <p>$route.query.hello: {{ hello }}</p>
+        <button>push查看</button>
+        <button>replace查看</button>
     </div>
 </template>
 
@@ -17,6 +19,14 @@ export default {
         return {
             titleMsg: "StudyNoteSonFirst - Third Child",
         };
+    },
+    methods: {
+        pushShow() {
+            this.$router.push({
+                
+            })
+        },
+        replaceShow() {},
     },
 };
 </script>

@@ -2,6 +2,7 @@
     <div>
         <h1 ref="refTitle">一、属性 ref</h1>
         <h2>1. 为标签添加ref属性，可轻松获得指定标签的DOM，方便操作</h2>
+        <p style="margin: 0; text-align: center">&lt;h1 ref="refTitle"&gt;一、属性 ref&lt;/h1&gt;</p>
         <button ref="refButton" @click="getDOMByRef('refTitle')">点我获取标题DOM</button>
         <h2>2. 为组件标签添加ref属性，可获得指定组件实例对象vc，方便操作</h2>
         <StudyNoteSonFirst msg="Hello StudyNoteSonFirst" :isRef="true" ref="SNSF_1" />
@@ -248,7 +249,7 @@
         <p>① 多个组件依赖于同一个状态</p>
         <p>② 来自不同组件的行为需要变更同一状态</p>
         <h2>3. 工作原理图</h2>
-        <img src="../assets/image/vuex.png" alt="vuex工作原理" />
+        <img src="../assets/image/vuex.png" width="500" height="400" alt="vuex工作原理" />
         <h3>3.1 工作流程</h3>
         <p>① VC-->Actions: vc 触发事件后调用 this.$store.dispatch("actionName", ...params) 进入 Actions</p>
         <p>② Actions-->Mutations: actionName(context, ...params) 中完成了复杂业务逻辑操作(如发出网络请求)后，再调用context.commit("mutationName", ...params) 进入 Mutations</p>
@@ -287,7 +288,6 @@
         <p>① SPA: Single Page web Application 单页面应用</p>
         <p>② 整个应用只有一个完整得页面</p>
         <p>③ 点击页面中的导航链接不会刷新页面，只会做页面的局部更新。</p>
-        \
         <p>④ 数据需要通过 ajax 请求获取</p>
         <h3>1.3 对路由的理解</h3>
         <h4>1.3.1 路由</h4>
@@ -302,7 +302,38 @@
         <p>① 理解：value 是 VueComponent，用于展示页面内容。</p>
         <p>② 工作过程：当浏览器的路径改变时，对应的组件就会显示。</p>
 
+        <h2>2. 使用</h2>
+        <h3>编程式路由导航</h3>
+        <h4>1. 作用</h4>
+        <p>不借助&lt;router-link&gt;也可实现路由跳转，让路由跳转更加灵活</p>
+        <h4>2. 具体编码</h4>
+        <p>使用$router 的两个API： push(), replace()</p>
+        <p>this.$router.push/replace({name, params})</p>
+        <h4>3. $router 的其他 API 也可使用</h4>
+        <p>① back() 后退</p>
+        <p>② forward() 前进</p>
+        <p>③ go(num) 跳转到第num个访问记录</p>
+
+        <h3>缓存路由组件</h3>
+        <h4>1. 作用</h4>
+        <p>让不展示的路由组件保持挂载，不被销毁</p>
+        <h4>2. 具体编码</h4>
+        <p>使用 keep-alive 标签包裹着 router-view 标签, 可在该标签中添加属性 include 组件名以指定作用的组件，不添加则默认全部缓存</p>
+        <p>&lt;keep-alive :include="['ComponentName1', 'ComponentName2', ...]"&gt;</p>
+        <p>&lt;router-view&gt;&lt;/router-view&gt;</p>
+        <p>&lt;/keep-alive&gt;</p>
+
+        <h3>两个 router 中独有的生命周期钩子</h3>
+        <p>案例：在需要缓存的组件中存在一个定时器。当组件激活时定时器开启，当组件失活时取消定时器，但组件中缓存的内容不能消失！</p>
+        <h4>1. 作用</h4>
+        <p>路由组建所独有的两个钩子，用于捕获路由组件的激活状态</p>
+        <h4>2. 具体名字</h4>
+        <p><strong> activated </strong>激活，路由组件被激活时触发</p>
+        <p><strong> disactivated </strong>失活，路由组件失活时触发</p>
+
         <h2>案例</h2>
+        <button @click="back">后退</button>
+        <button @click="forward">前进</button>
         <div class="iphone-app">
             <ul class="iphone-app-nav">
                 <li>
@@ -353,7 +384,7 @@ import { date } from "../common/js/common.js";
 import { nanoid } from "nanoid";
 import axios from "axios";
 import "animate.css";
-import { mapGetters, mapState, mapActions, mapMutations } from "vuex";
+import { mapGetters, mapState, mapActions } from "vuex";
 
 export default {
     name: "StudyNote",
@@ -468,9 +499,10 @@ export default {
             window.sessionStorage.clear();
         },
         sayHello(message, ...params) {
-            alert("组件事件defVOnEvent被触发! 接收到信息：" + message);
+            alert("组件事件defVOnEvent被触发! 接收到信息：" + message + " " + params);
         },
         showInputByNextTick(e) {
+            console.log(e.target);
             this.isShowInputByNextTick = !this.isShowInputByNextTick;
             this.$nextTick(() => {
                 this.$refs.inputByNextTick.focus();
@@ -543,6 +575,13 @@ export default {
             this.x.printCount();
         },
         ...mapActions("content", ["getContent"]),
+        back() {
+            this.$router.back();
+        },
+
+        forward() {
+            this.$router.forward();
+        },
     },
     mixins: [date],
     mounted() {

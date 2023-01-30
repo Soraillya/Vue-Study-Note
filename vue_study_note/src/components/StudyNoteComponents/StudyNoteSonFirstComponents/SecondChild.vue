@@ -4,6 +4,8 @@
         <p>嵌套路由展示二</p>
         <p>$route.query.msg: {{ $route.query.msg }}</p>
         <p>$route.query.hello: {{ $route.query.hello }}</p>
+        <button>push查看</button>
+        <button>replace查看</button>
     </div>
 </template>
 
@@ -14,6 +16,10 @@ export default {
         return {
             msg: "StudyNoteSonFirst - Second Child",
         };
+    },
+    methods: {
+        pushShow() {},
+        replaceShow() {},
     },
 };
 </script>

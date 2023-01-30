@@ -6,7 +6,7 @@
  */
 import Vue from "vue"; // 引入Vue, 以在导入store之前使用Vuex插件
 import Vuex from "vuex"; // 引用Vuex
-import axios from "axios"; // 发出网络请求
+// import axios from "axios"; // 发出网络请求
 import content from "./content";
 
 Vue.use(Vuex);
@@ -14,20 +14,20 @@ Vue.use(Vuex);
 /**
  * 模块化开发，配置写到同级目录下，classOneOptions.js，classTwoOptions.js
  */
-const classOneOptions = {
-    namespaced: true, // 定义命名空间，在使用 map 取出数据与方法时需要
-    actions: {},
-    mutations: {},
-    state: {},
-    getters: {},
-};
+// const classOneOptions = {
+//     namespaced: true, // 定义命名空间，在使用 map 取出数据与方法时需要
+//     actions: {},
+//     mutations: {},
+//     state: {},
+//     getters: {},
+// };
 
-const classTwoOptions = {
-    actions: {},
-    mutations: {},
-    state: {},
-    getters: {},
-};
+// const classTwoOptions = {
+//     actions: {},
+//     mutations: {},
+//     state: {},
+//     getters: {},
+// };
 
 /**
 export default new Vuex.Store({

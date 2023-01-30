@@ -11,7 +11,7 @@ export default {
                     context.commit("GET_CONTENT", response.data);
                 },
                 (err) => {
-                    alert("网络请求失败，获取小语句失败 ~ ");
+                    alert(err + " 网络请求失败，获取小语句失败 ~ ");
                 }
             );
         },

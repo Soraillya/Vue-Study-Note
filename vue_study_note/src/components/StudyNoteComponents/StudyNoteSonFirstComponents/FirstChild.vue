@@ -41,6 +41,25 @@ export default {
         console.log("定时器已被关闭，计数为：", this.count);
         clearInterval(this.timer);
     },
+
+    // 组件内路由守卫
+    // 通过路由规则，进入该组件时调用
+    beforeRouteEnter: (to, from, next) => {
+        //does NOT have access to `this` component instance
+
+        // 可添加鉴权相关code在此。。。
+
+        next();
+    },
+
+    // 通过路由规则，离开该组件前调用
+    beforeRouteLeave: (to, from, next) => {
+        //has access to `this` component instance}
+
+        // 可添加鉴权相关code在此。。。
+
+        next();
+    },
 };
 </script>
 

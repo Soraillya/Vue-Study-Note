@@ -303,6 +303,63 @@
         <p>② 工作过程：当浏览器的路径改变时，对应的组件就会显示。</p>
 
         <h2>2. 使用</h2>
+
+        <h3>2.1 安装vue-router</h3>
+        <p>npm i vue-router</p>
+
+        <h3>2.2 应用插件</h3>
+        <p>import VueRouter from "vue-router"</p>
+        <p>Vue.use(VueRouter)</p>
+
+        <h3>2.3 编写 router 配置项 ( src/router/index.js )</h3>
+        <h4>引入 VueRouter 以及需要配置的组件</h4>
+        <p>import VueRouter from "vue-router"</p>
+        <p>import VueComponent1 from "../components/VueComponent1"</p>
+        <p>import VueComponent ... ...</p>
+        <h4>创建router实例对象，去管理一组一组的路由规则</h4>
+        <p>const router = new VueRouter({ route: [ { path: "/VueComponent1", component: VueComponent1 }, ... ] })</p>
+        <h4>暴露router</h4>
+        <p>export default router</p>
+
+        <h4>注意点：</h4>
+        <p>① 路由组件通常存放在pages文件夹，一般组件通常存放在components文件夹</p>
+        <p>② 通过切换。“隐藏”了的路由组件，默认是被销毁的，需要的时候再去挂载</p>
+        <p>③ 每个组件都有自己的$route属性，里面存储组件的路由信息（如url中携带的query params）</p>
+        <p>④ 整个应用只有一个router，可以通过组件的$router属性获取到（存放了一些路由相关的方法）</p>
+
+        <h3>2.4 实现切换 ( active-class )</h3>
+        <p><b style="color: blue">&lt;router-link active-class="active" to="/VueComponentName"&gt;</b> VueComponentName <b style="color: blue">&lt;/router-link&gt;</b></p>
+
+        <h3>2.5 指定展示位置</h3>
+        <p><b style="color: blue">&lt;router-view&gt;&lt;/router-view&gt; </b></p>
+
+        <h3>2.6 嵌套多级路由</h3>
+        <h4>在route数组元素对象中添加children属性，并添加子组件的配置</h4>
+        <h4>注意点：① 虽然可以多层嵌套，但层级不推荐大于四级；② 子组件的path不需要斜杠</h4>
+        <p>route: [ { path: "/VueComponent1", component: VueComponent1 , children: [ { path: "child", component, children }, ... ]}</p>
+        <h4>路由跳转，需要写完整路径</h4>
+        <p><b style="color: blue">&lt;router-link active-class="active" to="/VueComponent1/child"&gt;</b>child<b style="color: blue">&lt;/router-link&gt;</b></p>
+        <h3>传递参数</h3>
+
+        <h3>路由的props配置</h3>
+        <h4>1. 作用</h4>
+        <p>让路由组件更方便地收到参数，在路由目标组件中配置props的属性即可接收</p>
+        <h4>2. 具体编码</h4>
+        <p><b>写法一</b>：props值为对象，该对象中所有的key-value的组合最终都会通过props传给组件</p>
+        <p>props: { a: 100, b: "Hello"}</p>
+        <p><b>写法二</b>：props值为布尔值，布尔值为true，则把路由收到的所有params参数通过props传给组件</p>
+        <p>props: true</p>
+        <p><b>写法三</b>：props值为函数，该函数返回的对象中的每一组key-value都会通过props传给组件</p>
+        <p>props( route ) { return { a: route.query.a, b: route.query.b } }</p>
+
+        <h3>&lt;router-link&gt;的replace属性</h3>
+        <h4>1. 作用</h4>
+        <p>控制路由跳转时操作浏览器历史记录的模式</p>
+        <h4>2. 浏览器的历史记录有两种写入方式</h4>
+        <p><b>push</b> 追加历史记录</p>
+        <p><b>replace</b> 替换当前记录，路由跳转时上一条记录被替换（无痕浏览）</p>
+        <h4>3. 在&lt;router-link&gt;标签添加replace即可，不添加则默认为push</h4>
+
         <h3>编程式路由导航</h3>
         <h4>1. 作用</h4>
         <p>不借助&lt;router-link&gt;也可实现路由跳转，让路由跳转更加灵活</p>
@@ -328,9 +385,34 @@
         <h4>1. 作用</h4>
         <p>路由组建所独有的两个钩子，用于捕获路由组件的激活状态</p>
         <h4>2. 具体名字</h4>
-        <p><strong> activated </strong>激活，路由组件被激活时触发</p>
-        <p><strong> disactivated </strong>失活，路由组件失活时触发</p>
+        <p><b>activated </b> 激活，路由组件被激活时触发</p>
+        <p><b>disactivated </b> 失活，路由组件失活时触发</p>
 
+        <h3>路由守卫</h3>
+        <h4>注：在route config中，为组件添加属性 meta: { isAuth: true, title:"xxx" } 可在路由守卫中用于判断是否鉴权</h4>
+        <h4>1. 全局路由守卫</h4>
+        <p>在 route config 中，添加全局路由守卫函数，在跳转任何路由时都会执行</p>
+        <p><b>route.beforeEach((to,from,next)=>{ ... })</b> 全局前置路由守卫，跳转前执行，可添加鉴权相关逻辑</p>
+        <p><b>route.afterEach((to,from)=>{ ... })</b> 全局后置路由守卫，跳转后执行，可添加修改页面title相关逻辑</p>
+        <h4>2. 独享路由守卫</h4>
+        <p>在 route config 中，为单个组件添加全局路由守卫函数，跳转至该组件时执行</p>
+        <p><b>beforeEnter: (to,from,next) => { ... } </b>顺序在全局路由守卫之后，两者都会执行，也可添加鉴权相关配置</p>
+        <h4>3. 组件内路由守卫</h4>
+        <p>在组件中配置路由的生命钩子</p>
+        <p><b> beforeRouteEnter(to,from,next){ ... } </b> 在通过路由进入组件前时调用</p>
+        <p><b> beforeRouteLeave(to,from,next){ ... } </b> 在通过路由进入组件前时调用</p>
+
+        <h3>路由器的两种工作模式 history 模式 和 hash 模式</h3>
+        <h4>1. 对于一个url来说，什么是hash值？———— #及其后面的内容就是hash值</h4>
+        <h4>2. hash值不会包含在HTTP请求中，即：hash值不会带给服务器</h4>
+        <h4>3. hash模式</h4>
+        <p>① 地址中永远带着 # 号，不美观</p>
+        <p>② 若以后地址通过地方手机分享，若app校验严格，则地址会被标记为不合法</p>
+        <p>③ 兼容性比较好</p>
+        <h4>4. history模式</h4>
+        <p>① 地址干净，美观</p>
+        <p>② 兼容性和hash模式相比略差</p>
+        <p>③ 应用部署上线时需要后端人员支持，解决刷新页面服务端404的问题</p>
         <h2>案例</h2>
         <button @click="back">后退</button>
         <button @click="forward">前进</button>
@@ -369,7 +451,7 @@
         </div> -->
         <hr />
         <!-- <div class="show-messge" v-show="$store.state.isPopup">{{ $store.state.popupMsg }}</div> -->
-        <input ref="bottom" type="text" />
+        <!-- <input ref="bottom" type="text" /> -->
     </div>
 </template>
 
@@ -590,7 +672,7 @@ export default {
             alert(`StudyNoteSonFirst, nanoid: ${nanoid}, msg: ${msg}`);
         });
         // 聚焦到页尾
-        this.$refs.bottom.focus();
+        // this.$refs.bottom.focus();
     },
     beforeDestroy() {
         //解绑全局事件总线上的clickMeToSayNanoid

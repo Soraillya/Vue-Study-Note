@@ -19,7 +19,7 @@ export default {
             // 指令所在元素被插入页面时
             inserted(element, binding) {
                 element.innerText = binding.value;
-                element.focus();
+                // element.focus();
                 console.log("inserted");
             },
             // 指令所在的模板被重新解析时

@@ -19,12 +19,22 @@ import store from "./store"; // 引入 Vuex的store 配置，此处引入顺序�
 import VueRouter from "vue-router"; // 安装 vue-router 插件！
 import router from "./router"; // 引入 VueRouter 的 router 配置
 
+// ElementUI完整引入
+// import ElementUI from "element-ui"; // 引入Element UI组件库
+// import "element-ui/lib/theme-chalk/index.css"; // 引入Element UI全部样式
+
+// ElementUI按需引入
+import { Button, Row } from "element-ui";
+Vue.component(Button.name, Button); // Button.name 即为 el-button
+Vue.component(Row.name, Row); // Row.name 即为 el-row
+
 // 关闭Vue的生产提示
 Vue.config.productionTip = false;
 
 // 使用插件
 Vue.use(Plugins, 1, 2, 3);
 Vue.use(VueRouter);
+// Vue.use(ElementUI);
 // Vue.use(VueResource);
 // Vue.use(Vuex); // 插件的使用不在此处，直接上升到store配置中
 

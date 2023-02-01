@@ -304,10 +304,10 @@
 
         <h2>2. 使用</h2>
 
-        <h3>2.1 安装vue-router</h3>
+        <h3>2.1 安装 vue-router 插件</h3>
         <p>npm i vue-router</p>
 
-        <h3>2.2 应用插件</h3>
+        <h3>2.2 应用 vue-router 插件</h3>
         <p>import VueRouter from "vue-router"</p>
         <p>Vue.use(VueRouter)</p>
 
@@ -339,9 +339,36 @@
         <p>route: [ { path: "/VueComponent1", component: VueComponent1 , children: [ { path: "child", component, children }, ... ]}</p>
         <h4>路由跳转，需要写完整路径</h4>
         <p><b style="color: blue">&lt;router-link active-class="active" to="/VueComponent1/child"&gt;</b>child<b style="color: blue">&lt;/router-link&gt;</b></p>
-        <h3>传递参数</h3>
 
-        <h3>路由的props配置</h3>
+        <h3>2.7 路由中query参数的传递与接收</h3>
+        <h4>① 跳转并携带query参数，to的字符串写法</h4>
+        <p>&lt;router-link active-class="active" <b style="color: blue">to="/VueComponentName?id=123&title=你好"</b>&gt; VueComponentName &lt;/router-link&gt;</p>
+        <h4>② 跳转并携带query参数，to的对象写法</h4>
+        <p>...<b style="color: blue">:to="{ path: '/VueComponentName', query: { id: 123, title: '你好' } }"</b>...</p>
+        <h4>③ 接收query参数</h4>
+        <p>$route.query.id, $route.query.title</p>
+
+        <h3>2.8 路由中params参数的传递与接收</h3>
+        <h4>① 配置路由，在path中使用占位符声明可接收params参数</h4>
+        <p>path: "VueComponent/:id/:title" , name: "VueComponentName"</p>
+        <h4>② 跳转并携带params参数，to的字符串写法</h4>
+        <p>&lt;router-link active-class="active" <b style="color: blue">to="/xxx/xxx/VueComponent/123/你好"</b>&gt; VueComponentName &lt;/router-link&gt;</p>
+        <h4>③ 跳转并携带params参数，to的对象写法（必须使用name配置）</h4>
+        <p>...<b style="color: blue">:to="{ name: 'VueComponentName', params: { id: 123, title: '你好' } }"</b>...</p>
+        <h4>④ 接收params参数</h4>
+        <p>$route.params.id, $route.params.title</p>
+
+        <h3>2.9 命名路由</h3>
+        <h4>1. 作用</h4>
+        <p>可以简化路由的跳转，多级路由中可设置 name 进行语义化命名，但有可能影响可读性（路由层级关系不清楚）</p>
+        <h4>2. 具体编码</h4>
+        <p>① 给路由命名，route配置中为路由添加name属性</p>
+        <p>children: [ { path, component, name: "nameOfComponent" } ]</p>
+        <p>② 简化跳转</p>
+        <p>简化前 => to="/xxx/xxx/xxx?querys=..."</p>
+        <p>简化后 => :to=" { name: 'nameOfComponent', query: [ ... ] } "</p>
+
+        <h3>2.10 路由的props配置</h3>
         <h4>1. 作用</h4>
         <p>让路由组件更方便地收到参数，在路由目标组件中配置props的属性即可接收</p>
         <h4>2. 具体编码</h4>
@@ -352,7 +379,7 @@
         <p><b>写法三</b>：props值为函数，该函数返回的对象中的每一组key-value都会通过props传给组件</p>
         <p>props( route ) { return { a: route.query.a, b: route.query.b } }</p>
 
-        <h3>&lt;router-link&gt;的replace属性</h3>
+        <h3>2.11 &lt;router-link&gt;的replace属性</h3>
         <h4>1. 作用</h4>
         <p>控制路由跳转时操作浏览器历史记录的模式</p>
         <h4>2. 浏览器的历史记录有两种写入方式</h4>
@@ -360,7 +387,7 @@
         <p><b>replace</b> 替换当前记录，路由跳转时上一条记录被替换（无痕浏览）</p>
         <h4>3. 在&lt;router-link&gt;标签添加replace即可，不添加则默认为push</h4>
 
-        <h3>编程式路由导航</h3>
+        <h3>2.12 编程式路由导航</h3>
         <h4>1. 作用</h4>
         <p>不借助&lt;router-link&gt;也可实现路由跳转，让路由跳转更加灵活</p>
         <h4>2. 具体编码</h4>
@@ -371,7 +398,7 @@
         <p>② forward() 前进</p>
         <p>③ go(num) 跳转到第num个访问记录</p>
 
-        <h3>缓存路由组件</h3>
+        <h3>2.13 缓存路由组件</h3>
         <h4>1. 作用</h4>
         <p>让不展示的路由组件保持挂载，不被销毁</p>
         <h4>2. 具体编码</h4>
@@ -380,7 +407,7 @@
         <p>&lt;router-view&gt;&lt;/router-view&gt;</p>
         <p>&lt;/keep-alive&gt;</p>
 
-        <h3>两个 router 中独有的生命周期钩子</h3>
+        <h3>2.14 两个 router 中独有的生命周期钩子</h3>
         <p>案例：在需要缓存的组件中存在一个定时器。当组件激活时定时器开启，当组件失活时取消定时器，但组件中缓存的内容不能消失！</p>
         <h4>1. 作用</h4>
         <p>路由组建所独有的两个钩子，用于捕获路由组件的激活状态</p>
@@ -388,7 +415,7 @@
         <p><b>activated </b> 激活，路由组件被激活时触发</p>
         <p><b>disactivated </b> 失活，路由组件失活时触发</p>
 
-        <h3>路由守卫</h3>
+        <h3>2.15 路由守卫</h3>
         <h4>注：在route config中，为组件添加属性 meta: { isAuth: true, title:"xxx" } 可在路由守卫中用于判断是否鉴权</h4>
         <h4>1. 全局路由守卫</h4>
         <p>在 route config 中，添加全局路由守卫函数，在跳转任何路由时都会执行</p>
@@ -402,7 +429,7 @@
         <p><b> beforeRouteEnter(to,from,next){ ... } </b> 在通过路由进入组件前时调用</p>
         <p><b> beforeRouteLeave(to,from,next){ ... } </b> 在通过路由进入组件前时调用</p>
 
-        <h3>路由器的两种工作模式 history 模式 和 hash 模式</h3>
+        <h3>2.16 路由器的两种工作模式 history 模式 和 hash 模式</h3>
         <h4>1. 对于一个url来说，什么是hash值？———— #及其后面的内容就是hash值</h4>
         <h4>2. hash值不会包含在HTTP请求中，即：hash值不会带给服务器</h4>
         <h4>3. hash模式</h4>
@@ -413,7 +440,8 @@
         <p>① 地址干净，美观</p>
         <p>② 兼容性和hash模式相比略差</p>
         <p>③ 应用部署上线时需要后端人员支持，解决刷新页面服务端404的问题</p>
-        <h2>案例</h2>
+
+        <h2>3. 案例</h2>
         <button @click="back">后退</button>
         <button @click="forward">前进</button>
         <div class="iphone-app">
@@ -445,6 +473,28 @@
             </div>
         </div>
         <hr />
+
+        <h1>十八、Vue UI 组件库</h1>
+        <h2>1. 常用 UI 组件库</h2>
+        <h3>1.1 移动端</h3>
+        <p>① Vant 网址：<a href="https://youzan.github.io/vant">https://youzan.github.io/vant</a></p>
+        <p>② Cube UI 网址：<a href="https://didi.github.io/cube-ui">https://didi.github.io/cube-ui</a></p>
+        <p>③ Mint UI 网址：<a href="http://mint-ui.github.io">http://mint-ui.github.io</a></p>
+        <h3>1.2 PC 端</h3>
+        <p>① Element Ul 网址：<a href="https://element.eleme.cn">https://element.eleme.cn</a></p>
+        <p>② IView Ul 网址：<a href="https://www.iviewui.com">https://www.iviewui.com</a></p>
+        <h2>2. 尝试使用 Element UI 吧</h2>
+        <button>这是原生的按钮</button>
+        <el-row>
+            <el-button>这是Element UI的默认按钮</el-button>
+            <el-button type="primary">主要按钮</el-button>
+            <el-button type="success">成功按钮</el-button>
+            <el-button type="info">信息按钮</el-button>
+            <el-button type="warning">警告按钮</el-button>
+            <el-button type="danger">危险按钮</el-button>
+        </el-row>
+        <h2>3. 建议按需引入element ui组件</h2>
+        <p>注意点：babel相关配置中，es2015 已不适配，须使用 @babel/preset-env</p>
 
         <!-- <div class="faker">
             <div class="fake"></div>

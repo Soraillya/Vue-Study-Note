@@ -13,7 +13,7 @@
         <h3>1.2 通过 Reflect (反射)</h3>
         <p>对原对象（被代理对象）的属性进行操作</p>
         <h2>2. 具体实现</h2>
-        <codemirror v-model="content"></codemirror>
+        <CodeEditor min_width="1000px" :value="codeContent3_2" :read_only="true"></CodeEditor>
         <h2></h2>
         <h2>1. 认识 window 身内置构造函数上的 Proxy</h2>
         <hr />
@@ -22,18 +22,13 @@
 
 <script>
 import { ref, reactive } from "vue";
-import { codemirror } from "vue-codemirror";
-// import "codemirror/lib/codemirror.css";
-// // 引入主题,配置后生效
-// import "codemirror/theme/rubyblue.css";
-// //引入语言,配置后生效
-// import "codemirror/mode/vue/vue.js";
+import CodeEditor from "simple-code-editor";
 
 export default {
     name: "StudyNote",
     // data, method, computed 都写进了 setup，且不建议 Vue2 与 Vue3 写法同时存在
     components: {
-        codemirror,
+        CodeEditor,
     },
     setup() {
         let person = {
@@ -42,7 +37,7 @@ export default {
         };
         let p = reactive(person);
 
-        let content = ref(`const proxyPerson = new Proxy(person, {
+        let codeContent3_2 = ref(`const proxyPerson = new Proxy(person, {
     get(target, propName) {
         console.log("有人读取了 p 身上的 " + propName + " 属性。");
         // 此处进行页面渲染。。。
@@ -63,13 +58,16 @@ export default {
         return Reflect.deleteProperty(target, propName);
     },
 });`);
-        function changePerson(params) {}
         return {
-            content,
+            codeContent3_2,
             p,
         };
     },
 };
 </script>
 
-<style></style>
+<style scoped>
+a {
+    width: calc();
+}
+</style>

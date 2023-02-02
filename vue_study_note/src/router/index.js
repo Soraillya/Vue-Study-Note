@@ -11,7 +11,7 @@ import FirstChild from "../components/StudyNoteComponents/StudyNoteSonFirstCompo
 import SecondChild from "../components/StudyNoteComponents/StudyNoteSonFirstComponents/SecondChild";
 import ThirdChild from "../components/StudyNoteComponents/StudyNoteSonFirstComponents/ThirdChild";
 import StudyNoteSonSecond from "../components/StudyNoteComponents/StudyNoteSonSecond";
-import StudyNoteSonThird from "../components/StudyNoteComponents/StudyNoteSonThird";
+// import StudyNoteSonThird from "../components/StudyNoteComponents/StudyNoteSonThird";
 // 创建一个路由器
 // const router = new VueRouter({routes:[{path:"",component:"",}]});
 // export default new VueRouter({
@@ -107,7 +107,8 @@ const router = new VueRouter({
         },
         {
             path: "/StudyNoteSonThird",
-            component: StudyNoteSonThird,
+            // 路由懒加载，在使用时再引入组件
+            component: () => import("../components/StudyNoteComponents/StudyNoteSonThird"),
         },
     ],
 });

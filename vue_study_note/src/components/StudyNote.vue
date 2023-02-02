@@ -496,6 +496,7 @@
         <h2>3. 建议按需引入element ui组件</h2>
         <p>注意点：babel相关配置中，es2015 已不适配，须使用 @babel/preset-env</p>
 
+        <!-- <div class="triangle">你好</div> -->
         <!-- <div class="faker">
             <div class="fake"></div>
         </div> -->
@@ -911,5 +912,17 @@ button {
 }
 /* .active:visited {
     color: #62bdfa;
+} */
+
+/* .triangle {
+    font-size: 3rem;
+    width: 0;
+    height: 0;
+    background-color: blue;
+    border-style: solid;
+    border-width: 0 50px 50px;
+    border-color: red orange yellow pink;
+    border-color: transparent transparent yellow;
+    /* box-sizing: unset; 
 } */
 </style>

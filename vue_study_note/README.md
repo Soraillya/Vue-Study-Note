@@ -6,6 +6,7 @@
 npm config get registry
 
 npm install -g cnpm --registry=https://registry.npm.taobao.org
+npm config set registry https://registry.npmmirror.com
 
 npm ---- https://registry.npmjs.org/
 cnpm --- http://r.cnpmjs.org/

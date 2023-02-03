@@ -30,6 +30,7 @@ h3,
 h4,
 h5,
 p,
+code,
 hr {
     margin: 16px auto;
     text-align: left;
@@ -53,9 +54,13 @@ h5 {
     font-size: 1.6rem;
     padding-left: 7rem;
 }
-p {
+p,
+code {
     font-size: 1.6rem;
     padding-left: 8rem;
+}
+p > code {
+    padding-left: unset;
 }
 b,
 strong,

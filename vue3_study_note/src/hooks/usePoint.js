@@ -1,21 +1,32 @@
-import { onMounted, reactive } from "vue";
+import { reactive, onMounted, onBeforeUnmount } from "vue";
 
-export default function () {
+export default function (status) {
     let point = reactive({
         x: 0,
         y: 0,
+        // 手动添加 / 移除监听
+        isAddEventListener: () => {
+            status ? window.addEventListener("click", savePoint) : window.removeEventListener("click", savePoint);
+        },
     });
 
+    // 监听的回调
     function savePoint(event) {
         point.x = event.pageX;
-        point.Y = event.pageY;
-        console.log("point.x, point.Y: ", point.x, point.Y);
+        point.y = event.pageY;
+        console.log("point.x:", point.x, " point.y:", point.y);
     }
 
+    // 组件挂载时移除监听
     onMounted(() => {
-        window.addEventListener("click", savePoint);
+        status ? window.addEventListener("click", savePoint) : 0;
     });
-    onBeforeUnMounted(() => {
+
+    // 组件卸载时移除监听
+    onBeforeUnmount(() => {
+        console.log("onBeforeUnmount");
         window.removeEventListener("click", savePoint);
     });
+
+    return point;
 }

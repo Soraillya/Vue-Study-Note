@@ -67,9 +67,9 @@
         <h1>五、computed 计算属性</h1>
         <h2>1. 与 Vue2 中配置功能一致</h2>
         <p>nameAndAge: {{ nameAndAge }}</p>
-        <p>修改 name: <input type="text" v-model="p.name" /></p>
-        <p>修改 age: <input type="number" max="100" min="0" v-model="p.age" /></p>
-        <p>修改 nameAndAge: <input type="type" v-model="nameAndAge" /></p>
+        <p>修改 name: <el-input style="width: 20em" type="text" v-model="p.name" /></p>
+        <p>修改 age: <el-input style="width: 20em" type="number" max="100" min="0" v-model="p.age" /></p>
+        <p>修改 nameAndAge: <el-input style="width: 20em" type="text" v-model="nameAndAge" /></p>
         <h2>2. 写法</h2>
         <CodeEditor class="code-editor" :hide_header="true" min_width="1000px" font_size="1.6rem" :value="cc.cc5_2" :read_only="true"></CodeEditor>
         <hr />
@@ -77,8 +77,8 @@
         <h1>六、watch 监测函数</h1>
         <h2>1. 与 Vue2 中配置功能一致</h2>
         <p>myWatch.msg: {{ myWatch.msg }}</p>
-        <p>myWatch.childs.child1.msg: <input style="width: 20em" type="text" v-model="myWatch.childs.child1.msg" /></p>
-        <p>myWatch.childs.child2.msg: <input style="width: 20em" type="text" v-model="myWatch.childs.child2.msg" /></p>
+        <p>myWatch.childs.child1.msg: <el-input style="width: 25em" type="text" v-model="myWatch.childs.child1.msg" /></p>
+        <p>myWatch.childs.child2.msg: <el-input style="width: 25em" type="text" v-model="myWatch.childs.child2.msg" /></p>
         <p></p>
         <p></p>
         <h2>2. 两个坑</h2>
@@ -90,7 +90,7 @@
         <h3>○ watch 的套路：既要指明监视的属性，也要指明监视的回调</h3>
         <h3>○ watchEffect 的套路：无需指明监视的属性，回调中用到哪个属性都会进行监视</h3>
         <h3>○ watchEffect 类似 computed，但是它并不需要返回值</h3>
-        <p>myWatch.msg: <input style="width: 20em" type="text" v-model="myWatch.msg" /></p>
+        <p>myWatch.msg: <el-input style="width: 25em" type="text" v-model="myWatch.msg" /></p>
         <CodeEditor class="code-editor" :hide_header="true" min_width="1000px" font_size="1.6rem" :value="cc.cc6_4" :read_only="true"></CodeEditor>
         <hr />
 
@@ -106,22 +106,39 @@
         <code style="display: block"> ○ <b> beforeMount =====> onBeforeMount</b> </code>
         <code style="display: block"> ○ <b> mounted =========> onMounted</b> </code>
         <code style="display: block"> ○ <b> beforeUpdate ====> onBeforeUpdate</b> </code>
-        <code style="display: block"> ○ <b> beforeDestroy ===> onbeforeUnmount</b> </code>
+        <code style="display: block"> ○ <b> beforeDestroy ===> onBeforeUnmount</b> </code>
         <code style="display: block"> ○ <b> destroyed =======> onUnmounted</b> </code>
         <hr />
 
         <h1>八、自定义 hook 钩子函数</h1>
-        <h2>1. 作用</h2>
-        <p>本质是一个函数，把 setup 函数中使用的 Composition API 进行了封装</p>
+        <h2>1. 本质是一个函数，把 setup 函数中使用的 Composition API 进行了封装</h2>
+        <p>
+            <el-button
+                type="primary"
+                @click="
+                    isShowHook = !isShowHook;
+                    point.isAddEventListener(isShowHook);
+                "
+                >显示 / 隐藏 鼠标点击事件
+            </el-button>
+        </p>
+        <p v-if="isShowHook">捕获当前鼠标的坐标：pageX: {{ point.x }}, pageY: {{ point.y }}</p>
         <h2>2. 类似 Vue2 中的 mixin</h2>
         <h2>3. 优势：复用代码，让 setup 中的逻辑更清晰易懂</h2>
+        <p>
+            <el-button @click="cd.closeTimer">关闭定时器</el-button>
+            {{ cd.countDateMsg }}
+        </p>
     </div>
 </template>
 
 <script>
-import { ref, reactive, computed, watch, watchEffect } from "vue";
+import { ref, reactive, computed, watch, watchEffect, onMounted } from "vue";
 import CodeEditor from "simple-code-editor";
 import codeContents from "../codeContent/codeContent.js";
+
+import usePoint from "../hooks/usePoint";
+import countdown from "../hooks/countdown";
 
 export default {
     name: "StudyNote",
@@ -151,9 +168,10 @@ export default {
             },
             set(value) {
                 const nameArr = value.split(" --- ");
+                console.log(value, nameArr.length, nameArr[0], isNaN(nameArr[1]));
                 if (nameArr.length > 1) {
                     p.name = nameArr[0];
-                    p.age = typeof nameArr[1] === Number ? +nameArr[1] : p.age;
+                    p.age = isNaN(nameArr[1]) ? p.age : +nameArr[1];
                 }
             },
         });
@@ -189,6 +207,11 @@ export default {
             console.log("watchEffect 函数所指定的回调执行了！修改的是：", myWatch.msg);
         });
 
+        // 自定义 hook：usePoint
+        let isShowHook = ref(false);
+        let point = usePoint(isShowHook.value);
+        let cd = countdown("2023/2/6 00:00:00");
+
         let cc = reactive(codeContents);
         return {
             content_2_1,
@@ -196,6 +219,9 @@ export default {
             nameAndAge,
             myWatch,
             cc,
+            isShowHook,
+            point,
+            cd,
         };
     },
 };

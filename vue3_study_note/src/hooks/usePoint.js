@@ -5,7 +5,7 @@ export default function (status) {
         x: 0,
         y: 0,
         // 手动添加 / 移除监听
-        isAddEventListener: () => {
+        isAddEventListener: (status) => {
             status ? window.addEventListener("click", savePoint) : window.removeEventListener("click", savePoint);
         },
     });
@@ -14,7 +14,7 @@ export default function (status) {
     function savePoint(event) {
         point.x = event.pageX;
         point.y = event.pageY;
-        console.log("point.x:", point.x, " point.y:", point.y);
+        // console.log("point.x:", point.x, " point.y:", point.y);
     }
 
     // 组件挂载时移除监听

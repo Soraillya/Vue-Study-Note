@@ -91,4 +91,28 @@ watch(
 watchEffect(() => {
     console.log("watchEffect 函数所指定的回调执行了！修改的是：", myWatch.msg);
 });`,
+    cc7_3: `// 导入生命周期钩子
+import { onMounted, onBeforeMount, onUnmounted, onBeforeUpdate, onUpdated, onBeforeUnmount } from "vue";
+
+// 生命周期
+setup(){
+    onBeforeMount(() => {
+        console.log("=== onBeforeMount ===");
+    });
+    onMounted(() => {
+        console.log("=== onMounted ===");
+    });
+    onBeforeUpdate(() => {
+        console.log("=== onBeforeUpdate ===");
+    });
+    onUpdated(() => {
+        console.log("=== onUpdated ===");
+    });
+    onBeforeUnmount(() => {
+        console.log("=== onBeforeUnmount ===");
+    });
+    onUnmounted(() => {
+        console.log("=== onUnmounted ===");
+    });
+}`,
 };

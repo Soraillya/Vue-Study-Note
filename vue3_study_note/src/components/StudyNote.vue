@@ -262,8 +262,6 @@ export default {
             }
         }
 
-        // toRef
-
         return {
             content_2_1,
             personReactive,
@@ -274,8 +272,8 @@ export default {
             point,
             ...toRefs(countdown),
             isUseCountdown,
-            personName: toRef(person, "name"),
-            personAge: toRef(person, "age"),
+            personName: toRef(personReactive, "name"),
+            personAge: toRef(personReactive, "age"),
         };
     },
 };
